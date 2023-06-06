@@ -14,7 +14,7 @@ import { Round } from "./GameWrapper";
 type RoundModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  score: Round;
+  score: number;
   onContinue: () => void;
 };
 

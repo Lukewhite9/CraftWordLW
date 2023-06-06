@@ -13,7 +13,7 @@ import LearnModal from './LearnModal';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isPracticeMode, setIsPracticeMode] = useState(false); 
+  const [isPracticeMode, setIsPracticeMode] = useState(false);
   const [wordList, setWordList] = useState<string[]>([]);
 
   function readFileToArray(filePath: string) {
@@ -37,8 +37,6 @@ export default function App() {
         setWordList(wordList);
       });
   }
-
-  console.log("App render")
 
   return (
     <ChakraProvider>
@@ -68,7 +66,10 @@ export default function App() {
         </Flex>
         <Flex my={4} direction="column" alignItems="center">
           {isPlaying && wordList.length > 0 ? (
-            <GameWrapper wordList={wordList} isPracticeMode={isPracticeMode} /> // Modified line
+            <GameWrapper
+              wordList={wordList}
+              gameLength={isPracticeMode ? null : 5}
+            />
           ) : (
             <>
               <Button

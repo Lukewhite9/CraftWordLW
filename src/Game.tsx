@@ -4,11 +4,11 @@ import WordPair from './WordPair';
 import { isValidTransformation, isValidWord } from './utils';
 import GameOverModal from "./GameOverModal";
 import RoundModal from "./RoundModal";
-import Round from "./GameWrapper";
+import { Round } from "./GameWrapper";
 
 type GameProps = {
   currentRound: Round;
-  updateCurrentRound: () => void;
+  updateCurrentRound: (round: Round) => void;
   wordList: string[];
   rounds: Round[];
   isRoundOver: boolean;
@@ -31,12 +31,12 @@ const Game: React.FC<GameProps> = ({
 
   // modal state controls
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { 
-    isOpen: isEndModalOpen, 
-    onOpen: onEndModalOpen, 
-    onClose: onEndModalClose 
+  const {
+    isOpen: isEndModalOpen,
+    onOpen: onEndModalOpen,
+    onClose: onEndModalClose
   } = useDisclosure();
-  
+
   const checkTransformation = useCallback(
     (userInput: string, clearInput: () => void) => {
       const validTransformation = isValidTransformation(currentWord, userInput);
@@ -73,13 +73,13 @@ const Game: React.FC<GameProps> = ({
       isOpen && onClose();
     }
   }, [
-    isRoundOver, 
-    isGameOver, 
-    isOpen, 
-    onOpen, 
-    onClose, 
-    isEndModalOpen, 
-    onEndModalOpen, 
+    isRoundOver,
+    isGameOver,
+    isOpen,
+    onOpen,
+    onClose,
+    isEndModalOpen,
+    onEndModalOpen,
     onEndModalClose
   ]);
 
@@ -105,14 +105,12 @@ const Game: React.FC<GameProps> = ({
       </Flex>
       <RoundModal
         isOpen={isOpen}
-        onOpen={onOpen}
         onClose={onClose}
         onContinue={onContinue}
         score={currentRound.moves.length}
       />
       <GameOverModal
         isOpen={isEndModalOpen}
-        onOpen={onEndModalOpen}
         onClose={onEndModalClose}
         totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
       />
