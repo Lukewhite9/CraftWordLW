@@ -20,6 +20,10 @@ const GameOverModal: React.FC<GameOverModalProps> = ({
   onClose,
   totalScore,
 }) => {
+  const handleClose = () => {
+    onClose();
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

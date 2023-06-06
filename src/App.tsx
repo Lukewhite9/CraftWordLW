@@ -13,7 +13,7 @@ import LearnModal from './LearnModal';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isPracticeMode, setIsPracticeMode] = useState(false);
+  const [isPracticeMode, setIsPracticeMode] = useState(false); 
   const [wordList, setWordList] = useState<string[]>([]);
 
   function readFileToArray(filePath: string) {

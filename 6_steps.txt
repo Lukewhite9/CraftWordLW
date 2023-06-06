@@ -85,7 +85,6 @@ so,but
 four,my
 way,yet
 step,as
-step,
 news,his
 size,tax
 past,no
@@ -98,7 +97,6 @@ in,dead
 see,can
 to,size
 find,to
-i,vote
 among,own
 age,eat
 see,show
@@ -106,7 +104,6 @@ read,if
 out,man
 it,red
 base,mean
-i,sort
 shot,form
 plan,hear
 five,skill
@@ -141,7 +138,6 @@ tax,long
 step,in
 plan,no
 know,man
-four,a
 sea,wind
 mean,or
 you,town
@@ -174,7 +170,6 @@ fact,son
 rest,tax
 sit,fine
 hear,new
-wall,a
 hit,play
 ahead,day
 thus,as
@@ -188,19 +183,15 @@ tend,care
 week,than
 kind,go
 once,show
-a,kid
 why,of
 oh,head
 so,yet
-,lead
 care,star
 land,man
 of,last
 may,step
 use,too
 call,for
-i,week
-age,
 plant,mean
 one,let
 there,than
@@ -235,7 +226,6 @@ how,can
 close,find
 pain,do
 east,off
-a,note
 party,set
 nor,kind
 who,hard
@@ -269,9 +259,7 @@ our,case
 no,plan
 in,talk
 her,who
-pass,i
 beat,then
-,card
 fine,wall
 step,low
 fund,or

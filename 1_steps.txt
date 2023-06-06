@@ -10,8 +10,6 @@ well,tell
 cover,over
 all,call
 sign,sing
-so,no
-no,to
 seat,eat
 now,new
 yard,card

@@ -7,8 +7,9 @@ import RoundModal from "./RoundModal";
 import { Round } from "./GameWrapper";
 
 type GameProps = {
-  currentRound: Round;
-  updateCurrentRound: (round: Round) => void;
+  handleRoundOver: (roundScore: number) => void;
+  currentRound: any; // replace any with your type
+  updateCurrentRound: (round: any) => void; // replace any with your type
   wordList: string[];
   rounds: Round[];
   isRoundOver: boolean;
@@ -17,6 +18,7 @@ type GameProps = {
 };
 
 const Game: React.FC<GameProps> = ({
+  handleRoundOver,
   currentRound,
   updateCurrentRound,
   wordList,

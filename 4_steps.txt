@@ -18,7 +18,6 @@ now,set
 top,me
 it,kind
 off,do
-a,talk
 but,run
 see,when
 spend,then
@@ -38,7 +37,6 @@ to,form
 in,me
 we,as
 deal,seat
-,too
 or,long
 a,wind
 a,wind
@@ -91,7 +89,6 @@ too,it
 sex,him
 low,war
 out,if
-do,
 best,fast
 care,near
 on,but
@@ -100,10 +97,8 @@ as,way
 one,sing
 year,form
 be,head
-i,he
 far,eat
 four,hear
-a,why
 pull,cell
 leg,beat
 can,or
@@ -123,7 +118,6 @@ put,him
 of,as
 to,seat
 bar,on
-a,him
 so,my
 seem,her
 seven,cover
@@ -134,7 +128,6 @@ easy,best
 too,in
 then,and
 oh,bit
-,heat
 there,the
 it,past
 far,own

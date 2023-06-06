@@ -1,5 +1,4 @@
 more,pain
-write,
 deal,close
 test,movie
 all,those
