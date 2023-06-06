@@ -1,10 +1,10 @@
+import React, { useState, ChangeEvent } from "react";
 import { Text, Box, Flex, Input } from "@chakra-ui/react";
-import { useState, ChangeEvent } from "react";
 import CurrentWord from './CurrentWord';
 
 type WordPairProps = {
   wordPair: string[];
-  onSubmitWord: (word: string, callback: any) => void;
+  onSubmitWord: (word: string) => void;
   currentWord: string;
   pastMoves: string[];
 };
@@ -22,12 +22,13 @@ const WordPair: React.FC<WordPairProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      onSubmitWord(e.target.value, () => {
-        setUserInput("");
-      });
-    }
-  };
+  if (e.key === "Enter") {
+    onSubmitWord(e.target.value, () => {
+      setUserInput("");
+    });
+  }
+};
+
 
   return (
     <Flex
@@ -76,9 +77,9 @@ const WordPair: React.FC<WordPairProps> = ({
           </Text>
         )}
         <Flex direction="column">
-          {!!pastMoves
-            && pastMoves.length > 0
-            && pastMoves.map((word, i) => (
+          {!!pastMoves &&
+            pastMoves.length > 0 &&
+            pastMoves.map((word, i) => (
               <Box key={`${word}-${i}`}>{word}</Box>
             ))}
         </Flex>

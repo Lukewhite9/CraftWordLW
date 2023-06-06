@@ -224,7 +224,6 @@ seat,whom
 yard,down
 whom,here
 yeah,few
-,cause
 car,fund
 off,pain
 any,her
@@ -262,7 +261,6 @@ thank,as
 out,ahead
 wife,fact
 card,will
-fill,a
 way,tree
 set,fire
 wide,hour
@@ -280,7 +278,6 @@ body,beat
 task,kind
 use,wide
 mean,down
-i,tend
 test,cut
 deal,now
 none,he

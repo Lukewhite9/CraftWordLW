@@ -50,10 +50,8 @@ size,cut
 mean,for
 fact,hot
 bad,base
-near,a
 play,as
 yet,west
-,the
 bed,than
 four,yeah
 tax,one
@@ -78,9 +76,7 @@ war,east
 one,kind
 own,as
 main,bag
-for,a
 set,off
-ok,ma
 far,town
 bar,hot
 at,law
@@ -94,20 +90,15 @@ of,ask
 per,than
 bar,set
 ago,my
-a,side
 win,east
 heart,form
 so,hit
 boy,read
-as,bag
 four,away
 rest,ahead
-see,as
 fear,fire
-,down
 ahead,as
 east,go
-on,get
 far,whom
 dog,far
 pain,card
@@ -141,7 +132,6 @@ per,way
 on,cup
 form,say
 ago,our
-yet,
 ta,cut
 like,form
 cup,hot
@@ -161,9 +151,7 @@ best,if
 in,heart
 us,our
 out,shot
-a,cut
 fire,no
-,our
 he,out
 seem,here
 heat,side
@@ -195,7 +183,6 @@ son,you
 top,long
 rest,past
 long,dog
-i,show
 hit,past
 now,away
 short,at

@@ -3,7 +3,6 @@ firm,hit
 out,here
 he,one
 sing,act
-i,when
 form,real
 act,wall
 three,deal
@@ -96,7 +95,6 @@ wear,down
 party,rate
 care,fine
 task,car
-a,week
 win,among
 that,six
 card,road
@@ -157,11 +155,8 @@ wear,box
 along,age
 test,week
 shoot,play
-from,a
-alone,i
 one,hard
 lot,long
-,sort
 far,all
 guy,far
 own,we
@@ -212,7 +207,6 @@ bit,age
 mind,close
 that,buy
 our,cause
-i,live
 once,film
 hard,but
 star,nor

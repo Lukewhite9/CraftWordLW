@@ -6,28 +6,34 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button
+  Button,
 } from '@chakra-ui/react';
 
 type GameOverModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  totalScore: number;
 };
 
 const GameOverModal: React.FC<GameOverModalProps> = ({
   isOpen,
   onClose,
+  totalScore,
 }) => {
+  const handleClose = () => {
+    onClose();
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={() => { onClose(false) }}>
+    <Modal isOpen={isOpen} onClose={handleClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Congratulations!</ModalHeader>
+        <ModalHeader>Game Over</ModalHeader>
         <ModalBody>
-          Game Over :|
+          Your total score: {totalScore}
         </ModalBody>
         <ModalFooter>
-          <Button onClick={() => { onClose(false) }}>Continue</Button>
+          <Button onClick={handleClose}>Close</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
