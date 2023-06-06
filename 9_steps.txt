@@ -130,7 +130,6 @@ wife,your
 away,those
 bad,skill
 test,down
-tell,i
 left,end
 show,test
 true,bar
@@ -191,7 +190,6 @@ gun,past
 give,say
 pass,them
 like,left
-hang,
 heat,add
 now,three
 cup,rate

@@ -129,7 +129,6 @@ best,and
 show,party
 talk,life
 least,cause
-i,free
 that,run
 do,end
 live,cause
@@ -137,7 +136,6 @@ man,sell
 shot,bill
 bill,lead
 pass,sort
-i,whose
 boy,like
 tax,bill
 hard,like
@@ -146,12 +144,10 @@ all,two
 three,own
 so,those
 note,fall
-i,thing
 part,sort
 hang,there
 least,true
 thing,beat
-add,
 me,later
 know,party
 stay,along

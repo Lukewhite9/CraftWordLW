@@ -4,60 +4,65 @@ import WordPair from './WordPair';
 import { isValidTransformation, isValidWord } from './utils';
 import { Round } from "./GameWrapper";
 
-const wordPairs = [
-  {
-    par: 2,
-    startWord: "at",
-    goalWord: "ate",
-    paths: [
-      ["at", "ate"],
-      ["at", "mat", "mate", "ate"]
-    ]
-  }
-];
-
 type GameProps = {
-  currentRound: Round;
-  updateCurrentRound: (round: Round) => void;
+  handleRoundOver: (roundScore: number) => void;
+  currentRound: any; // replace any with your type
+  updateCurrentRound: (round: any) => void; // replace any with your type
   wordList: string[];
+  rounds: any[]; // replace any with your type
+  gameLength: number;
+  RoundModal: any; // replace any with your type
+  GameOverModal: any; // replace any with your type
+  totalScore: number;
+  setGameLength: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 const Game: React.FC<GameProps> = ({
+  handleRoundOver,
   currentRound,
   updateCurrentRound,
   wordList,
+  rounds,
+  gameLength,
+  RoundModal,
+  GameOverModal,
+  totalScore,
 }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  const [roundOver, setRoundOver] = useState(false); // Add this line
+  const isPracticeMode = gameLength === null; // Add this line
   const { startWord, goalWord, moves } = currentRound;
   const currentWord = moves.length > 0 ? moves[moves.length - 1] : startWord;
 
-  const checkTransformation = useCallback((userInput: string, callback: any) => {
-    // check if move is legal
-    const validTransformation = isValidTransformation(currentWord, userInput);
-    const validWord = isValidWord(userInput, wordList);
+  const checkTransformation = useCallback(
+    (userInput: string, callback: () => void) => {
+      const validTransformation = isValidTransformation(currentWord, userInput);
+      const validWord = isValidWord(userInput, wordList);
+      const isSameWord = currentWord === userInput;
 
-    // if so update the round with new word and clear error
-    // parent handles checking if the round/game is over
-    if (validTransformation && validWord) {
-      callback();
-      updateCurrentRound({
-        ...currentRound,
-        moves: [...moves, userInput.toLowerCase()]
-      });
-      setErrorMessage(null);
-    } else {
-      if (!validWord) {
-        setErrorMessage(
-          "Nope. That's not a valid English word. Please try again."
-        );
+      if (validTransformation && validWord && !isSameWord) {
+        callback();
+        updateCurrentRound({
+          ...currentRound!,
+          moves: [...currentRound!.moves, userInput.toLowerCase()],
+        });
+        setErrorMessage(null);
+        if (userInput.toLowerCase() === currentRound!.goalWord.toLowerCase()) {
+          setRoundOver(true);
+        }
       } else {
-        setErrorMessage(
-          "Nope, that word change is not allowed. Try again."
-        );
+        callback();
+        if (!validWord) {
+          setErrorMessage("Nope. That's not a valid English word. Please try again.");
+        } else if (isSameWord) {
+          setErrorMessage("Nope, try to change the word.");
+        } else {
+          setErrorMessage("Nope, that word change is not allowed. Try again.");
+        }
       }
-    }
-  }, [moves, currentWord, wordList]);
+    },
+    [currentWord, wordList, currentRound, updateCurrentRound]
+  );
 
   return (
     <Flex
@@ -79,8 +84,39 @@ const Game: React.FC<GameProps> = ({
       <Flex direction="column" alignItems="center" my="4">
         {errorMessage && <div>{errorMessage}</div>}
       </Flex>
+      {roundOver && !isPracticeMode && rounds.length < gameLength && (
+  <RoundModal
+    isOpen={roundOver}
+    onClose={() => {
+      setRoundOver(false);
+      handleRoundOver(currentRound.moves.length);
+    }}
+    roundScore={currentRound.moves.length}
+  />
+)}
+{roundOver && !isPracticeMode && rounds.length === gameLength && (
+  <GameOverModal
+    isOpen={roundOver}
+    onClose={() => {
+      setRoundOver(false);
+      handleRoundOver(currentRound.moves.length);
+    }}
+    totalScore={totalScore + currentRound.moves.length}
+  />
+)}
+{roundOver && isPracticeMode && (
+  <RoundModal
+    isOpen={roundOver}
+    onClose={() => {
+      setRoundOver(false);
+      handleRoundOver(currentRound.moves.length);
+    }}
+    roundScore={currentRound.moves.length}
+  />
+)}
     </Flex>
   );
 };
+
 
 export default Game;

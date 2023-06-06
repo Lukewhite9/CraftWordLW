@@ -26,7 +26,6 @@ fund,red
 kill,real
 own,those
 give,plan
-still,
 star,kid
 fail,less
 water,sea

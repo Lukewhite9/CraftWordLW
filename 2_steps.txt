@@ -32,7 +32,6 @@ die,like
 so,song
 lay,ma
 in,one
-a,eat
 red,head
 where,her
 lot,hit
