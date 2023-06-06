@@ -34,7 +34,6 @@ export default function App() {
     const filePath = '../ospd.txt';
     readFileToArray(filePath)
       .then(wordList => {
-        console.log('wordList', wordList);
         setWordList(wordList);
       });
   }
@@ -67,7 +66,10 @@ export default function App() {
         </Flex>
         <Flex my={4} direction="column" alignItems="center">
           {isPlaying && wordList.length > 0 ? (
-            <GameWrapper wordList={wordList} isPracticeMode={isPracticeMode} /> // Modified line
+            <GameWrapper
+              wordList={wordList}
+              gameLength={isPracticeMode ? null : 5}
+            />
           ) : (
             <>
               <Button

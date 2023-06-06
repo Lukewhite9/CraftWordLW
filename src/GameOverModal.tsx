@@ -25,7 +25,7 @@ const GameOverModal: React.FC<GameOverModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Game Over</ModalHeader>
@@ -33,7 +33,7 @@ const GameOverModal: React.FC<GameOverModalProps> = ({
           Your total score: {totalScore}
         </ModalBody>
         <ModalFooter>
-          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={onClose}>Close</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
