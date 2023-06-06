@@ -6,28 +6,34 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button
+  Button,
 } from '@chakra-ui/react';
+
+import { Round } from "./GameWrapper";
 
 type RoundModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  score: Round;
+  onContinue: () => void;
 };
 
 const RoundModal: React.FC<RoundModalProps> = ({
   isOpen,
   onClose,
+  score,
+  onContinue,
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Congratulations!</ModalHeader>
+        <ModalHeader>Round Over</ModalHeader>
         <ModalBody>
-          Round Over; There's More!
+          Your score for this round: {score}
         </ModalBody>
         <ModalFooter>
-          <Button onClick={onClose}>Continue</Button>
+          <Button onClick={onContinue}>Continue</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

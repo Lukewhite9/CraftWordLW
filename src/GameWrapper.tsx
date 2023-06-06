@@ -1,105 +1,84 @@
-import { useState, useEffect, useCallback } from "react";
-import { Heading, Flex, useDisclosure } from "@chakra-ui/react";
-import { getNewWordPair } from "./utils";
-import Game from "./Game";
-import GameOverModal from "./GameOverModal";
-import RoundOverModal from "./RoundModal";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Heading, Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { getNewWordPair, getRandomWordPair } from './utils';
+import Game from './Game';
+
+type GameWrapperProps = {
+  wordList: string[];
+  isPracticeMode: boolean;
+};
 
 export type Round = {
   startWord: string;
   goalWord: string;
   moves: string[];
-}
-
-type GameWrapperProps = {
-  wordList: string[];
 };
 
-const GameWrapper: React.FC<GameWrapperProps> = ({ wordList }) => {
+const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, isPracticeMode }) => {
+  const [gameLength, setGameLength] = useState<number | null>(isPracticeMode ? null : 2);
   const [rounds, setRounds] = useState<Round[]>([]);
-  const [roundOver, setRoundOver] = useState(false);
-  const {
-    isOpen: endModalOpen,
-    onOpen: onEndModalOpen,
-    onClose: onEndModalClose,
-  } = useDisclosure();
-  const {
-    isOpen: roundModalOpen,
-    onOpen: onRoundModalOpen,
-    onClose: onRoundModalClose,
-  } = useDisclosure();
+  
+  const fetchNewWordPair = async (roundNumber) => {
+    try {
+      let newWordPair;
+      if (!isPracticeMode) {
+        newWordPair = await getNewWordPair(roundNumber);
+      } else {
+        newWordPair = await getRandomWordPair(roundNumber);
+      }
+      return newWordPair;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  // the current round, or null if no rounds exist
-  const currentRound = rounds.length > 0 ? rounds[rounds.length - 1] : null;
+  useEffect(() => {
+    if (rounds.length === 0) {
+      fetchNewWordPair(1).then((pair) => addRound(pair));
+      
+    }
+  }, [rounds.length, fetchNewWordPair]);
 
-  // number of rounds in a game
-  const gameLength = 5;
-
-  // initializes a new round
-  const addRound = useCallback((startWord: string, goalWord: string) => {
-    const newRound = { startWord, goalWord, moves: [] };
+  const addRound = useCallback(([startWord, goalWord]) => {
+    const newRound: Round = { startWord, goalWord, moves: [] };
     setRounds([...rounds, newRound]);
   }, [rounds, setRounds]);
 
-  // if no rounds yet, creates the first round
-  useEffect(() => {
-    addRound(getNewWordPair(1)[0], getNewWordPair(1)[1]);
-  }, []);
-
   const updateCurrentRound = useCallback((updateRound: Round) => {
-    if (!currentRound) return;
+    setRounds((prevRounds) => {
+      const updatedRounds = [...prevRounds];
+      updatedRounds[updatedRounds.length - 1] = updateRound;
+      return updatedRounds;
+    });
+  }, [setRounds]);
 
-    const updatedRound = {
-      ...currentRound,
-      ...updateRound,
-    };
-    const roundsCopy = [...rounds];
-    roundsCopy.pop();
-    roundsCopy.push(updatedRound);
-    setRounds(roundsCopy);
-
-    const { goalWord, moves } = updatedRound;
-    if (moves[moves.length - 1] === goalWord) {
-      setRoundOver(true);
-    }
-  }, [currentRound, rounds, setRounds]);
-
-  useEffect(() => {
-    if (roundOver) {
-      if (rounds.length < gameLength) {
-        const roundNumber = rounds.length + 1;
-        addRound(
-          getNewWordPair(roundNumber)[0],
-          getNewWordPair(roundNumber)[1]
-        );
-        setRoundOver(false);
-        onRoundModalOpen();
-      } else if (rounds.length === gameLength) {
-        onEndModalOpen();
-      }
-    }
-  }, [roundOver, addRound, setRoundOver, onEndModalOpen, onRoundModalOpen]);
-
+  const currentRound = rounds.length > 0 ? rounds[rounds.length - 1] : null;
+  const isRoundOver = currentRound && currentRound.moves[currentRound.moves.length - 1] === currentRound.goalWord;
+  const isGameOver = isRoundOver && rounds.length === gameLength;
+  
   return (
     <div>
-      <Flex justifyContent="center">
+      <Flex
+        justifyContent="center" 
+        alignItems="center" 
+        direction="column"
+      >
         <Heading size="lg">Round {rounds.length}</Heading>
+        <Text ml="3">Current Score: {currentRound?.moves.length || 0}</Text>
       </Flex>
       {currentRound && (
         <Game
           currentRound={currentRound}
-          wordList={wordList}
           updateCurrentRound={updateCurrentRound}
+          wordList={wordList}
+          rounds={rounds}
+          isRoundOver={isRoundOver}
+          isGameOver={isGameOver}
+          onContinue={() => {
+            fetchNewWordPair(rounds.length + 1).then((pair) => { addRound(pair) })
+          }}
         />
       )}
-      <GameOverModal
-        isOpen={endModalOpen}
-        onClose={onEndModalClose}
-      />
-      <RoundOverModal
-        isOpen={roundModalOpen}
-        onClose={onRoundModalClose}
-      />
     </div>
   );
 };

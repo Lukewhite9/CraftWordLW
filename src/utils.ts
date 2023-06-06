@@ -1,4 +1,4 @@
-import { demoWordPairs } from './pairsDemo';
+import wordPairs from './word_pairs_06.json';
 
 export const isValidTransformation = (word1: string, word2: string) => {
   let len_diff = word1.length - word2.length;
@@ -48,10 +48,49 @@ export const isValidWord = (word: string, wordList: string[]) => {
   return wordList.includes(word.toLowerCase());
 }
 
-export const getNewWordPair = (roundNumber: number) => {
-  const dateKey = "2023-6-1";
-  console.log(dateKey);
-  const dayConfig = demoWordPairs[dateKey];
-  const roundConfig = dayConfig[`Round ${roundNumber}`];
-  return [roundConfig[0], roundConfig[1].split(":")[0]];
+export const getWordPairs = async () => {
+  const response = await fetch('src/word_pairs.json');
+  const data = await response.json();
+  return data;
+};
+
+export const getNewWordPair = async (roundNumber: number): Promise<[string, string]> => {
+  const date = new Date();
+  const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+  console.log("Date Key:", dateKey);
+  const dayConfig = wordPairs[dateKey];
+  console.log("Day Config:", dayConfig);
+  const roundConfig = dayConfig ? dayConfig[`${roundNumber}`] : null;
+  console.log("Round Config:", roundConfig);
+
+  if (roundConfig) {
+    return [roundConfig.start_word, roundConfig.goal_word];
+  } else {
+    console.error("No data found for the current date and round number");
+    return [];
+  }
+};
+
+
+// Get the appropriate file based on round number
+const getFileName = (roundNumber) => {
+  // Calculate difficulty based on round number
+  const difficulty = Math.min(Math.floor((roundNumber + 1) / 2), 17);
+  return `${difficulty}_steps.txt`;
+}
+
+export const getRandomWordPair = async (roundNumber) => {
+  const fileName = getFileName(roundNumber);
+  // Load the word pair file
+  const response = await fetch(`/${fileName}`);
+  const text = await response.text();
+
+  // Split the text into lines and select a random line
+  const lines = text.split('\n');
+  const randomLine = lines[Math.floor(Math.random() * lines.length)];
+
+  // Split the line into words and return as a pair
+  return randomLine.split(',');
 }

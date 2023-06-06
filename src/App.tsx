@@ -13,6 +13,7 @@ import LearnModal from './LearnModal';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isPracticeMode, setIsPracticeMode] = useState(false); 
   const [wordList, setWordList] = useState<string[]>([]);
 
   function readFileToArray(filePath: string) {
@@ -27,15 +28,17 @@ export default function App() {
       });
   }
 
-  async function handleStartClick() {
+  async function handleStartClick(practiceMode: boolean = false) { // Modified line
     setIsPlaying(true);
-    const filePath = '../2of12inf.txt';
+    setIsPracticeMode(practiceMode); // Add this line
+    const filePath = '../ospd.txt';
     readFileToArray(filePath)
       .then(wordList => {
-        console.log('wordList', wordList);
         setWordList(wordList);
       });
   }
+
+  console.log("App render")
 
   return (
     <ChakraProvider>
@@ -65,14 +68,23 @@ export default function App() {
         </Flex>
         <Flex my={4} direction="column" alignItems="center">
           {isPlaying && wordList.length > 0 ? (
-            <GameWrapper wordList={wordList} />
+            <GameWrapper wordList={wordList} isPracticeMode={isPracticeMode} /> // Modified line
           ) : (
-            <Button
-              colorScheme="green"
-              onClick={handleStartClick}
-            >
-              Start Game
-            </Button>
+            <>
+              <Button
+                colorScheme="green"
+                onClick={() => handleStartClick(false)} // Modified line
+              >
+                Start Game
+              </Button>
+              <Button
+                colorScheme="blue" // Or any other color scheme you prefer
+                onClick={() => handleStartClick(true)} // Add this line
+                mt={4} // Add some margin to separate the buttons
+              >
+                Start Practice Mode
+              </Button>
+            </>
           )}
         </Flex>
       </Box>

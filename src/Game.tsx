@@ -1,63 +1,87 @@
-import React, { useState, useCallback } from 'react';
-import { Flex } from '@chakra-ui/react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Flex, useDisclosure } from '@chakra-ui/react';
 import WordPair from './WordPair';
 import { isValidTransformation, isValidWord } from './utils';
-import { Round } from "./GameWrapper";
-
-const wordPairs = [
-  {
-    par: 2,
-    startWord: "at",
-    goalWord: "ate",
-    paths: [
-      ["at", "ate"],
-      ["at", "mat", "mate", "ate"]
-    ]
-  }
-];
+import GameOverModal from "./GameOverModal";
+import RoundModal from "./RoundModal";
+import Round from "./GameWrapper";
 
 type GameProps = {
   currentRound: Round;
-  updateCurrentRound: (round: Round) => void;
+  updateCurrentRound: () => void;
   wordList: string[];
+  rounds: Round[];
+  isRoundOver: boolean;
+  isGameOver: boolean;
+  onContinue: () => void;
 };
 
 const Game: React.FC<GameProps> = ({
   currentRound,
   updateCurrentRound,
   wordList,
+  rounds,
+  isRoundOver,
+  isGameOver,
+  onContinue,
 }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
   const { startWord, goalWord, moves } = currentRound;
   const currentWord = moves.length > 0 ? moves[moves.length - 1] : startWord;
 
-  const checkTransformation = useCallback((userInput: string, callback: any) => {
-    // check if move is legal
-    const validTransformation = isValidTransformation(currentWord, userInput);
-    const validWord = isValidWord(userInput, wordList);
+  // modal state controls
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { 
+    isOpen: isEndModalOpen, 
+    onOpen: onEndModalOpen, 
+    onClose: onEndModalClose 
+  } = useDisclosure();
+  
+  const checkTransformation = useCallback(
+    (userInput: string, clearInput: () => void) => {
+      const validTransformation = isValidTransformation(currentWord, userInput);
+      const validWord = isValidWord(userInput, wordList);
+      const isSameWord = currentWord === userInput;
 
-    // if so update the round with new word and clear error
-    // parent handles checking if the round/game is over
-    if (validTransformation && validWord) {
-      callback();
-      updateCurrentRound({
-        ...currentRound,
-        moves: [...moves, userInput.toLowerCase()]
-      });
-      setErrorMessage(null);
-    } else {
-      if (!validWord) {
-        setErrorMessage(
-          "Nope. That's not a valid English word. Please try again."
-        );
+      if (validTransformation && validWord && !isSameWord) {
+        clearInput();
+        updateCurrentRound({
+          ...currentRound,
+          moves: [...currentRound.moves, userInput.toLowerCase()],
+        });
+        setErrorMessage(null);
       } else {
-        setErrorMessage(
-          "Nope, that word change is not allowed. Try again."
-        );
+        clearInput();
+        if (!validWord) {
+          setErrorMessage("Nope. That's not a valid English word. Please try again.");
+        } else if (isSameWord) {
+          setErrorMessage("Nope, try to change the word.");
+        } else {
+          setErrorMessage("Nope, that word change is not allowed. Try again.");
+        }
       }
+    },
+    [currentWord, wordList, currentRound, updateCurrentRound]
+  );
+
+  useEffect(() => {
+    if (isGameOver) {
+      !isEndModalOpen && onEndModalOpen();
+    } else if (isRoundOver) {
+      !isOpen && onOpen();
+    } else {
+      isOpen && onClose();
     }
-  }, [moves, currentWord, wordList]);
+  }, [
+    isRoundOver, 
+    isGameOver, 
+    isOpen, 
+    onOpen, 
+    onClose, 
+    isEndModalOpen, 
+    onEndModalOpen, 
+    onEndModalClose
+  ]);
 
   return (
     <Flex
@@ -79,8 +103,22 @@ const Game: React.FC<GameProps> = ({
       <Flex direction="column" alignItems="center" my="4">
         {errorMessage && <div>{errorMessage}</div>}
       </Flex>
+      <RoundModal
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
+        onContinue={onContinue}
+        score={currentRound.moves.length}
+      />
+      <GameOverModal
+        isOpen={isEndModalOpen}
+        onOpen={onEndModalOpen}
+        onClose={onEndModalClose}
+        totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
+      />
     </Flex>
   );
 };
+
 
 export default Game;
