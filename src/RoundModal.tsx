@@ -14,6 +14,7 @@ type RoundModalProps = {
   onClose: () => void;
   score: number;
   onContinue: () => void;
+  time: number;
 };
 
 const RoundModal: React.FC<RoundModalProps> = ({
@@ -21,14 +22,19 @@ const RoundModal: React.FC<RoundModalProps> = ({
   onClose,
   score,
   onContinue,
+  time,
 }) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Round Over</ModalHeader>
         <ModalBody>
-          Your score for this round: {score}
+          <p>Your score for this round: {score}</p>
+          <p>Time taken: {minutes} minutes {seconds} seconds</p>
         </ModalBody>
         <ModalFooter>
           <Button onClick={onContinue}>Continue</Button>
