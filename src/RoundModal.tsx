@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -8,8 +8,6 @@ import {
   ModalFooter,
   Button,
 } from '@chakra-ui/react';
-
-import { Round } from "./GameWrapper";
 
 type RoundModalProps = {
   isOpen: boolean;
@@ -24,16 +22,8 @@ const RoundModal: React.FC<RoundModalProps> = ({
   score,
   onContinue,
 }) => {
-  const handleClose = () => {
-    onClose();
-  };
-  
-useEffect(() => {
-  console.log("Round score: ", roundScore);
-}, [roundScore]);
-  
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Round Over</ModalHeader>

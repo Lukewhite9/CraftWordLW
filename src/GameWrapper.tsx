@@ -8,11 +8,6 @@ type GameWrapperProps = {
   gameLength: number | null;
 };
 
-type GameWrapperProps = {
-  wordList: string[];
-  isPracticeMode: boolean;
-};
-
 type Round = {
   startWord: string;
   goalWord: string;
