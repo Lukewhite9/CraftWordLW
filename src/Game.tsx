@@ -39,6 +39,9 @@ const Game: React.FC<GameProps> = ({
     onClose: onEndModalClose
   } = useDisclosure();
 
+  const [startTime, setStartTime] = useState<number>(0);
+  const [totalTime, setTotalTime] = useState<number>(0);
+  
   const checkTransformation = useCallback(
     (userInput: string, clearInput: () => void) => {
       const validTransformation = isValidTransformation(currentWord, userInput);
@@ -85,6 +88,18 @@ const Game: React.FC<GameProps> = ({
     onEndModalClose
   ]);
 
+  useEffect(() => {
+  if (!isGameOver && !isRoundOver) {
+    setStartTime(Date.now());
+  }
+}, [isGameOver, isRoundOver]);
+  useEffect(() => {
+  if (isRoundOver || isGameOver) {
+    const endTime = Date.now();
+    setTotalTime((endTime - startTime) / 1000);  // get the time in seconds
+  }
+}, [isRoundOver, isGameOver]);
+  
   return (
     <Flex
       h="100%"
@@ -110,11 +125,13 @@ const Game: React.FC<GameProps> = ({
         onClose={onClose}
         onContinue={onContinue}
         score={currentRound.moves.length}
+        time={totalTime}
       />
       <GameOverModal
         isOpen={isEndModalOpen}
         onClose={onEndModalClose}
         totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
+        totalTime={totalTime}
       />
     </Flex>
   );
