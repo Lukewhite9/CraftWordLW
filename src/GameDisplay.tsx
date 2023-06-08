@@ -40,7 +40,7 @@ const GameDisplay: React.FC<GameDisplayProps> = ({
   >
     <Flex>
       <Box mx="2">
-        <Text fontSize="2xl" color="red">
+        <Text fontSize="2xl" color="blue">
           START
         </Text>
         <Text fontWeight="bold" fontSize="3xl">
@@ -57,27 +57,6 @@ const GameDisplay: React.FC<GameDisplayProps> = ({
       </Box>
     </Flex>
     <Box my="4">
-  <Box fontSize="small" textAlign="left" mt="4">
-  <Box as="span" fontWeight="bold">placeholder</Box>
-  <br />
-    <br />
-    plās′hōl″dər
-    <br />
-    <Text as="span" fontStyle="italic">
-      noun
-    </Text>
-    <br />
-    <br />
-    1) One who holds an office or place, especially as a deputy, proxy, or
-    appointed government official.
-    <br />
-    <br />
-    2) In a mathematical or logical expression, a symbol that may be replaced
-    by the name of any element of a set.
-    <br />
-    <br />
-    3) In the decimal form of a number, a digit that is not significant.
-  </Text>
   <Text fontSize="xl" color="gray">
     CURRENT
   </Text>

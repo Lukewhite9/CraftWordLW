@@ -29,60 +29,98 @@ const WordPair: React.FC<WordPairProps> = ({
     }
   };
 
+  const calculateFontSize = () => {
+    const maxFontSize = 18; // Maximum font size
+    const minFontSize = 10; // Minimum font size
+    const initialFontSize = 14; // Initial font size
+    const maxPastWords = 18; // Maximum number of past words before reducing font size
+
+    if (pastMoves.length <= maxPastWords) {
+      return initialFontSize;
+    } else {
+      const fontSizeIncrement = (maxFontSize - minFontSize) / (pastMoves.length - maxPastWords);
+      const fontSize = initialFontSize - (fontSizeIncrement * (pastMoves.length - maxPastWords));
+      return Math.max(fontSize, minFontSize);
+    }
+  };
+
   return (
     <Flex
-      direction="row" // Updated direction to row
-      alignItems="flex-start"
+      direction="row"
+      justifyContent="space-between"
+      minHeight="calc(100vh - 400px)"
       border="1px solid"
-      borderColor="gray.100"
+      borderColor="transparent"
       borderRadius="base"
       p="4"
     >
-      <Flex direction="column" flex="1" pr="4">
+      <Flex direction="column" flex="1 0 33%">
         <Box>
-          <Text fontSize="medium" color="green">
-            START
-          </Text>
-          <Text fontWeight="bold" fontSize="xl">
-            {wordPair[0]}
-          </Text>
-        </Box>
-        <Flex direction="column" mt="4" align="flex-start">
-          {pastMoves.length === 0 && (
-            <Text fontSize="l" color="gray">
+          <Box textAlign="center">
+            <Text fontSize="sm" color="green">
+              START
             </Text>
-          )}
-          <Flex direction="column">
-            {!!pastMoves &&
-              pastMoves.length > 0 &&
-              pastMoves.map((word, i) => (
-                <Box key={`${word}-${i}`}>{word}</Box>
+            <Text fontWeight="bold" fontSize="xl">
+              {wordPair[0]}
+            </Text>
+          </Box>
+          <Box minHeight="375" overflowY="auto">
+            <Flex direction="column" alignItems="center">
+              {pastMoves.map((word, i) => (
+                <Box key={`${word}-${i}`} fontSize={calculateFontSize()}>{word}</Box>
               ))}
-          </Flex>
-        </Flex>
-        <Box mt="auto">
-          <Text fontWeight="bold" fontSize="xl">
-            {wordPair[1]}
-          </Text>
-          <Text fontSize="medium" color="blue">
-            GOAL
-          </Text>
+            </Flex>
+          </Box>
+          <Box textAlign="center">
+            <Text fontWeight="bold" fontSize="xl">
+              {wordPair[1]}
+            </Text>
+            <Text fontSize="sm" color="blue">
+              GOAL
+            </Text>
+          </Box>
         </Box>
       </Flex>
-      <Flex direction="column" flex="1"> 
-        <Box my="4" textAlign="center">
-          <Text fontSize="xl" color="gray">
-            CURRENT
-          </Text>
-          <CurrentWord currentWord={currentWord} />
+      <Flex direction="column" flex="2 0 67%">
+        <Box flexGrow={1} my="0" textAlign="center">
+          <Box minHeight="200px">
+            <Text fontSize="sm" textAlign="left" mt="0.5">
+              <Text as="span" fontWeight="bold">
+                placeholder
+              </Text>
+              <br />
+              plās′hōl″dər
+              <br />
+              <Text as="span" fontStyle="italic">
+                noun
+              </Text>
+              <br />
+              <br />
+              1) One who holds an office or place, especially as a deputy, proxy,
+              or appointed government official.
+              <br />
+              <br />
+              2) In a mathematical or logical expression, a symbol that may be
+              replaced by the name of any element of a set.
+            </Text>
+          </Box>
+          <Box my="4">
+            
+          </Box>
         </Box>
-        <Box my="4">
+        <Box textAlign="center">
+          <CurrentWord currentWord={currentWord} />
           <Input
-            placeholder="Enter New Word Here"
-            value={userInput}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-          />
+              placeholder="New Word"
+              value={userInput}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              sx={{
+                "&::placeholder": {
+                  textAlign: "center",
+                },
+              }}
+            />
         </Box>
       </Flex>
     </Flex>

@@ -19,6 +19,7 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPracticeMode, setIsPracticeMode] = useState(false);
   const [wordList, setWordList] = useState<string[]>([]);
+  const [introText, setIntroText] = useState(true); // Updated state variable
 
   function readFileToArray(filePath: string) {
     return fetch(filePath)
@@ -42,9 +43,13 @@ export default function App() {
       });
   }
 
+  function handleIntroTextDismiss() {
+    setIntroText(false);
+  }
+
   return (
     <ChakraProvider>
-      <Container maxW="375px" centerContent>
+      <Container maxW="500px" centerContent>
         <Flex
           direction="column"
           justify="center"
@@ -55,31 +60,33 @@ export default function App() {
             <IconButton
               aria-label="Learn how to play"
               icon={<QuestionOutlineIcon />}
-              size="md"
+              size="sm"
             />
-            <Heading my="8" mt="4">   WORDPATH   </Heading>
+            <Heading my="8" mt="4">   WORD→PATH   </Heading>
             <IconButton
               aria-label="Menu"
               icon={<HamburgerIcon />}
-              size="md"
+              size="sm"
             />
           </HStack>
-          <Divider my={2} />
-          <Text fontSize="lg">
-            Get from
-            {" "}
-            <Text as="span" color="green">START</Text>
-            {" "}
-            to
-            {" "}
-            <Text as="span" color="blue">GOAL</Text>
-            {" "}
-            in as few words as possible.
-            <p>  First time?
-            {" "}
-            <LearnModal text="Read the rules" />
-            .</p>
-          </Text>
+          <Divider my={-1} />
+          {!isPlaying && introText && (
+  <Text fontSize="lg">
+    Get from
+    {" "}
+    <Text as="span" color="green">START</Text>
+    {" "}
+    to
+    {" "}
+    <Text as="span" color="blue">GOAL</Text>
+    {" "}
+    in as few words as possible.
+    <p>  First time?
+    {" "}
+      <LearnModal text="Read the rules" onClick={handleIntroTextDismiss} />
+      .</p>
+  </Text>
+          )}
         </Flex>
         <Flex my={4} direction="column" alignItems="center">
           {isPlaying && wordList.length > 0 ? (

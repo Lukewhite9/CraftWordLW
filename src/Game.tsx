@@ -111,13 +111,14 @@ const Game: React.FC<GameProps> = ({
       direction="column"
       position="relative"
     >
+      <Text ml="3">Round: {rounds.length} Current Score: {currentRound?.moves.length || 0}</Text>
       <WordPair
         wordPair={[startWord, goalWord]}
         onSubmitWord={checkTransformation}
         currentWord={currentWord}
         pastMoves={moves}
       />
-      <Text ml="3">Round: {rounds.length}<p></p>Current Score: {currentRound?.moves.length || 0}</Text>
+      
       <Flex direction="column" alignItems="center" my="4">
         {errorMessage && <div>{errorMessage}</div>}
       </Flex>
