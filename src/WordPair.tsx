@@ -22,67 +22,68 @@ const WordPair: React.FC<WordPairProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  if (e.key === "Enter") {
-    onSubmitWord(e.target.value, () => {
-      setUserInput("");
-    });
-  }
-};
-
+    if (e.key === "Enter") {
+      onSubmitWord(e.target.value, () => {
+        setUserInput("");
+      });
+    }
+  };
 
   return (
     <Flex
-      direction="column"
-      alignItems="center"
+      direction="row" // Updated direction to row
+      alignItems="flex-start"
       border="1px solid"
       borderColor="gray.100"
-      borderRadius="base" p="4"
+      borderRadius="base"
+      p="4"
     >
-      <Flex>
-        <Box mx="2">
-          <Text fontSize="2xl" color="red">
+      <Flex direction="column" flex="1" pr="4">
+        <Box>
+          <Text fontSize="medium" color="green">
             START
           </Text>
-          <Text fontWeight="bold" fontSize="3xl">
+          <Text fontWeight="bold" fontSize="xl">
             {wordPair[0]}
           </Text>
         </Box>
-        <Box mx="2">
-          <Text fontSize="2xl" color="green">
-            GOAL
-          </Text>
-          <Text fontWeight="bold" fontSize="3xl">
+        <Flex direction="column" mt="4" align="flex-start">
+          {pastMoves.length === 0 && (
+            <Text fontSize="l" color="gray">
+            </Text>
+          )}
+          <Flex direction="column">
+            {!!pastMoves &&
+              pastMoves.length > 0 &&
+              pastMoves.map((word, i) => (
+                <Box key={`${word}-${i}`}>{word}</Box>
+              ))}
+          </Flex>
+        </Flex>
+        <Box mt="auto">
+          <Text fontWeight="bold" fontSize="xl">
             {wordPair[1]}
+          </Text>
+          <Text fontSize="medium" color="blue">
+            GOAL
           </Text>
         </Box>
       </Flex>
-      <Box my="4" textAlign="center">
-        <Text fontSize="xl" color="gray">
-          CURRENT
-        </Text>
-        <CurrentWord currentWord={currentWord} />
-      </Box>
-      <Box my="4">
-        <Input
-          placeholder="Enter New Word Here"
-          value={userInput}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-        />
-      </Box>
-      <Flex direction="row" align="flex-start">
-        {pastMoves.length === 0 && (
-          <Text fontSize="l" color="gray">
-            PAST MOVES
+      <Flex direction="column" flex="1"> 
+        <Box my="4" textAlign="center">
+          <Text fontSize="xl" color="gray">
+            CURRENT
           </Text>
-        )}
-        <Flex direction="column">
-          {!!pastMoves &&
-            pastMoves.length > 0 &&
-            pastMoves.map((word, i) => (
-              <Box key={`${word}-${i}`}>{word}</Box>
-            ))}
-        </Flex>
+          <CurrentWord currentWord={currentWord} />
+        </Box>
+        <Box my="4">
+          <Input
+            placeholder="Enter New Word Here"
+            value={userInput}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+          />
+        </Box>
       </Flex>
     </Flex>
   );

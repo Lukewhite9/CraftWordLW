@@ -13,7 +13,8 @@ const CurrentWord: React.FC<CurrentWordProps> = ({ currentWord }) => {
       {splitWord.map((letter, index) => (
         <ReactTextTransition
           key={index}
-          springConfig={presets.gentle}
+          springConfig={presets.stiff}
+           translateValue="45%"
           inline
         >{letter}</ReactTextTransition>
       ))}

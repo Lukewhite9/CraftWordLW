@@ -1,19 +1,23 @@
-import './App.css'
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   ChakraProvider,
   Heading,
   Box,
   Flex,
   Text,
-  Button
+  Button,
+  IconButton,
+  HStack,
+  Container,
+  Divider
 } from '@chakra-ui/react';
+import { QuestionOutlineIcon, HamburgerIcon } from '@chakra-ui/icons';
 import GameWrapper from './GameWrapper';
 import LearnModal from './LearnModal';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isPracticeMode, setIsPracticeMode] = useState(false); 
+  const [isPracticeMode, setIsPracticeMode] = useState(false);
   const [wordList, setWordList] = useState<string[]>([]);
 
   function readFileToArray(filePath: string) {
@@ -28,9 +32,9 @@ export default function App() {
       });
   }
 
-  async function handleStartClick(practiceMode: boolean = false) { // Modified line
+  async function handleStartClick(practiceMode: boolean = false) {
     setIsPlaying(true);
-    setIsPracticeMode(practiceMode); // Add this line
+    setIsPracticeMode(practiceMode);
     const filePath = '../ospd.txt';
     readFileToArray(filePath)
       .then(wordList => {
@@ -40,28 +44,41 @@ export default function App() {
 
   return (
     <ChakraProvider>
-      <Box h="100%" w="100%">
+      <Container maxW="375px" centerContent>
         <Flex
           direction="column"
           justify="center"
           align="center"
           textAlign="center"
         >
-          <Heading my="4">Wordpath 🤓</Heading>
+          <HStack spacing={4}>
+            <IconButton
+              aria-label="Learn how to play"
+              icon={<QuestionOutlineIcon />}
+              size="md"
+            />
+            <Heading my="8" mt="4">   WORDPATH   </Heading>
+            <IconButton
+              aria-label="Menu"
+              icon={<HamburgerIcon />}
+              size="md"
+            />
+          </HStack>
+          <Divider my={2} />
           <Text fontSize="lg">
             Get from
             {" "}
-            <Text as="span" color="red">START</Text>
+            <Text as="span" color="green">START</Text>
             {" "}
             to
             {" "}
-            <Text as="span" color="green">GOAL</Text>
+            <Text as="span" color="blue">GOAL</Text>
             {" "}
             in as few words as possible.
-            First time?
+            <p>  First time?
             {" "}
             <LearnModal text="Read the rules" />
-            .
+            .</p>
           </Text>
         </Flex>
         <Flex my={4} direction="column" alignItems="center">
@@ -74,21 +91,21 @@ export default function App() {
             <>
               <Button
                 colorScheme="green"
-                onClick={() => handleStartClick(false)} // Modified line
+                onClick={() => handleStartClick(false)}
               >
                 Start Game
               </Button>
               <Button
-                colorScheme="blue" // Or any other color scheme you prefer
-                onClick={() => handleStartClick(true)} // Add this line
-                mt={4} // Add some margin to separate the buttons
+                colorScheme="blue"
+                onClick={() => handleStartClick(true)}
+                mt={4}
               >
                 Start Practice Mode
               </Button>
             </>
           )}
         </Flex>
-      </Box>
-    </ChakraProvider >
+      </Container>
+    </ChakraProvider>
   )
 }

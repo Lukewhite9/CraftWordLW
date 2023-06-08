@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Flex, useDisclosure } from '@chakra-ui/react';
+import { Flex, useDisclosure, Text } from '@chakra-ui/react';
 import WordPair from './WordPair';
 import { isValidTransformation, isValidWord } from './utils';
 import GameOverModal from "./GameOverModal";
@@ -117,6 +117,7 @@ const Game: React.FC<GameProps> = ({
         currentWord={currentWord}
         pastMoves={moves}
       />
+      <Text ml="3">Round: {rounds.length}<p></p>Current Score: {currentRound?.moves.length || 0}</Text>
       <Flex direction="column" alignItems="center" my="4">
         {errorMessage && <div>{errorMessage}</div>}
       </Flex>
