@@ -49,43 +49,45 @@ export default function App() {
 
   return (
     <ChakraProvider>
-      <Container maxW="500px" centerContent>
+      <Container maxW="390px" centerContent>
         <Flex
           direction="column"
           justify="center"
           align="center"
           textAlign="center"
         >
-          <HStack spacing={4}>
+          <HStack spacing={24}>
             <IconButton
               aria-label="Learn how to play"
               icon={<QuestionOutlineIcon />}
               size="sm"
             />
-            <Heading my="8" mt="4">   WORD→PATH   </Heading>
+            <Heading mt="4" mb="0.5">   WORD→PATH   </Heading>
             <IconButton
               aria-label="Menu"
               icon={<HamburgerIcon />}
               size="sm"
             />
           </HStack>
-          <Divider my={-1} />
+          <Divider my={-0.25} borderColor="gray.200" />
+          
           {!isPlaying && introText && (
-  <Text fontSize="lg">
-    Get from
-    {" "}
-    <Text as="span" color="green">START</Text>
-    {" "}
-    to
-    {" "}
-    <Text as="span" color="blue">GOAL</Text>
-    {" "}
-    in as few words as possible.
-    <p>  First time?
-    {" "}
-      <LearnModal text="Read the rules" onClick={handleIntroTextDismiss} />
-      .</p>
-  </Text>
+            <Text fontSize="lg">
+              Get from{" "}
+              <Text as="span" color="green">
+                START
+              </Text>{" "}
+              to{" "}
+              <Text as="span" color="blue">
+                GOAL
+              </Text>{" "}
+              in as few words as possible.
+              <p>
+                First time?{" "}
+                <LearnModal text="Read the rules" onClick={handleIntroTextDismiss} />
+                .
+              </p>
+            </Text>
           )}
         </Flex>
         <Flex my={4} direction="column" alignItems="center">
@@ -99,6 +101,7 @@ export default function App() {
               <Button
                 colorScheme="green"
                 onClick={() => handleStartClick(false)}
+                w="100%"
               >
                 Start Game
               </Button>
@@ -106,6 +109,7 @@ export default function App() {
                 colorScheme="blue"
                 onClick={() => handleStartClick(true)}
                 mt={4}
+                w="100%"
               >
                 Start Practice Mode
               </Button>
@@ -114,5 +118,5 @@ export default function App() {
         </Flex>
       </Container>
     </ChakraProvider>
-  )
+  );
 }

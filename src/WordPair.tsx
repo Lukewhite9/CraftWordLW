@@ -29,20 +29,6 @@ const WordPair: React.FC<WordPairProps> = ({
     }
   };
 
-  const calculateFontSize = () => {
-    const maxFontSize = 18; // Maximum font size
-    const minFontSize = 16; // Minimum font size
-    const initialFontSize = 18; // Initial font size
-    const maxPastWords = 14; // Maximum number of past words before reducing font size
-
-    if (pastMoves.length <= maxPastWords) {
-      return initialFontSize;
-    } else {
-      const fontSizeIncrement = (maxFontSize - minFontSize) / (pastMoves.length - maxPastWords);
-      const fontSize = initialFontSize - (fontSizeIncrement * (pastMoves.length - maxPastWords));
-      return Math.max(fontSize, minFontSize);
-    }
-  };
 
   return (
     <Flex
@@ -56,7 +42,7 @@ const WordPair: React.FC<WordPairProps> = ({
     >
       <Flex direction="column" flex="1 0 33%">
         <Box>
-          <Box textAlign="center">
+          <Box textAlign="left">
             <Text fontSize="sm" color="green">
               START
             </Text>
@@ -64,14 +50,14 @@ const WordPair: React.FC<WordPairProps> = ({
               {wordPair[0]}
             </Text>
           </Box>
-          <Box minHeight="375" overflowY="auto">
-            <Flex direction="column" alignItems="center">
+          <Box minHeight="375">
+            <Flex Flex direction="column" alignItems="flex-start" wrap="wrap">
               {pastMoves.map((word, i) => (
-                <Box key={`${word}-${i}`} fontSize={calculateFontSize()}>{word}</Box>
+                <Box key={`${word}-${i}`} fontSize="19px">{word}</Box>
               ))}
             </Flex>
           </Box>
-          <Box textAlign="center">
+          <Box textAlign="left">
             <Text fontSize="xl">
               {wordPair[1]}
             </Text>
@@ -100,7 +86,7 @@ const WordPair: React.FC<WordPairProps> = ({
           <Box minHeight="200px">
             <Text fontSize="sm" textAlign="left" mt="0.5">
               <Text as="span" fontWeight="bold">
-                placeholder
+                <br />placeholder
               </Text>
               <br />
               plās′hōl″dər

@@ -16,7 +16,7 @@ const CurrentWord: React.FC<CurrentWordProps> = ({ currentWord }) => {
           springConfig={presets.stiff}
            translateValue="45%"
           inline
-          style={{ fontSize: "44px" }}
+          style={{ fontSize: "54px" }}
         >{letter}</ReactTextTransition>
       ))}
     </div>
