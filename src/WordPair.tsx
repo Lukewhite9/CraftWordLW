@@ -31,9 +31,9 @@ const WordPair: React.FC<WordPairProps> = ({
 
   const calculateFontSize = () => {
     const maxFontSize = 18; // Maximum font size
-    const minFontSize = 10; // Minimum font size
-    const initialFontSize = 14; // Initial font size
-    const maxPastWords = 18; // Maximum number of past words before reducing font size
+    const minFontSize = 16; // Minimum font size
+    const initialFontSize = 18; // Initial font size
+    const maxPastWords = 14; // Maximum number of past words before reducing font size
 
     if (pastMoves.length <= maxPastWords) {
       return initialFontSize;
@@ -60,7 +60,7 @@ const WordPair: React.FC<WordPairProps> = ({
             <Text fontSize="sm" color="green">
               START
             </Text>
-            <Text fontWeight="bold" fontSize="xl">
+            <Text fontSize="xl">
               {wordPair[0]}
             </Text>
           </Box>
@@ -72,7 +72,7 @@ const WordPair: React.FC<WordPairProps> = ({
             </Flex>
           </Box>
           <Box textAlign="center">
-            <Text fontWeight="bold" fontSize="xl">
+            <Text fontSize="xl">
               {wordPair[1]}
             </Text>
             <Text fontSize="sm" color="blue">
@@ -82,6 +82,20 @@ const WordPair: React.FC<WordPairProps> = ({
         </Box>
       </Flex>
       <Flex direction="column" flex="2 0 67%">
+        <Box textAlign="center">
+          <CurrentWord currentWord={currentWord} />
+          <Input
+              placeholder="New Word"
+              value={userInput}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              sx={{
+                "&::placeholder": {
+                  textAlign: "center",
+                },
+              }}
+            />
+        </Box>
         <Box flexGrow={1} my="0" textAlign="center">
           <Box minHeight="200px">
             <Text fontSize="sm" textAlign="left" mt="0.5">
@@ -108,20 +122,7 @@ const WordPair: React.FC<WordPairProps> = ({
             
           </Box>
         </Box>
-        <Box textAlign="center">
-          <CurrentWord currentWord={currentWord} />
-          <Input
-              placeholder="New Word"
-              value={userInput}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-              sx={{
-                "&::placeholder": {
-                  textAlign: "center",
-                },
-              }}
-            />
-        </Box>
+        
       </Flex>
     </Flex>
   );
