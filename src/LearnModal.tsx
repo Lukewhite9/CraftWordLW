@@ -104,6 +104,9 @@ const LearnModal: React.FC<LearnModalProps> = ({ text, practiceMode, togglePract
               Can you make it through 5 rounds?
               Remember, lower scores are better!
             </Text>
+            <Button colorScheme='blue' mr={3} onClick={onClose}>
+              I Think I Got It, Let's Play
+            </Button>
           </ModalBody>
 
           <ModalFooter>
@@ -114,15 +117,8 @@ const LearnModal: React.FC<LearnModalProps> = ({ text, practiceMode, togglePract
               display="flex"
               justifyContent="center"
             >
-              <Button colorScheme='blue' mr={3}
-                onClick={togglePracticeMode, onClose}
-              >
-                {practiceMode ? 'Exit Practice Mode' : 'Enter Practice Mode'}
-              </Button>
             </Box>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
-              I Think I Got It, Let's Play
-            </Button>
+            
           </ModalFooter>
         </ModalContent>
       </Modal>
