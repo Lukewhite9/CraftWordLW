@@ -66,8 +66,7 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
         alignItems="center"
         direction="column"
       >
-        <Heading size="lg">Round {rounds.length}</Heading>
-        <Text ml="3">Current Score: {currentRound?.moves.length || 0}</Text>
+        
       </Flex>
       {currentRound && (
         <Game

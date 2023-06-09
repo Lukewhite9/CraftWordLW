@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Flex, useDisclosure } from '@chakra-ui/react';
+import { Flex, useDisclosure, Text } from '@chakra-ui/react';
 import WordPair from './WordPair';
 import { isValidTransformation, isValidWord } from './utils';
 import GameOverModal from "./GameOverModal";
@@ -41,7 +41,7 @@ const Game: React.FC<GameProps> = ({
 
   const [startTime, setStartTime] = useState<number>(0);
   const [totalTime, setTotalTime] = useState<number>(0);
-  
+
   const checkTransformation = useCallback(
     (userInput: string, clearInput: () => void) => {
       const validTransformation = isValidTransformation(currentWord, userInput);
@@ -58,11 +58,11 @@ const Game: React.FC<GameProps> = ({
       } else {
         clearInput();
         if (!validWord) {
-          setErrorMessage("Nope. That's not a valid English word. Please try again.");
+          setErrorMessage("Nope, not a valid English word. Try again.");
         } else if (isSameWord) {
           setErrorMessage("Nope, try to change the word.");
         } else {
-          setErrorMessage("Nope, that word change is not allowed. Try again.");
+          setErrorMessage("Nope, that change is not allowed. Try again.");
         }
       }
     },
@@ -89,53 +89,66 @@ const Game: React.FC<GameProps> = ({
   ]);
 
   useEffect(() => {
-  if (!isGameOver && !isRoundOver) {
-    setStartTime(Date.now());
-  }
-}, [isGameOver, isRoundOver]);
-  useEffect(() => {
-  if (isRoundOver || isGameOver) {
-    const endTime = Date.now();
-    setTotalTime((endTime - startTime) / 1000);  // get the time in seconds
-  }
-}, [isRoundOver, isGameOver]);
-  
-  return (
-    <Flex
-      h="100%"
-      w="100%"
-      maxW="600px"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      direction="column"
-      position="relative"
-    >
-      <WordPair
-        wordPair={[startWord, goalWord]}
-        onSubmitWord={checkTransformation}
-        currentWord={currentWord}
-        pastMoves={moves}
-      />
-      <Flex direction="column" alignItems="center" my="4">
-        {errorMessage && <div>{errorMessage}</div>}
-      </Flex>
-      <RoundModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onContinue={onContinue}
-        score={currentRound.moves.length}
-        time={totalTime}
-      />
-      <GameOverModal
-        isOpen={isEndModalOpen}
-        onClose={onEndModalClose}
-        totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
-        totalTime={totalTime}
-      />
-    </Flex>
-  );
-};
+    if (!isGameOver && !isRoundOver) {
+      setStartTime(Date.now());
+    }
+  }, [isGameOver, isRoundOver]);
 
+  useEffect(() => {
+    if (isRoundOver || isGameOver) {
+      const endTime = Date.now();
+      setTotalTime((endTime - startTime) / 1000); // get the time in seconds
+    }
+  }, [isRoundOver, isGameOver]);
+
+  return (
+  <Flex
+    h="100%"
+    w="100%"
+    maxW="480px"
+    display="flex"
+    justifyContent="center"
+    direction="column"
+    position="relative"
+  >
+    <Flex
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+      width="100%"
+    >
+      <Text fontSize="sm" color="green">
+        START
+      </Text>
+      <Text ml="3">round: {rounds.length}  score: {currentRound?.moves.length || 0}</Text>
+      <Text fontSize="sm" color="blue">
+        GOAL
+      </Text>
+    </Flex>
+
+    <WordPair
+      wordPair={[startWord, goalWord]}
+      onSubmitWord={checkTransformation}
+      currentWord={currentWord}
+      pastMoves={moves}
+      errorMessage={errorMessage}
+    />
+
+    <RoundModal
+      isOpen={isOpen}
+      onClose={onClose}
+      onContinue={onContinue}
+      score={currentRound.moves.length}
+      time={totalTime}
+    />
+    <GameOverModal
+      isOpen={isEndModalOpen}
+      onClose={onEndModalClose}
+      totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
+      totalTime={totalTime}
+    />
+  </Flex>
+);
+};
 
 export default Game;
