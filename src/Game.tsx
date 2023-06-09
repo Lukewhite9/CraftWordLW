@@ -58,11 +58,11 @@ const Game: React.FC<GameProps> = ({
       } else {
         clearInput();
         if (!validWord) {
-          setErrorMessage("Nope. That's not a valid English word. Please try again.");
+          setErrorMessage("Nope, not a valid English word. Try again.");
         } else if (isSameWord) {
           setErrorMessage("Nope, try to change the word.");
         } else {
-          setErrorMessage("Nope, that word change is not allowed. Try again.");
+          setErrorMessage("Nope, that change is not allowed. Try again.");
         }
       }
     },

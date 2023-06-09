@@ -61,22 +61,23 @@ const WordPair: React.FC<WordPairProps> = ({
         <Box textAlign="center" mb="4">
           <CurrentWord currentWord={currentWord} />
         </Box>
-        <Box flexGrow={1}>
-          <Input
-            placeholder="enter new word here"
-            width="250px"
-            value={userInput}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            sx={{
-              "&::placeholder": {
-                textAlign: "center",
-              },
-              textTransform: "lowercase"
-            }}
-          />
-          {errorMessage && <div>{errorMessage}</div>}
-        </Box>
+        <Box width="100%" display="flex" flexDirection="column" alignItems="center">
+  <Input
+    placeholder="enter new word"
+    value={userInput}
+    onChange={handleInputChange}
+    onKeyDown={handleKeyDown}
+    width="250px"
+    sx={{
+      "&::placeholder": {
+        textAlign: "center",
+      },
+      textTransform: "lowercase"
+    }}
+  />
+  {errorMessage && <Box mt={3}>{errorMessage}</Box>}
+</Box>
+
       </Flex>
       <Box my="4" textAlign="center">
         <Box >
