@@ -49,74 +49,81 @@ export default function App() {
 
   return (
     <ChakraProvider>
-      <Container maxW="100%" centerContent>
-        <Flex
-          direction="column"
-          justify="center"
-          align="center"
-          textAlign="center"
-        >
-          <HStack spacing={20}>
-            <IconButton
-              aria-label="Learn how to play"
-              icon={<QuestionOutlineIcon />}
-              size="sm"
-            />
-            <Heading mt="4" mb="0.5">   WORD→PATH   </Heading>
-            <IconButton
-              aria-label="Menu"
-              icon={<HamburgerIcon />}
-              size="sm"
-            />
-          </HStack>
-          <Divider my={-0.25} borderColor="gray.200" />
-          
-          {!isPlaying && introText && (
-            <Text fontSize="lg">
-              Get from{" "}
-              <Text as="span" color="green">
-                START
-              </Text>{" "}
-              to{" "}
-              <Text as="span" color="blue">
-                GOAL
-              </Text>{" "}
-              in as few words as possible.
-              <p>
-                First time?{" "}
-                <LearnModal text="Read the rules" onClick={handleIntroTextDismiss} />
-                .
-              </p>
-            </Text>
-          )}
-        </Flex>
-        <Flex my={4} direction="column" alignItems="center">
-          {isPlaying && wordList.length > 0 ? (
-            <GameWrapper
-              wordList={wordList}
-              gameLength={isPracticeMode ? null : 5}
-            />
-          ) : (
-            <>
-              <Button
-                colorScheme="green"
-                onClick={() => handleStartClick(false)}
-                w="100%"
-              >
-                Start Game
-              </Button>
-              <Button
-                colorScheme="blue"
-                onClick={() => handleStartClick(true)}
-                mt={4}
-                w="100%"
-              >
-                Start Practice Mode
-              </Button>
-            </>
-          )}
-        </Flex>
-      </Container>
-    </ChakraProvider>
+  <Container maxW="100%" centerContent>
+    <Box
+      borderWidth="1px" // set the border width
+      borderColor="gray.200" // set the border color
+      borderRadius="md" // set the border radius (optional)
+      p={4} // add some padding (optional)
+    >
+      <Flex
+        direction="column"
+        justify="center"
+        align="center"
+        textAlign="center"
+      >
+        <HStack spacing={20}>
+          <IconButton
+            aria-label="Learn how to play"
+            icon={<QuestionOutlineIcon />}
+            size="sm"
+          />
+          <Heading mt="4" mb="4">   WORD→PATH   </Heading>
+          <IconButton
+            aria-label="Menu"
+            icon={<HamburgerIcon />}
+            size="sm"
+          />
+        </HStack>
+        <Divider mt={4} borderColor="gray.200" />
+        {!isPlaying && introText && (
+          <Text fontSize="lg">
+            Get from{" "}
+            <Text as="span" color="green">
+              START
+            </Text>{" "}
+            to{" "}
+            <Text as="span" color="blue">
+              GOAL
+            </Text>{" "}
+            in as few words as possible.
+            <p>
+              First time?{" "}
+              <LearnModal text="Read the rules" onClick={handleIntroTextDismiss} />
+              .
+            </p>
+          </Text>
+        )}
+      </Flex>
+      <Flex my={4} mx={4} direction="column" alignItems="center">
+        {isPlaying && wordList.length > 0 ? (
+          <GameWrapper
+            wordList={wordList}
+            gameLength={isPracticeMode ? null : 5}
+          />
+        ) : (
+          <>
+            <Button
+              colorScheme="green"
+              onClick={() => handleStartClick(false)}
+              w="100%"
+            >
+              Start Game
+            </Button>
+            <Button
+              colorScheme="blue"
+              onClick={() => handleStartClick(true)}
+              mt={4}
+              w="100%"
+            >
+              Start Practice Mode
+            </Button>
+          </>
+        )}
+      </Flex>
+    </Box>
+  </Container>
+</ChakraProvider>
+
   );
 }

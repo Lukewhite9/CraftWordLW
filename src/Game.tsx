@@ -102,40 +102,53 @@ const Game: React.FC<GameProps> = ({
   }, [isRoundOver, isGameOver]);
 
   return (
+  <Flex
+    h="100%"
+    w="100%"
+    maxW="480px"
+    display="flex"
+    justifyContent="center"
+    direction="column"
+    position="relative"
+  >
     <Flex
-      h="100%"
-      w="100%"
-      maxW="600px"
-      display="flex"
-      justifyContent="center"
+      direction="row"
+      justifyContent="space-between"
       alignItems="center"
-      direction="column"
-      position="relative"
+      width="100%"
     >
-      <Text ml="3">Round: {rounds.length} Current Score: {currentRound?.moves.length || 0}</Text>
-      <WordPair
-        wordPair={[startWord, goalWord]}
-        onSubmitWord={checkTransformation}
-        currentWord={currentWord}
-        pastMoves={moves}
-        errorMessage={errorMessage}
-      />
-
-      <RoundModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onContinue={onContinue}
-        score={currentRound.moves.length}
-        time={totalTime}
-      />
-      <GameOverModal
-        isOpen={isEndModalOpen}
-        onClose={onEndModalClose}
-        totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
-        totalTime={totalTime}
-      />
+      <Text fontSize="sm" color="green">
+        START
+      </Text>
+      <Text ml="3">round: {rounds.length}  score: {currentRound?.moves.length || 0}</Text>
+      <Text fontSize="sm" color="blue">
+        GOAL
+      </Text>
     </Flex>
-  );
+
+    <WordPair
+      wordPair={[startWord, goalWord]}
+      onSubmitWord={checkTransformation}
+      currentWord={currentWord}
+      pastMoves={moves}
+      errorMessage={errorMessage}
+    />
+
+    <RoundModal
+      isOpen={isOpen}
+      onClose={onClose}
+      onContinue={onContinue}
+      score={currentRound.moves.length}
+      time={totalTime}
+    />
+    <GameOverModal
+      isOpen={isEndModalOpen}
+      onClose={onEndModalClose}
+      totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
+      totalTime={totalTime}
+    />
+  </Flex>
+);
 };
 
 export default Game;
