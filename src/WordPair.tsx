@@ -44,7 +44,7 @@ const WordPair: React.FC<WordPairProps> = ({
     >
       <Flex direction="row" alignItems="baseline">
         <Box textAlign="left">
-          <Text fontSize="xl">{wordPair[0]}</Text>
+          <Text fontWeight="bold" fontSize="xl">{wordPair[0]}</Text>
         </Box>
         <Wrap spacing="12px" marginLeft="12px" marginRight="12px" align="start">
           {pastMoves.map((word, i) => (
@@ -56,7 +56,7 @@ const WordPair: React.FC<WordPairProps> = ({
           ))}
         </Wrap>
         <Box marginLeft="auto" textAlign="right">
-          <Text fontSize="xl">{wordPair[1]}</Text>
+          <Text fontWeight="bold" fontSize="xl">{wordPair[1]}</Text>
         </Box>
       </Flex>
       <Flex direction="column" alignItems="center" mt="4">
