@@ -41,7 +41,7 @@ const Game: React.FC<GameProps> = ({
 
   const [startTime, setStartTime] = useState<number>(0);
   const [totalTime, setTotalTime] = useState<number>(0);
-  
+
   const checkTransformation = useCallback(
     (userInput: string, clearInput: () => void) => {
       const validTransformation = isValidTransformation(currentWord, userInput);
@@ -89,17 +89,18 @@ const Game: React.FC<GameProps> = ({
   ]);
 
   useEffect(() => {
-  if (!isGameOver && !isRoundOver) {
-    setStartTime(Date.now());
-  }
-}, [isGameOver, isRoundOver]);
+    if (!isGameOver && !isRoundOver) {
+      setStartTime(Date.now());
+    }
+  }, [isGameOver, isRoundOver]);
+
   useEffect(() => {
-  if (isRoundOver || isGameOver) {
-    const endTime = Date.now();
-    setTotalTime((endTime - startTime) / 1000);  // get the time in seconds
-  }
-}, [isRoundOver, isGameOver]);
-  
+    if (isRoundOver || isGameOver) {
+      const endTime = Date.now();
+      setTotalTime((endTime - startTime) / 1000); // get the time in seconds
+    }
+  }, [isRoundOver, isGameOver]);
+
   return (
     <Flex
       h="100%"
@@ -117,11 +118,9 @@ const Game: React.FC<GameProps> = ({
         onSubmitWord={checkTransformation}
         currentWord={currentWord}
         pastMoves={moves}
+        errorMessage={errorMessage}
       />
-      
-      <Flex direction="column" alignItems="center" my="4">
-        {errorMessage && <div>{errorMessage}</div>}
-      </Flex>
+
       <RoundModal
         isOpen={isOpen}
         onClose={onClose}
@@ -138,6 +137,5 @@ const Game: React.FC<GameProps> = ({
     </Flex>
   );
 };
-
 
 export default Game;

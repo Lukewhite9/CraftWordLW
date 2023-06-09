@@ -1,12 +1,14 @@
 import React, { useState, ChangeEvent } from "react";
 import { Text, Box, Flex, Input } from "@chakra-ui/react";
 import CurrentWord from './CurrentWord';
+import game from './game';
 
 type WordPairProps = {
   wordPair: string[];
   onSubmitWord: (word: string) => void;
   currentWord: string;
   pastMoves: string[];
+  errorMessage: string | null;
 };
 
 const WordPair: React.FC<WordPairProps> = ({
@@ -14,6 +16,7 @@ const WordPair: React.FC<WordPairProps> = ({
   onSubmitWord,
   currentWord,
   pastMoves,
+  errorMessage,
 }) => {
   const [userInput, setUserInput] = useState<string>("");
 
@@ -34,7 +37,7 @@ const WordPair: React.FC<WordPairProps> = ({
     <Flex
       direction="row"
       justifyContent="space-between"
-      minHeight="calc(100vh - 400px)"
+      minHeight="calc(100vh - 300px)"
       border="1px solid"
       borderColor="transparent"
       borderRadius="base"
@@ -50,7 +53,7 @@ const WordPair: React.FC<WordPairProps> = ({
               {wordPair[0]}
             </Text>
           </Box>
-          <Box minHeight="375">
+          <Box minHeight="27">
             <Flex Flex direction="column" alignItems="flex-start" wrap="wrap">
               {pastMoves.map((word, i) => (
                 <Box key={`${word}-${i}`} fontSize="19px">{word}</Box>
@@ -82,8 +85,11 @@ const WordPair: React.FC<WordPairProps> = ({
               }}
             />
         </Box>
+        <Flex direction="column" alignItems="center" my="4">
+        {errorMessage && <div>{errorMessage}</div>}
+      </Flex>
         <Box flexGrow={1} my="0" textAlign="center">
-          <Box minHeight="200px">
+          <Box minHeight="100px">
             <Text fontSize="sm" textAlign="left" mt="0.5">
               <Text as="span" fontWeight="bold">
                 <br />placeholder

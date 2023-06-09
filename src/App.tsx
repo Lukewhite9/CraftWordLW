@@ -49,14 +49,14 @@ export default function App() {
 
   return (
     <ChakraProvider>
-      <Container maxW="390px" centerContent>
+      <Container maxW="100%" centerContent>
         <Flex
           direction="column"
           justify="center"
           align="center"
           textAlign="center"
         >
-          <HStack spacing={24}>
+          <HStack spacing={20}>
             <IconButton
               aria-label="Learn how to play"
               icon={<QuestionOutlineIcon />}
