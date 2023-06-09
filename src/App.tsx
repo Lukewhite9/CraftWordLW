@@ -49,9 +49,9 @@ export default function App() {
 
   return (
     <ChakraProvider>
-  <Container maxW="100%" centerContent>
+  <Container maxW="460px" centerContent>
     <Box
-      borderWidth="1px" // set the border width
+      borderWidth="3px" // set the border width
       borderColor="gray.200" // set the border color
       borderRadius="md" // set the border radius (optional)
       p={4} // add some padding (optional)
@@ -62,28 +62,34 @@ export default function App() {
         align="center"
         textAlign="center"
       >
-        <HStack spacing={20}>
+        <HStack HStack w="390px" justify="space-between">
           <IconButton
             aria-label="Learn how to play"
             icon={<QuestionOutlineIcon />}
-            size="sm"
+            
           />
-          <Heading mt="4" mb="4">   WORD→PATH   </Heading>
+          <Heading mt="4" mb="4">
+  <Flex alignItems="center">
+    <Text color="green.500">WORD</Text>
+    <Text>→</Text>
+    <Text color="blue.500">PATH</Text>
+  </Flex>
+</Heading>
+
           <IconButton
             aria-label="Menu"
             icon={<HamburgerIcon />}
-            size="sm"
           />
         </HStack>
         <Divider mt={4} borderColor="gray.200" />
         {!isPlaying && introText && (
           <Text fontSize="lg">
             Get from{" "}
-            <Text as="span" color="green">
+            <Text as="span" color="green.500">
               START
             </Text>{" "}
             to{" "}
-            <Text as="span" color="blue">
+            <Text as="span" color="blue.500">
               GOAL
             </Text>{" "}
             in as few words as possible.
@@ -104,17 +110,17 @@ export default function App() {
         ) : (
           <>
             <Button
-              colorScheme="green"
+              colorScheme="blackAlpha"
               onClick={() => handleStartClick(false)}
-              w="100%"
+              w="80%"
             >
               Start Game
             </Button>
             <Button
-              colorScheme="blue"
+              colorScheme="gray"
               onClick={() => handleStartClick(true)}
               mt={4}
-              w="100%"
+              w="80%"
             >
               Start Practice Mode
             </Button>
