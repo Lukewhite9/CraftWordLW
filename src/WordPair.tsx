@@ -37,7 +37,7 @@ const WordPair: React.FC<WordPairProps> = ({
     <Flex
       direction="row"
       justifyContent="space-between"
-      minHeight="calc(100vh - 300px)"
+      minHeight="900px"
       border="1px solid"
       borderColor="transparent"
       borderRadius="base"
@@ -45,7 +45,7 @@ const WordPair: React.FC<WordPairProps> = ({
     >
       <Flex direction="column" flex="1 0 33%">
         <Box>
-          <Box textAlign="left">
+          <Box textAlign="center">
             <Text fontSize="sm" color="green">
               START
             </Text>
@@ -54,13 +54,13 @@ const WordPair: React.FC<WordPairProps> = ({
             </Text>
           </Box>
           <Box minHeight="27">
-            <Flex Flex direction="column" alignItems="flex-start" wrap="wrap">
+            <Flex Flex direction="column" textAlign="center">
               {pastMoves.map((word, i) => (
                 <Box key={`${word}-${i}`} fontSize="19px">{word}</Box>
               ))}
             </Flex>
           </Box>
-          <Box textAlign="left">
+          <Box textAlign="center">
             <Text fontSize="xl">
               {wordPair[1]}
             </Text>
