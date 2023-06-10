@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent } from "react";
 import { Text, Box, Flex, Input, Wrap, WrapItem, Button } from "@chakra-ui/react";
 import CurrentWord from './CurrentWord';
-import game from './game';
 import GetDefinition from './GetDefinition';
 
 type WordPairProps = {
   wordPair: string[];
-  onSubmitWord: (word: string) => void;
+  onSubmitWord: (userInput: string, clearInput: () => void) => void;
+
   currentWord: string;
   pastMoves: string[];
   errorMessage: string | null;
@@ -66,32 +66,26 @@ const WordPair: React.FC<WordPairProps> = ({
         </Box>
       </Flex>
       <Flex direction="column" alignItems="center" mt="4">
-    <Box textAlign="center" mb="4">
-        <CurrentWord currentWord={currentWord} />
-    </Box>
-    <Flex width="100%" alignItems="center" justifyContent="center">
-        <Input
+        <Box textAlign="center" mb="4">
+          <CurrentWord currentWord={currentWord} />
+        </Box>
+        <Flex width="100%" alignItems="center" justifyContent="center">
+          <Input
             placeholder="enter new word"
             value={userInput}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             width="200px"
-            sx={{
-            "&::placeholder": {
-                textAlign: "center",
-            },
-            textTransform: "lowercase"
-            }}
-        />
-        <Button 
+          />
+          <Button
             onClick={handleButtonClick}
             ml={2}
-        >
+          >
             Enter
-        </Button>
-    </Flex>
-    {errorMessage && <Box mt={3}>{errorMessage}</Box>}
-</Flex>
+          </Button>
+        </Flex>
+        {errorMessage && <Box mt={3}>{errorMessage}</Box>}
+      </Flex>
 
       <Box my="4" textAlign="center">
         <GetDefinition word={currentWord} />

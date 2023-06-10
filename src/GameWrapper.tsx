@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Heading, Flex, Text } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { getNewWordPair, getRandomWordPair } from './utils';
 import Game from './Game';
 
@@ -8,7 +8,7 @@ type GameWrapperProps = {
   gameLength: number | null;
 };
 
-type Round = {
+export type Round = {
   startWord: string;
   goalWord: string;
   moves: string[];
@@ -66,7 +66,6 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
         alignItems="center"
         direction="column"
       >
-        
       </Flex>
       {currentRound && (
         <Game
@@ -77,7 +76,7 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
           isRoundOver={!!isRoundOver}
           isGameOver={!!isGameOver}
           onContinue={() => {
-            fetchNewWordPair(rounds.length + 1).then((pair) => { addRound(pair) })
+            fetchNewWordPair(rounds.length + 1).then((pair) => { pair && addRound(pair) })
           }}
         />
       )}

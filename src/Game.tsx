@@ -7,7 +7,6 @@ import RoundModal from "./RoundModal";
 import { Round } from "./GameWrapper";
 
 type GameProps = {
-  handleRoundOver: (roundScore: number) => void;
   currentRound: any; // replace any with your type
   updateCurrentRound: (round: any) => void; // replace any with your type
   wordList: string[];
@@ -18,7 +17,6 @@ type GameProps = {
 };
 
 const Game: React.FC<GameProps> = ({
-  handleRoundOver,
   currentRound,
   updateCurrentRound,
   wordList,
@@ -102,53 +100,53 @@ const Game: React.FC<GameProps> = ({
   }, [isRoundOver, isGameOver]);
 
   return (
-  <Flex
-    h="100%"
-    w="100%"
-    maxW="480px"
-    display="flex"
-    justifyContent="center"
-    direction="column"
-    position="relative"
-  >
     <Flex
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
-      width="100%"
+      h="100%"
+      w="100%"
+      maxW="480px"
+      display="flex"
+      justifyContent="center"
+      direction="column"
+      position="relative"
     >
-      <Text fontSize="sm" color="green">
-        START
-      </Text>
-      <Text ml="3">round: {rounds.length}  score: {currentRound?.moves.length || 0}</Text>
-      <Text fontSize="sm" color="blue">
-        GOAL
-      </Text>
+      <Flex
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        width="100%"
+      >
+        <Text fontSize="sm" color="green">
+          START
+        </Text>
+        <Text ml="3">
+          round: {rounds.length}  score: {currentRound?.moves.length || 0}
+        </Text>
+        <Text fontSize="sm" color="blue">
+          GOAL
+        </Text>
+      </Flex>
+      <WordPair
+        wordPair={[startWord, goalWord]}
+        onSubmitWord={checkTransformation}
+        currentWord={currentWord}
+        pastMoves={moves}
+        errorMessage={errorMessage}
+      />
+      <RoundModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onContinue={onContinue}
+        score={currentRound.moves.length}
+        time={totalTime}
+      />
+      <GameOverModal
+        isOpen={isEndModalOpen}
+        onClose={onEndModalClose}
+        totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
+        totalTime={totalTime}
+      />
     </Flex>
-
-    <WordPair
-      wordPair={[startWord, goalWord]}
-      onSubmitWord={checkTransformation}
-      currentWord={currentWord}
-      pastMoves={moves}
-      errorMessage={errorMessage}
-    />
-
-    <RoundModal
-      isOpen={isOpen}
-      onClose={onClose}
-      onContinue={onContinue}
-      score={currentRound.moves.length}
-      time={totalTime}
-    />
-    <GameOverModal
-      isOpen={isEndModalOpen}
-      onClose={onEndModalClose}
-      totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
-      totalTime={totalTime}
-    />
-  </Flex>
-);
+  );
 };
 
 export default Game;
