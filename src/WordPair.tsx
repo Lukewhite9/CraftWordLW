@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent } from "react";
-import { Text, Box, Flex, Input, Wrap, WrapItem } from "@chakra-ui/react";
+import { Text, Box, Flex, Input, Wrap, WrapItem, Button } from "@chakra-ui/react";
 import CurrentWord from './CurrentWord';
-import game from './game';
 import GetDefinition from './GetDefinition';
 
 type WordPairProps = {
   wordPair: string[];
-  onSubmitWord: (word: string) => void;
+  onSubmitWord: (userInput: string, clearInput: () => void) => void;
+
   currentWord: string;
   pastMoves: string[];
   errorMessage: string | null;
@@ -27,10 +27,16 @@ const WordPair: React.FC<WordPairProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      onSubmitWord(e.target.value, () => {
+      onSubmitWord(userInput, () => {
         setUserInput("");
       });
     }
+  };
+
+  const handleButtonClick = () => {
+    onSubmitWord(userInput, () => {
+      setUserInput("");
+    });
   };
 
   return (
@@ -63,26 +69,26 @@ const WordPair: React.FC<WordPairProps> = ({
         <Box textAlign="center" mb="4">
           <CurrentWord currentWord={currentWord} />
         </Box>
-        <Box width="100%" display="flex" flexDirection="column" alignItems="center">
-  <Input
-    placeholder="enter new word"
-    value={userInput}
-    onChange={handleInputChange}
-    onKeyDown={handleKeyDown}
-    width="250px"
-    sx={{
-      "&::placeholder": {
-        textAlign: "center",
-      },
-      textTransform: "lowercase"
-    }}
-  />
-  {errorMessage && <Box mt={3}>{errorMessage}</Box>}
-</Box>
-
+        <Flex width="100%" alignItems="center" justifyContent="center">
+          <Input
+            placeholder="enter new word"
+            value={userInput}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            width="200px"
+          />
+          <Button
+            onClick={handleButtonClick}
+            ml={2}
+          >
+            Enter
+          </Button>
+        </Flex>
+        {errorMessage && <Box mt={3}>{errorMessage}</Box>}
       </Flex>
+
       <Box my="4" textAlign="center">
-      <GetDefinition word={currentWord} />
+        <GetDefinition word={currentWord} />
       </Box>
     </Flex>
   );
