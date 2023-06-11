@@ -21,7 +21,7 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose}  size="md">
       <ModalOverlay />
       <ModalContent bg="gray.100">
-        <ModalHeader textAlign="center">How To Play Wordpath</ModalHeader>
+        <ModalHeader textAlign="center">How To Play <Text as="span" color="green.500" fontWeight="bold">WORD</Text>→<Text as="span" color="blue.500" fontWeight="bold">PATH</Text>  </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
             <Text mb={4}>
@@ -38,25 +38,25 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose }) => {
           <Text mb="2">
             <Text as="span" color="green"fontWeight="bold">add</Text>: 
             <br />
-           at -> <Text as="span" color="green"fontWeight="bold">r</Text>at -> rat<Text as="span" color="green"fontWeight="bold">s</Text> -> rat<Text as="span" color="green"fontWeight="bold">e</Text>s
+           at → <Text as="span" color="green"fontWeight="bold">r</Text>at → rat<Text as="span" color="green"fontWeight="bold">s</Text> → rat<Text as="span" color="green"fontWeight="bold">e</Text>s
           </Text>
 
           <Text mb="2">
             <Text as="span" color="orange.500"fontWeight="bold">change</Text>: 
             <br />
-            date -> <Text as="span" color="orange.500"fontWeight="bold">m</Text>ate -> ma<Text as="span" color="orange.500"fontWeight="bold">l</Text>e -> <Text as="span" color="orange.500"fontWeight="bold">p</Text>ale
+            date → <Text as="span" color="orange.500"fontWeight="bold">m</Text>ate → ma<Text as="span" color="orange.500"fontWeight="bold">l</Text>e → <Text as="span" color="orange.500"fontWeight="bold">p</Text>ale
           </Text>
 
           <Text mb="2">
             <Text as="span" color="red"fontWeight="bold">remove</Text>: 
             <br />
-          like this: sta<Text as="span" color="red"fontWeight="bold">r</Text>red -> stare<Text as="span" color="red"fontWeight="bold">d</Text> -> star<Text as="span" color="red"fontWeight="bold">e</Text> -> sta<Text as="span" color="red"fontWeight="bold">r</Text> -> tar
+          like this: sta<Text as="span" color="red"fontWeight="bold">r</Text>red → stare<Text as="span" color="red"fontWeight="bold">d</Text> → star<Text as="span" color="red"fontWeight="bold">e</Text> → sta<Text as="span" color="red"fontWeight="bold">r</Text> → tar
           </Text>
 
           <Text mb="2">
             <Text as="span" color="purple"fontWeight="bold">swap</Text>: 
             <br />
-              <Text as="span" color="purple"fontWeight="bold">r</Text>a<Text as="span" color="purple"fontWeight="bold">c</Text>e -> <Text as="span" color="purple"fontWeight="bold">ca</Text>re -> acre
+              <Text as="span" color="purple"fontWeight="bold">r</Text>a<Text as="span" color="purple"fontWeight="bold">c</Text>e → <Text as="span" color="purple"fontWeight="bold">ca</Text>re → acre
           </Text>
 
           <br />
