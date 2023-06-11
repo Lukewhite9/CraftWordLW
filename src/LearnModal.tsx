@@ -18,86 +18,54 @@ type LearnModalProps = {
 
 const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+    <Modal isOpen={isOpen} onClose={onClose}  size="md">
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>How To Play Wordpath</ModalHeader>
+      <ModalContent bg="gray.100">
+        <ModalHeader textAlign="center">How To Play Wordpath</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text mb="4">
-            The object of the game is to make a path from the START word to the GOAL word by transforming words into others.
-            The shorter your path, the better your score!
-          </Text>
+            <Text mb={4}>
+    Get from <Text as="span" color="green.500" fontWeight="bold">START</Text> to <Text as="span" color="blue.500" fontWeight="bold">GOAL</Text> in as few words as possible.
+  </Text>
 
           <Text mb="4">
-            You make new words by changing your current word. You can swap, add, change, or remove one letter at a time.
-            Each new word you make must be a valid English word.
+            You  can <Text as="span" color="green" fontWeight="bold">add</Text>, <Text as="span" color="red" fontWeight="bold">remove</Text>, <Text as="span" color="orange.500" fontWeight="bold">change</Text>, or <Text as="span" color="purple" fontWeight="bold">swap</Text> one letter at a time to make new words.
           </Text>
 
-          <Text fontWeight="bold" mb="2">
-            Here are some ways you can make words:
+          <Text mb="2">
+            Like this:
           </Text>
           <Text mb="2">
-            Add: Add one letter to your word.
+            <Text as="span" color="green"fontWeight="bold">add</Text>: 
             <br />
-          like this: at -> rat -> rats -> rates
+           at -> <Text as="span" color="green"fontWeight="bold">r</Text>at -> rat<Text as="span" color="green"fontWeight="bold">s</Text> -> rat<Text as="span" color="green"fontWeight="bold">e</Text>s
           </Text>
 
           <Text mb="2">
-            Change: Change one letter in your word.
+            <Text as="span" color="orange.500"fontWeight="bold">change</Text>: 
             <br />
-          like this: date -> mate -> male -> pale
+            date -> <Text as="span" color="orange.500"fontWeight="bold">m</Text>ate -> ma<Text as="span" color="orange.500"fontWeight="bold">l</Text>e -> <Text as="span" color="orange.500"fontWeight="bold">p</Text>ale
           </Text>
 
           <Text mb="2">
-            Remove: Remove one letter from your word.
+            <Text as="span" color="red"fontWeight="bold">remove</Text>: 
             <br />
-          like this: starred -> stared -> stare -> star -> tar
+          like this: sta<Text as="span" color="red"fontWeight="bold">r</Text>red -> stare<Text as="span" color="red"fontWeight="bold">d</Text> -> star<Text as="span" color="red"fontWeight="bold">e</Text> -> sta<Text as="span" color="red"fontWeight="bold">r</Text> -> tar
           </Text>
 
           <Text mb="2">
-            Swap: Swap two letters in your word.
+            <Text as="span" color="purple"fontWeight="bold">swap</Text>: 
             <br />
-          like this: rat -> art, or cats -> cast, or care -> acre
+              <Text as="span" color="purple"fontWeight="bold">r</Text>a<Text as="span" color="purple"fontWeight="bold">c</Text>e -> <Text as="span" color="purple"fontWeight="bold">ca</Text>re -> acre
           </Text>
 
+          <br />
           <Text mb="4">
-            Got it? So, putting it all together, you can make a path from 'two' to 'sop' like this:
+            Can you solve all 5 rounds?
           </Text>
-
-          <Text fontWeight="bold" mb="2">
-            START WORD: two
-          </Text>
-          <Text fontWeight="bold" mb="2">
-            GOAL WORD: sop
-          </Text>
-
-          <Text mb="2">
-            two   ::  two —&gt; tow (swap)
-          </Text>
-          <Text mb="2">
-            tow   ::  tow —&gt; stow (add)
-          </Text>
-          <Text mb="2">
-            stow  ::  stow —&gt; stop (change)
-          </Text>
-          <Text mb="2">
-            stop  ::  stop —&gt; sop (remove)
-          </Text>
-          <Text mb="2">
-            sop   ::  and you did it!
-          </Text>
-
-          <Text mb="4">
-            Your path took 4 steps, so your score for this round is 4.
-          </Text>
-
-          <Text mb="4">
-            Can you make it through 5 rounds?
-            Remember, lower scores are better!
-          </Text>
+          <br />
           <Button colorScheme='blue' mr={3} onClick={onClose}>
-            I Think I Got It, Let's Play
+            OK
           </Button>
         </ModalBody>
 
