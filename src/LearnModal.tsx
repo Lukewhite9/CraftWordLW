@@ -61,7 +61,9 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose }) => {
 
           <br />
           <Text mb="4">
-            Can you solve all 5 rounds?
+            Try practice mode to learn how to play.
+            <br />
+            <br />A new, five round game daily!
           </Text>
           <br />
           <Button colorScheme='blue' mr={3} onClick={onClose}>
