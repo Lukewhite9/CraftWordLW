@@ -10,20 +10,24 @@ const GetDefinition: React.FC<GetDefinitionProps> = ({ word }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.title && data.title === "No Definitions Found") {
-          setErrorMessage('No definition found');
-        } else {
-          setDefinitionData(data[0]);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        setErrorMessage('Error fetching definition');
-      });
-  }, [word]);
+  // Clear previous error message
+  setErrorMessage(null);
+
+  fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.title && data.title === "No Definitions Found") {
+        setErrorMessage('No definition found');
+      } else {
+        setDefinitionData(data[0]);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      setErrorMessage('Error fetching definition');
+    });
+}, [word]);
+
 
   if (errorMessage) {
     return (
