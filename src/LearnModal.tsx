@@ -16,89 +16,78 @@ type LearnModalProps = {
   onClose: () => void;
 };
 
+const generateText = (
+  text: string,
+  color: string,
+  fontWeight: string
+): JSX.Element => (
+  <Text as="span" color={color} fontWeight={fontWeight}>
+    {text}
+  </Text>
+);
+
 const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="md">
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>How To Play Wordpath</ModalHeader>
+      <ModalContent bg="gray.100">
+        <ModalHeader textAlign="center">
+          How To Play{" "}
+          {generateText("WORD", "green.500", "bold")} →
+          {generateText("PATH", "blue.500", "bold")}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text mb="4">
-            The object of the game is to make a path from the START word to the GOAL word by transforming words into others.
-            The shorter your path, the better your score!
-          </Text>
+          <div>
+            <Text mb={4}>
+              Get from{" "}
+              {generateText("START", "green.500", "bold")} to{" "}
+              {generateText("GOAL", "blue.500", "bold")} in as few words as possible.
+            </Text>
 
-          <Text mb="4">
-            You make new words by changing your current word. You can swap, add, change, or remove one letter at a time.
-            Each new word you make must be a valid English word.
-          </Text>
+            <Text mb="4">
+              You can{" "}
+              {generateText("add", "green", "bold")},{" "}
+              {generateText("remove", "red", "bold")},{" "}
+              {generateText("change", "orange.500", "bold")}, or{" "}
+              {generateText("swap", "purple", "bold")} one letter at a time to make new words.
+            </Text>
 
-          <Text fontWeight="bold" mb="2">
-            Here are some ways you can make words:
-          </Text>
-          <Text mb="2">
-            Add: Add one letter to your word.
+            <Text mb="2">Like this:</Text>
+            <Text mb="2">
+              {generateText("add", "green", "bold")}: <br />
+              at → {generateText("r", "green", "bold")}at → rat
+              {generateText("s", "green", "bold")} → rat
+              {generateText("e", "green", "bold")}s
+            </Text>
+
+            <Text mb="2">
+              {generateText("change", "orange.500", "bold")}: <br />
+              date → {generateText("m", "orange.500", "bold")}ate → ma
+              {generateText("l", "orange.500", "bold")}e → {generateText("p", "orange.500", "bold")}ale
+            </Text>
+
+            <Text mb="2">
+              {generateText("remove", "red", "bold")}: <br />
+              like this: sta{generateText("r", "red", "bold")}red → stare{generateText("d", "red", "bold")} → star{generateText("e", "red", "bold")} → sta{generateText("r", "red", "bold")} → tar
+            </Text>
+
+            <Text mb="2">
+              {generateText("swap", "purple", "bold")}: <br />
+              {generateText("r", "purple", "bold")}a{generateText("c", "purple", "bold")}e → {generateText("ca", "purple", "bold")}re → acre
+            </Text>
+
             <br />
-          like this: at -> rat -> rats -> rates
-          </Text>
-
-          <Text mb="2">
-            Change: Change one letter in your word.
+            <Text mb="4">
+              Try practice mode to learn how to play.
+              <br />
+              <br />A new, five round game daily!
+            </Text>
             <br />
-          like this: date -> mate -> male -> pale
-          </Text>
-
-          <Text mb="2">
-            Remove: Remove one letter from your word.
-            <br />
-          like this: starred -> stared -> stare -> star -> tar
-          </Text>
-
-          <Text mb="2">
-            Swap: Swap two letters in your word.
-            <br />
-          like this: rat -> art, or cats -> cast, or care -> acre
-          </Text>
-
-          <Text mb="4">
-            Got it? So, putting it all together, you can make a path from 'two' to 'sop' like this:
-          </Text>
-
-          <Text fontWeight="bold" mb="2">
-            START WORD: two
-          </Text>
-          <Text fontWeight="bold" mb="2">
-            GOAL WORD: sop
-          </Text>
-
-          <Text mb="2">
-            two   ::  two —&gt; tow (swap)
-          </Text>
-          <Text mb="2">
-            tow   ::  tow —&gt; stow (add)
-          </Text>
-          <Text mb="2">
-            stow  ::  stow —&gt; stop (change)
-          </Text>
-          <Text mb="2">
-            stop  ::  stop —&gt; sop (remove)
-          </Text>
-          <Text mb="2">
-            sop   ::  and you did it!
-          </Text>
-
-          <Text mb="4">
-            Your path took 4 steps, so your score for this round is 4.
-          </Text>
-
-          <Text mb="4">
-            Can you make it through 5 rounds?
-            Remember, lower scores are better!
-          </Text>
-          <Button colorScheme='blue' mr={3} onClick={onClose}>
-            I Think I Got It, Let's Play
-          </Button>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              OK
+            </Button>
+          </div>
         </ModalBody>
 
         <ModalFooter>
@@ -108,13 +97,11 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose }) => {
             bottom="5"
             display="flex"
             justifyContent="center"
-          >
-          </Box>
-
+          ></Box>
         </ModalFooter>
       </ModalContent>
     </Modal>
-  )
-}
+  );
+};
 
 export default LearnModal;
