@@ -21,7 +21,6 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPracticeMode, setIsPracticeMode] = useState(false);
   const [wordList, setWordList] = useState<string[]>([]);
-  const [introText, setIntroText] = useState(true);
   const {
     isOpen: isLearnModalOpen,
     onOpen: onLearnModalOpen,
@@ -84,7 +83,7 @@ export default function App() {
               />
             </HStack>
             <Divider mt={4} borderColor="gray.200" />
-            {!isPlaying && introText && (
+            {!isPlaying && (
               <Text fontSize="lg">
                 Get from{" "}
                 <Text as="span" color="green.500">
