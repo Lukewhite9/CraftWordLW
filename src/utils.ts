@@ -66,17 +66,15 @@ export const getWordPairs = async () => {
   return data;
 };
 
-export const getNewWordPair = async (roundNumber: number): Promise<[string, string]> => {
+export const getNewWordPair = async (roundNumber: number): Promise<[string, string] | []> => {
   const date = new Date();
   const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)
     .toString()
     .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
-  console.log("Date Key:", dateKey);
+  // TODO: add typing for JSON
+  // @ts-ignore
   const dayConfig = wordPairs[dateKey];
-  console.log("Day Config:", dayConfig);
   const roundConfig = dayConfig ? dayConfig[`${roundNumber}`] : null;
-  console.log("Round Config:", roundConfig);
-
   if (roundConfig) {
     return [roundConfig.start_word, roundConfig.goal_word];
   } else {
@@ -87,13 +85,13 @@ export const getNewWordPair = async (roundNumber: number): Promise<[string, stri
 
 
 // Get the appropriate file based on round number
-const getFileName = (roundNumber) => {
+const getFileName = (roundNumber: number) => {
   // Calculate difficulty based on round number
   const difficulty = Math.min(Math.floor((roundNumber + 1) / 2), 17);
   return `${difficulty}_steps.txt`;
 }
 
-export const getRandomWordPair = async (roundNumber) => {
+export const getRandomWordPair = async (roundNumber: number) => {
   const fileName = getFileName(roundNumber);
   // Load the word pair file
   const response = await fetch(`/${fileName}`);
@@ -106,3 +104,8 @@ export const getRandomWordPair = async (roundNumber) => {
   // Split the line into words and return as a pair
   return randomLine.split(',');
 }
+
+export const datesAreOnSameDay = (first: Date, second: Date) =>
+  first.getFullYear() === second.getFullYear() &&
+  first.getMonth() === second.getMonth() &&
+  first.getDate() === second.getDate();
