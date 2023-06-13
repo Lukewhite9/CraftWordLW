@@ -64,7 +64,7 @@ const GetDefinition: React.FC<GetDefinitionProps> = ({ word }) => {
             {word}
             {phoneticData && (
               <Text as="span" ml={2} fontWeight="medium">
-                ({phoneticData})
+                /{phoneticData}/
               </Text>
             )}
           </Text>
