@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ChakraProvider,
   Heading,
@@ -16,9 +16,11 @@ import {
 import { QuestionOutlineIcon, HamburgerIcon } from '@chakra-ui/icons';
 import GameWrapper from './GameWrapper';
 import LearnModal from './LearnModal';
+import { datesAreOnSameDay } from "./utils";
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [alreadyPlayed, setAlreadyPlayed] = useState(false);
   const [isPracticeMode, setIsPracticeMode] = useState(false);
   const [wordList, setWordList] = useState<string[]>([]);
   const {
@@ -48,6 +50,15 @@ export default function App() {
         setWordList(wordList);
       });
   }
+
+  useEffect(() => {
+    const localValue = localStorage.getItem("lastPlayed");
+    const lastPlayedUnixTimestamp = JSON.parse(localValue);
+    const lastPlayedDate = new Date(lastPlayedUnixTimestamp * 1000);
+    if (datesAreOnSameDay(lastPlayedDate, new Date())) {
+      setAlreadyPlayed(true);
+    }
+  }, [setAlreadyPlayed])
 
   return (
     <ChakraProvider>
@@ -103,28 +114,38 @@ export default function App() {
             )}
           </Flex>
           <Flex my={4} mx={4} direction="column" alignItems="center">
-            {isPlaying && wordList.length > 0 ? (
-              <GameWrapper
-                wordList={wordList}
-                gameLength={isPracticeMode ? null : 5}
-              />
+            {alreadyPlayed ? (
+              <Flex align="center" justify="center">
+                <Text textAlign="center">
+                  Looks like you already played today's round. Check back tomorrow!
+                </Text>
+              </Flex>
             ) : (
               <>
-                <Button
-                  colorScheme="blackAlpha"
-                  onClick={() => handleStartClick(false)}
-                  w="80%"
-                >
-                  Start Game
-                </Button>
-                <Button
-                  colorScheme="gray"
-                  onClick={() => handleStartClick(true)}
-                  mt={4}
-                  w="80%"
-                >
-                  Start Practice Mode
-                </Button>
+                {isPlaying && wordList.length > 0 ? (
+                  <GameWrapper
+                    wordList={wordList}
+                    gameLength={isPracticeMode ? null : 5}
+                  />
+                ) : (
+                  <>
+                    <Button
+                      colorScheme="blackAlpha"
+                      onClick={() => handleStartClick(false)}
+                      w="80%"
+                    >
+                      Start Game
+                    </Button>
+                    <Button
+                      colorScheme="gray"
+                      onClick={() => handleStartClick(true)}
+                      mt={4}
+                      w="80%"
+                    >
+                      Start Practice Mode
+                    </Button>
+                  </>
+                )}
               </>
             )}
           </Flex>

@@ -70,6 +70,8 @@ const Game: React.FC<GameProps> = ({
   useEffect(() => {
     if (isGameOver) {
       !isEndModalOpen && onEndModalOpen();
+      const unixTimestamp = Math.floor(new Date().getTime() / 1000)
+      localStorage.setItem("lastPlayed", JSON.stringify(unixTimestamp));
     } else if (isRoundOver) {
       !isOpen && onOpen();
     } else {
