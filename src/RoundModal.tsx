@@ -25,7 +25,7 @@ const RoundModal: React.FC<RoundModalProps> = ({
   time,
 }) => {
   const minutes = Math.floor(time / 60);
-  const seconds = time % 60;
+  const seconds = Math.round(time % 60);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
