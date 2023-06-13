@@ -22,12 +22,9 @@ const GameOverModal: React.FC<GameOverModalProps> = ({
   totalScore,
   totalTime,
 }) => {
-  const handleClose = () => {
-    onClose();
-  };
   const minutes = Math.floor(totalTime / 60);
-  const seconds = totalTime % 60;
-  
+  const seconds = Math.round(totalTime % 60);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
