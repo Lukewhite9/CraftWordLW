@@ -1,2 +1,4 @@
 shall,reset
 hammer,giants
+comedy,harbor
+dividend,inquire
