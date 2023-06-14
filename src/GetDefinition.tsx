@@ -6,28 +6,51 @@ type GetDefinitionProps = {
 };
 
 const GetDefinition: React.FC<GetDefinitionProps> = ({ word }) => {
-  const [definitionData, setDefinitionData] = useState<any | null>(null);
+  const [definitionData, setDefinitionData] = useState<any[]>([]);
+  const [phoneticData, setPhoneticData] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-  // Clear previous error message
-  setErrorMessage(null);
+    // Clear previous error message
+    setErrorMessage(null);
 
-  fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.title && data.title === "No Definitions Found") {
-        setErrorMessage('No definition found');
-      } else {
-        setDefinitionData(data[0]);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      setErrorMessage('Error fetching definition');
-    });
-}, [word]);
+    // TODO: Move this to the backend and don't expose the wordnik API key
 
+fetch(`https://api.wordnik.com/v4/word.json/${word}/definitions?limit=3&includeRelated=false&sourceDictionaries=ahd-5&useCanonical=false&includeTags=false&api_key=9vvzq1ph4pq74nk53hwqgl7bjuie97ct3cyueo4e8qfmr6e15`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.length === 0) {
+          setErrorMessage('No definition found');
+        } else {
+          setDefinitionData(data);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setErrorMessage('Error fetching definition');
+      });
+
+    // TODO: Move this to the backend and don't expose the wordnik API key
+
+fetch(`https://api.wordnik.com/v4/word.json/${word}/pronunciations?useCanonical=false&sourceDictionary=ahd-5&typeFormat=ahd-5&limit=2&api_key=9vvzq1ph4pq74nk53hwqgl7bjuie97ct3cyueo4e8qfmr6e15`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.length === 0) {
+          setErrorMessage('No pronunciation found');
+        } else {
+          setPhoneticData(data[0].raw);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setErrorMessage('Error fetching pronunciation');
+      });
+
+  }, [word]);
+
+  const removeHtmlTags = (text: string) => {
+    return text.replace(/<[^>]+>/g, '');
+  };
 
   if (errorMessage) {
     return (
@@ -39,23 +62,29 @@ const GetDefinition: React.FC<GetDefinitionProps> = ({ word }) => {
 
   return (
     <Box color="gray.500" fontSize="sm" textAlign="left" mt="0.5">
-      {definitionData ? (
+      {definitionData.length > 0 ? (
         <>
-          <Text as="span" fontWeight="bold">{definitionData.word}</Text>
-          <Text as="span"> {definitionData.phonetics[0]?.text}</Text>
+          <Text as="span" fontWeight="bold">
+            {word}
+            {phoneticData && (
+              <Text as="span" ml={2} fontWeight="medium">
+                /{phoneticData}/
+              </Text>
+            )}
+          </Text>
           <br />
-          {definitionData.meanings.map((meaning: any, index: number) => {
-            if (index < 3) {
+          {definitionData.map((definition: any, index: number) => {
+            if (definition.text) {
+              const definitionText = removeHtmlTags(definition.text);
               return (
-                <>
-                  {meaning.definitions.slice(0, 3).map((def: any, i: number) => (
-                    <Box ml={4} key={i}>
-                      <Text as="span" fontStyle="italic">{meaning.partOfSpeech}:</Text> {i+1}. {def.definition}
-                      <br />
-                    </Box>
-                  ))}
-                </>
-              )
+                <Box ml={4} key={index}>
+                  <Text as="span" fontStyle="italic">
+                    {definition.partOfSpeech}:
+                  </Text>{" "}
+                  {index + 1}. {definitionText}
+                  <br />
+                </Box>
+              );
             } else {
               return null;
             }
