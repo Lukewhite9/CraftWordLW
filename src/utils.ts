@@ -87,7 +87,7 @@ export const getNewWordPair = async (roundNumber: number): Promise<[string, stri
 // Get the appropriate file based on round number
 const getFileName = (roundNumber: number) => {
   // Calculate difficulty based on round number
-  const difficulty = Math.min(Math.floor((roundNumber + 1) / 2), 17);
+  const difficulty = Math.min(Math.floor((roundNumber + 1) / 2), 25);
   return `${difficulty}_steps.txt`;
 }
 
