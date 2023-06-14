@@ -24,7 +24,7 @@ import {
   ModalBody,
   ModalFooter
 } from '@chakra-ui/react';
-import { ChevronDownIcon, QuestionOutlineIcon, HamburgerIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, QuestionOutlineIcon, HamburgerIcon, InfoIcon, EmailIcon, StarIcon } from '@chakra-ui/icons';
 
 import GameWrapper from './GameWrapper';
 import LearnModal from './LearnModal';
@@ -118,15 +118,25 @@ return (
                   variant="outline"
                 />
                 <MenuList>
-                  <MenuItem onClick={onAboutModalOpen}>About This Game</MenuItem>
-                  <MenuItem as="a" href="mailto:wordpathgame@gmail.com">Feedback</MenuItem>
+                  <MenuItem onClick={onAboutModalOpen}>
+                    <HStack>
+                      <InfoIcon /><Text>About This Game</Text>
+                    </HStack>
+                  </MenuItem>
+                  <MenuItem as="a" href="mailto:wordpathgame@gmail.com">
+                    <HStack>
+                    <EmailIcon /> <Text>Feedback</Text>
+                  </HStack>
+                    </MenuItem>
                   <MenuItem 
                     as="a" 
                     href={paypalDonateLink} 
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
-                    Tip Jar
+                    <HStack>
+                    <StarIcon /> <Text>Tip Jar</Text>
+                  </HStack>
                   </MenuItem>
                 </MenuList>
               </Menu>
