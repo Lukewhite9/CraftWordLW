@@ -22,7 +22,8 @@ const WordPair: React.FC<WordPairProps> = ({
   const [userInput, setUserInput] = useState<string>("");
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUserInput(event.target.value);
+    const lowercaseInput = event.target.value.toLowerCase().replace(/\s/g, '');
+    setUserInput(lowercaseInput);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
