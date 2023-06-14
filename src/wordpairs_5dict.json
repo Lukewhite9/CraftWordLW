@@ -366,5 +366,373 @@
                 }
             ]
         }
+    },
+    "2023-06-17": {
+        "1": {
+            "start_word": "kits",
+            "goal_word": "mild",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 4
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 4
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 4
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 4
+                },
+                {
+                    "path_number": 5,
+                    "path_length": 4
+                }
+            ]
+        },
+        "2": {
+            "start_word": "seeks",
+            "goal_word": "title",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 8
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 11
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 13
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 13
+                }
+            ]
+        },
+        "3": {
+            "start_word": "beans",
+            "goal_word": "judge",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 8
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 13
+                }
+            ]
+        },
+        "4": {
+            "start_word": "corner",
+            "goal_word": "sticky",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 9
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 12
+                }
+            ]
+        },
+        "5": {
+            "start_word": "click",
+            "goal_word": "wheel",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                }
+            ]
+        }
+    },
+    "2023-06-18": {
+        "1": {
+            "start_word": "chart",
+            "goal_word": "wrist",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 5
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 11
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 11
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 11
+                },
+                {
+                    "path_number": 5,
+                    "path_length": 18
+                }
+            ]
+        },
+        "2": {
+            "start_word": "able",
+            "goal_word": "clip",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 8
+                }
+            ]
+        },
+        "3": {
+            "start_word": "area",
+            "goal_word": "sons",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 5
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 7
+                }
+            ]
+        },
+        "4": {
+            "start_word": "taxi",
+            "goal_word": "jump",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 7
+                }
+            ]
+        },
+        "5": {
+            "start_word": "playing",
+            "goal_word": "clothes",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 14
+                }
+            ]
+        }
+    },
+    "2023-06-19": {
+        "1": {
+            "start_word": "clone",
+            "goal_word": "homes",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 9
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 13
+                },
+                {
+                    "path_number": 5,
+                    "path_length": 16
+                }
+            ]
+        },
+        "2": {
+            "start_word": "diary",
+            "goal_word": "title",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 14
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 15
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 15
+                }
+            ]
+        },
+        "3": {
+            "start_word": "boxes",
+            "goal_word": "badge",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 8
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 9
+                }
+            ]
+        },
+        "4": {
+            "start_word": "mess",
+            "goal_word": "thou",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 7
+                }
+            ]
+        },
+        "5": {
+            "start_word": "narrow",
+            "goal_word": "scenes",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 15
+                }
+            ]
+        }
+    },
+    "2023-06-20": {
+        "1": {
+            "start_word": "reads",
+            "goal_word": "china",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 5,
+                    "path_length": 14
+                }
+            ]
+        },
+        "2": {
+            "start_word": "wooden",
+            "goal_word": "pocket",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 7
+                }
+            ]
+        },
+        "3": {
+            "start_word": "asia",
+            "goal_word": "hung",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 8
+                }
+            ]
+        },
+        "4": {
+            "start_word": "fifth",
+            "goal_word": "catch",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 7
+                }
+            ]
+        },
+        "5": {
+            "start_word": "font",
+            "goal_word": "geek",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 5
+                }
+            ]
+        }
     }
 }
