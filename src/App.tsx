@@ -11,12 +11,25 @@ import {
   Container,
   Divider,
   useDisclosure,
-  Link
+  Link,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter
 } from '@chakra-ui/react';
-import { QuestionOutlineIcon, HamburgerIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, QuestionOutlineIcon, HamburgerIcon } from '@chakra-ui/icons';
+
 import GameWrapper from './GameWrapper';
 import LearnModal from './LearnModal';
 import { datesAreOnSameDay } from "./utils";
+import AboutModal from './AboutModal';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -28,6 +41,14 @@ export default function App() {
     onOpen: onLearnModalOpen,
     onClose: onLearnModalClose
   } = useDisclosure();
+  
+  const {
+    isOpen: isAboutModalOpen,
+    onOpen: onAboutModalOpen,
+    onClose: onAboutModalClose
+  } = useDisclosure();
+  
+  const paypalDonateLink = 'https://www.paypal.com/donate/?hosted_button_id=Y3FU5EF7L86T6'; 
 
   function readFileToArray(filePath: string) {
     return fetch(filePath)
@@ -60,7 +81,7 @@ export default function App() {
     }
   }, [setAlreadyPlayed])
 
-  return (
+return (
     <ChakraProvider>
       <Container maxW="460px" centerContent>
         <Box
@@ -79,6 +100,7 @@ export default function App() {
               <IconButton
                 aria-label="Learn how to play"
                 icon={<QuestionOutlineIcon />}
+                variant="outline"
                 onClick={onLearnModalOpen}
               />
               <Heading mt="4" mb="4">
@@ -88,10 +110,26 @@ export default function App() {
                   <Text color="blue.500">PATH</Text>
                 </Flex>
               </Heading>
-              <IconButton
-                aria-label="Menu"
-                icon={<HamburgerIcon />}
-              />
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  aria-label="Options"
+                  icon={<HamburgerIcon />}
+                  variant="outline"
+                />
+                <MenuList>
+                  <MenuItem onClick={onAboutModalOpen}>About This Game</MenuItem>
+                  <MenuItem as="a" href="mailto:wordpathgame@gmail.com">Feedback</MenuItem>
+                  <MenuItem 
+                    as="a" 
+                    href={paypalDonateLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    Tip Jar
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </HStack>
             <Divider mt={4} borderColor="gray.200" />
             {!isPlaying && (
@@ -151,6 +189,8 @@ export default function App() {
           </Flex>
         </Box>
         <LearnModal isOpen={isLearnModalOpen} onClose={onLearnModalClose} />
+        <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
+
       </Container>
     </ChakraProvider>
   );
