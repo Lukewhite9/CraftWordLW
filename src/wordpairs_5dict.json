@@ -1,0 +1,370 @@
+{
+    "2023-06-13": {
+        "1": {
+            "start_word": "wages",
+            "goal_word": "chase",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 12
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 12
+                },
+                {
+                    "path_number": 5,
+                    "path_length": 12
+                }
+            ]
+        },
+        "2": {
+            "start_word": "burst",
+            "goal_word": "daily",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 8
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 13
+                }
+            ]
+        },
+        "3": {
+            "start_word": "watt",
+            "goal_word": "onto",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 8
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 10
+                }
+            ]
+        },
+        "4": {
+            "start_word": "board",
+            "goal_word": "safer",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 9
+                }
+            ]
+        },
+        "5": {
+            "start_word": "device",
+            "goal_word": "pastor",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 11
+                }
+            ]
+        }
+    },
+    "2023-06-14": {
+        "1": {
+            "start_word": "hash",
+            "goal_word": "eyed",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 8
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 8
+                },
+                {
+                    "path_number": 5,
+                    "path_length": 8
+                }
+            ]
+        },
+        "2": {
+            "start_word": "fruit",
+            "goal_word": "shore",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 12
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 13
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 14
+                }
+            ]
+        },
+        "3": {
+            "start_word": "wheat",
+            "goal_word": "armor",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 12
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 14
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 15
+                }
+            ]
+        },
+        "4": {
+            "start_word": "sheet",
+            "goal_word": "villa",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 8
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 13
+                }
+            ]
+        },
+        "5": {
+            "start_word": "truly",
+            "goal_word": "label",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 11
+                }
+            ]
+        }
+    },
+    "2023-06-15": {
+        "1": {
+            "start_word": "souls",
+            "goal_word": "loved",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 5
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 5
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 9
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 9
+                },
+                {
+                    "path_number": 5,
+                    "path_length": 11
+                }
+            ]
+        },
+        "2": {
+            "start_word": "ward",
+            "goal_word": "slot",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 5
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 5
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 5
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 6
+                }
+            ]
+        },
+        "3": {
+            "start_word": "charms",
+            "goal_word": "wishes",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 8
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 13
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 16
+                }
+            ]
+        },
+        "4": {
+            "start_word": "delay",
+            "goal_word": "fires",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 9
+                }
+            ]
+        },
+        "5": {
+            "start_word": "glory",
+            "goal_word": "locks",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 8
+                }
+            ]
+        }
+    },
+    "2023-06-16": {
+        "1": {
+            "start_word": "scout",
+            "goal_word": "holds",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 10
+                },
+                {
+                    "path_number": 5,
+                    "path_length": 15
+                }
+            ]
+        },
+        "2": {
+            "start_word": "serve",
+            "goal_word": "crime",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 6
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 11
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 12
+                },
+                {
+                    "path_number": 4,
+                    "path_length": 12
+                }
+            ]
+        },
+        "3": {
+            "start_word": "novels",
+            "goal_word": "likely",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 7
+                },
+                {
+                    "path_number": 3,
+                    "path_length": 7
+                }
+            ]
+        },
+        "4": {
+            "start_word": "reply",
+            "goal_word": "river",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 8
+                },
+                {
+                    "path_number": 2,
+                    "path_length": 14
+                }
+            ]
+        },
+        "5": {
+            "start_word": "sky",
+            "goal_word": "amp",
+            "path_data": [
+                {
+                    "path_number": 1,
+                    "path_length": 4
+                }
+            ]
+        }
+    }
+}
