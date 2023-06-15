@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent } from "react";
-import { Text, Box, Flex, Input, Wrap, WrapItem, Button } from "@chakra-ui/react";
+import { Text, Box, Flex, Input, Wrap, Button } from "@chakra-ui/react";
 import CurrentWord from './CurrentWord';
 import GetDefinition from './GetDefinition';
+import PastMovesList from './PastMovesList';
 
 type WordPairProps = {
   wordPair: string[];
   onSubmitWord: (userInput: string, clearInput: () => void) => void;
-
   currentWord: string;
   pastMoves: string[];
   errorMessage: string | null;
@@ -52,23 +52,15 @@ const WordPair: React.FC<WordPairProps> = ({
         <Box textAlign="left">
           <Text fontWeight="bold" fontSize="xl">{wordPair[0]}</Text>
         </Box>
-        <Wrap spacing="12px" marginLeft="12px" marginRight="12px" align="start">
-          {pastMoves.map((word, i) => (
-            <WrapItem key={`${word}-${i}`}>
-              <Text fontSize="19px">
-                {word}
-              </Text>
-            </WrapItem>
-          ))}
-        </Wrap>
         <Box marginLeft="auto" textAlign="right">
           <Text fontWeight="bold" fontSize="xl">{wordPair[1]}</Text>
         </Box>
       </Flex>
+      <PastMovesList moves={pastMoves} start={wordPair[0]} goal={wordPair[1]} />
       <Flex direction="column" alignItems="center" mt="4">
-        <Box textAlign="center" mb="4">
+        {/* <Box textAlign="center" mb="4">
           <CurrentWord currentWord={currentWord} />
-        </Box>
+        </Box> */}
         <Flex width="100%" alignItems="center" justifyContent="center">
           <Input
             placeholder="enter new word"
@@ -86,7 +78,6 @@ const WordPair: React.FC<WordPairProps> = ({
         </Flex>
         {errorMessage && <Box mt={3}>{errorMessage}</Box>}
       </Flex>
-
       <Box my="4" textAlign="center">
         <GetDefinition word={currentWord} />
       </Box>
