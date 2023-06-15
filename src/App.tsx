@@ -12,24 +12,14 @@ import {
   Divider,
   useDisclosure,
   Link,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter
 } from '@chakra-ui/react';
-import { ChevronDownIcon, QuestionOutlineIcon, HamburgerIcon, InfoIcon, EmailIcon, StarIcon } from '@chakra-ui/icons';
+import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
 import GameWrapper from './GameWrapper';
 import LearnModal from './LearnModal';
 import { datesAreOnSameDay } from "./utils";
 import AboutModal from './AboutModal';
+import GameMenu from './GameMenu';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -41,14 +31,12 @@ export default function App() {
     onOpen: onLearnModalOpen,
     onClose: onLearnModalClose
   } = useDisclosure();
-  
+
   const {
     isOpen: isAboutModalOpen,
     onOpen: onAboutModalOpen,
     onClose: onAboutModalClose
   } = useDisclosure();
-  
-  const paypalDonateLink = 'https://www.paypal.com/donate/?hosted_button_id=Y3FU5EF7L86T6'; 
 
   function readFileToArray(filePath: string) {
     return fetch(filePath)
@@ -74,14 +62,14 @@ export default function App() {
 
   useEffect(() => {
     const localValue = localStorage.getItem("lastPlayed");
-    const lastPlayedUnixTimestamp = JSON.parse(localValue);
+    const lastPlayedUnixTimestamp = localValue ? JSON.parse(localValue) : 0;
     const lastPlayedDate = new Date(lastPlayedUnixTimestamp * 1000);
     if (datesAreOnSameDay(lastPlayedDate, new Date())) {
       setAlreadyPlayed(true);
     }
   }, [setAlreadyPlayed])
 
-return (
+  return (
     <ChakraProvider>
       <Container maxW="460px" centerContent>
         <Box
@@ -110,36 +98,7 @@ return (
                   <Text color="blue.500">PATH</Text>
                 </Flex>
               </Heading>
-              <Menu>
-                <MenuButton
-                  as={IconButton}
-                  aria-label="Options"
-                  icon={<HamburgerIcon />}
-                  variant="outline"
-                />
-                <MenuList>
-                  <MenuItem onClick={onAboutModalOpen}>
-                    <HStack>
-                      <InfoIcon /><Text>About This Game</Text>
-                    </HStack>
-                  </MenuItem>
-                  <MenuItem as="a" href="mailto:wordpathgame@gmail.com">
-                    <HStack>
-                    <EmailIcon /> <Text>Feedback</Text>
-                  </HStack>
-                    </MenuItem>
-                  <MenuItem 
-                    as="a" 
-                    href={paypalDonateLink} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    <HStack>
-                    <StarIcon /> <Text>Tip Jar</Text>
-                  </HStack>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+              <GameMenu onAboutModalOpen={onAboutModalOpen} />
             </HStack>
             <Divider mt={4} borderColor="gray.200" />
             {!isPlaying && (
@@ -200,7 +159,6 @@ return (
         </Box>
         <LearnModal isOpen={isLearnModalOpen} onClose={onLearnModalClose} />
         <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
-
       </Container>
     </ChakraProvider>
   );
