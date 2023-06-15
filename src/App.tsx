@@ -73,10 +73,13 @@ export default function App() {
     <ChakraProvider>
       <Container maxW="460px" centerContent>
         <Box
-          borderWidth="3px"
+          borderWidth="2px"
           borderColor="gray.200"
           borderRadius="md"
+          mt="2"
           p={4}
+          minHeight="450px"
+          boxShadow="xl"
         >
           <Flex
             direction="column"
@@ -84,7 +87,7 @@ export default function App() {
             align="center"
             textAlign="center"
           >
-            <HStack w="390px" justify="space-between">
+            <HStack w="388px" justify="space-between">
               <IconButton
                 aria-label="Learn how to play"
                 icon={<QuestionOutlineIcon />}
@@ -100,9 +103,9 @@ export default function App() {
               </Heading>
               <GameMenu onAboutModalOpen={onAboutModalOpen} />
             </HStack>
-            <Divider mt={4} borderColor="gray.200" />
+            <Divider mt={4} borderColor="gray.250"/>
             {!isPlaying && (
-              <Text fontSize="lg">
+              <Text fontSize="lg" mt="8">
                 Get from{" "}
                 <Text as="span" color="green.500">
                   START
@@ -139,15 +142,17 @@ export default function App() {
                     <Button
                       colorScheme="blackAlpha"
                       onClick={() => handleStartClick(false)}
-                      w="80%"
+                      w="300px"
+                      mt="14"
+                      boxShadow="lg"
                     >
                       Start Game
                     </Button>
                     <Button
                       colorScheme="gray"
+                      mt="4"
+                      w="300px"
                       onClick={() => handleStartClick(true)}
-                      mt={4}
-                      w="80%"
                     >
                       Start Practice Mode
                     </Button>
