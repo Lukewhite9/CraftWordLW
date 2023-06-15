@@ -73,7 +73,7 @@ export default function App() {
     <ChakraProvider>
       <Container maxW="460px" centerContent>
         <Box
-          borderWidth="2px"
+          borderWidth="1px"
           borderColor="gray.200"
           borderRadius="md"
           mt="2"
@@ -92,6 +92,7 @@ export default function App() {
                 aria-label="Learn how to play"
                 icon={<QuestionOutlineIcon />}
                 variant="outline"
+                boxShadow="sm"
                 onClick={onLearnModalOpen}
               />
               <Heading mt="4" mb="4">
@@ -107,17 +108,17 @@ export default function App() {
             {!isPlaying && (
               <Text fontSize="lg" mt="8">
                 Get from{" "}
-                <Text as="span" color="green.500">
+                <Text as="span" color="green.500" fontWeight="semibold">
                   START
                 </Text>{" "}
                 to{" "}
-                <Text as="span" color="blue.500">
+                <Text as="span" color="blue.500" fontWeight="semibold">
                   GOAL
                 </Text>{" "}
                 in as few words as possible.
                 <p>
                   First time?{" "}
-                  <Link onClick={onLearnModalOpen} color="gray.500">
+                  <Link onClick={onLearnModalOpen}>
                     Read the rules
                   </Link>
                   .
