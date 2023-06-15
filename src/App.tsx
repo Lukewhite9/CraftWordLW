@@ -79,7 +79,7 @@ export default function App() {
           mt="2"
           p={4}
           minHeight="450px"
-          boxShadow="xl"
+          boxShadow="lg"
         >
           <Flex
             direction="column"
@@ -117,7 +117,9 @@ export default function App() {
                 in as few words as possible.
                 <p>
                   First time?{" "}
-                  <Link onClick={onLearnModalOpen}>Read the rules</Link>
+                  <Link onClick={onLearnModalOpen} color="gray.500">
+                    Read the rules
+                  </Link>
                   .
                 </p>
               </Text>
@@ -144,7 +146,7 @@ export default function App() {
                       onClick={() => handleStartClick(false)}
                       w="300px"
                       mt="14"
-                      boxShadow="lg"
+                      boxShadow="md"
                     >
                       Start Game
                     </Button>
@@ -153,6 +155,7 @@ export default function App() {
                       mt="4"
                       w="300px"
                       onClick={() => handleStartClick(true)}
+                      boxShadow="md"
                     >
                       Start Practice Mode
                     </Button>
