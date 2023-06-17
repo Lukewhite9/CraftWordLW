@@ -69,28 +69,37 @@ const WordPair: React.FC<WordPairProps> = ({
         </Box>
       </Flex>
       <Flex direction="column" alignItems="center" mt="4">
-        <Box textAlign="center" mb="4">
-          <CurrentWord currentWord={currentWord} />
-        </Box>
-        <Flex width="100%" alignItems="center" justifyContent="center">
-          <Input
-            placeholder="enter new word"
-            value={userInput}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            width="200px"
-          />
-          <Button
-            onClick={handleButtonClick}
-            ml={2}
-          >
-            Enter
-          </Button>
-        </Flex>
-        {errorMessage && <Box mt={3}>{errorMessage}</Box>}
-      </Flex>
+  <Box textAlign="center" mb="4">
+    <CurrentWord currentWord={currentWord} />
+  </Box>
+  <Flex width="100%" alignItems="center" justifyContent="center">
+    <Input
+      placeholder="enter new word"
+      value={userInput}
+      onChange={handleInputChange}
+      onKeyDown={handleKeyDown}
+      width="200px"
+      boxShadow="md"
+    />
+    <Button
+      onClick={handleButtonClick}
+      ml={2}
+      boxShadow="md"
+    >
+      Enter
+    </Button>
+  </Flex>
+  <Box mt={3} height="25px">{errorMessage}</Box> 
+</Flex>
 
-      <Box my="4" textAlign="center">
+      <Box 
+          p={3}
+          boxShadow="md"
+          borderWidth="1px"
+          borderColor="gray.200"
+          borderRadius="sm"
+          mt="2" 
+          textAlign="center">
         <GetDefinition word={currentWord} />
       </Box>
     </Flex>
@@ -98,3 +107,4 @@ const WordPair: React.FC<WordPairProps> = ({
 };
 
 export default WordPair;
+

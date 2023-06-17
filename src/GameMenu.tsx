@@ -23,6 +23,7 @@ const GameMenu: React.FC<GameMenuProps> = ({ onAboutModalOpen }) => {
         aria-label="Options"
         icon={<HamburgerIcon />}
         variant="outline"
+        boxShadow="sm"
       />
       <MenuList>
         <MenuItem onClick={onAboutModalOpen}>
