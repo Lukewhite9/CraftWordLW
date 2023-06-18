@@ -79,14 +79,13 @@ const WordPair: React.FC<WordPairProps> = ({
       onChange={handleInputChange}
       onKeyDown={handleKeyDown}
       width="200px"
-      boxShadow="md"
+      
     />
     <Button
       onClick={handleButtonClick}
       ml={2}
-      boxShadow="md"
     >
-      Enter
+      enter
     </Button>
   </Flex>
   <Box mt={3} height="25px">{errorMessage}</Box> 
@@ -94,10 +93,6 @@ const WordPair: React.FC<WordPairProps> = ({
 
       <Box 
           p={3}
-          boxShadow="md"
-          borderWidth="1px"
-          borderColor="gray.200"
-          borderRadius="sm"
           mt="2" 
           textAlign="center">
         <GetDefinition word={currentWord} />
