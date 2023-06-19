@@ -1,3 +1,4 @@
+import { Center } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 
 function GameCountdown() {
@@ -38,7 +39,7 @@ function GameCountdown() {
     return (
         <div style={textStyle}>
             <h4>&nbsp;&nbsp;Next game starts in:</h4>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{timeLeft.hours} : {timeLeft.minutes} : {timeLeft.seconds}</span>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{timeLeft.hours} : {timeLeft.minutes} : {timeLeft.seconds}</span>
         </div>
     );
 }
