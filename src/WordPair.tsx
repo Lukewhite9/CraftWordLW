@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent } from "react";
 import { Text, Box, Flex, Input, Wrap, Button } from "@chakra-ui/react";
-import CurrentWord from './CurrentWord';
 import GetDefinition from './GetDefinition';
 import PastMovesList from './PastMovesList';
 
@@ -61,9 +60,6 @@ const WordPair: React.FC<WordPairProps> = ({
       </Flex>
       <PastMovesList moves={pastMoves} start={wordPair[0]} goal={wordPair[1]} />
       <Flex direction="column" alignItems="center" mt="4">
-        {/* <Box textAlign="center" mb="4">
-          <CurrentWord currentWord={currentWord} />
-        </Box> */}
         <Flex width="100%" alignItems="center" justifyContent="center">
           <Input
             placeholder="enter new word"
