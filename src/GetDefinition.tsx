@@ -17,34 +17,32 @@ const GetDefinition: React.FC<GetDefinitionProps> = ({ word }) => {
     // TODO: Move this to the backend and don't expose the wordnik API key
 
 fetch(`https://api.wordnik.com/v4/word.json/${word}/definitions?limit=3&includeRelated=false&sourceDictionaries=ahd-5&useCanonical=false&includeTags=false&api_key=9vvzq1ph4pq74nk53hwqgl7bjuie97ct3cyueo4e8qfmr6e15`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.length === 0) {
-          setErrorMessage('No definition found');
-        } else {
-          setDefinitionData(data);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        setErrorMessage('Error fetching definition');
-      });
+  .then(response => response.json())
+  .then(data => {
+    if (data.length === 0) {
+      setErrorMessage('No definition found');
+    } else {
+      setDefinitionData(data);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    setErrorMessage('Error fetching definition');
+  });
 
     // TODO: Move this to the backend and don't expose the wordnik API key
 
 fetch(`https://api.wordnik.com/v4/word.json/${word}/pronunciations?useCanonical=false&sourceDictionary=ahd-5&typeFormat=ahd-5&limit=2&api_key=9vvzq1ph4pq74nk53hwqgl7bjuie97ct3cyueo4e8qfmr6e15`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.length === 0) {
-          setErrorMessage('No pronunciation found');
-        } else {
-          setPhoneticData(data[0].raw);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        setErrorMessage('Error fetching pronunciation');
-      });
+  .then(response => response.json())
+  .then(data => {
+    if (data.length > 0) {
+      setPhoneticData(data[0].raw);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    // Do not set an error message here
+  });
 
   }, [word]);
 
