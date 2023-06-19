@@ -102,4 +102,3 @@ const WordPair: React.FC<WordPairProps> = ({
 };
 
 export default WordPair;
-
