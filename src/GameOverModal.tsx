@@ -8,6 +8,7 @@ import {
   ModalFooter,
   Button,
 } from '@chakra-ui/react';
+import GameCountdown from './GameCountdown'; 
 
 type GameOverModalProps = {
   isOpen: boolean;
@@ -33,6 +34,7 @@ const GameOverModal: React.FC<GameOverModalProps> = ({
         <ModalBody>
           <p>Your total score: {totalScore}</p>
           <p>Total time taken: {minutes} minutes {seconds} seconds</p>
+          <GameCountdown /> {/* add Countdown component here */}
         </ModalBody>
         <ModalFooter>
           <Button onClick={onClose}>Close</Button>
