@@ -79,7 +79,7 @@ export default function App() {
           mt="2"
           p={4}
           minHeight="450px"
-          boxShadow="lg"
+          boxShadow="md"
         >
           <Flex
             direction="column"

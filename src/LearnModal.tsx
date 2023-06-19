@@ -75,6 +75,8 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose }) => {
             <Text mb="2">
               {generateText("swap", "purple", "bold")}: <br />
               {generateText("r", "purple", "bold")}a{generateText("c", "purple", "bold")}e → {generateText("ca", "purple", "bold")}re → acre
+              <br />
+              {generateText("e", "purple", "bold")}ach → ache, ree{generateText("f", "purple", "bold")} → free
             </Text>
 
             <br />
