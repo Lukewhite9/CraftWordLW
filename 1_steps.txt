@@ -12,3 +12,13 @@ bag,bug
 tear,near
 wars,ways
 hay,say
+jar,par
+shape,shake
+wide,side
+packs,picks
+here,hero
+closes,closest
+dell,deal
+work,worn
+joint,join
+mag,mad

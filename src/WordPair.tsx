@@ -21,8 +21,11 @@ const WordPair: React.FC<WordPairProps> = ({
 }) => {
   const [userInput, setUserInput] = useState<string>("");
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUserInput(event.target.value);
+  const handleInputChange = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const lowercaseInput = e.target.value.toLowerCase();
+    if (lowercaseInput.indexOf(" ") === -1) {
+      setUserInput(lowercaseInput);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -78,7 +81,7 @@ const WordPair: React.FC<WordPairProps> = ({
         </Flex>
         {errorMessage && <Box mt={3}>{errorMessage}</Box>}
       </Flex>
-      <Box my="4" textAlign="center">
+      <Box p="3" mt="2" textAlign="center">
         <GetDefinition word={currentWord} />
       </Box>
     </Flex>
