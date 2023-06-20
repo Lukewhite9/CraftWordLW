@@ -68,10 +68,50 @@ const Game: React.FC<GameProps> = ({
   );
 
   useEffect(() => {
+    const saveHighScore = async () => {
+      try {
+        const response = await fetch('https://back-end.lukewhite9.repl.co/leaderboard', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: 'Player Name', // Replace 'Player Name' with the actual player name
+            score: currentRound.moves.length,
+            time: totalTime,
+          }),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+        } else {
+          console.error('Failed to save high score');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const retrieveHighScore = async () => {
+      try {
+        const response = await fetch('https://back-end.lukewhite9.repl.co/leaderboard');
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+        } else {
+          console.error('Failed to retrieve high score');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     if (isGameOver) {
       !isEndModalOpen && onEndModalOpen();
-      const unixTimestamp = Math.floor(new Date().getTime() / 1000)
-      localStorage.setItem("lastPlayed", JSON.stringify(unixTimestamp));
+      const unixTimestamp = Math.floor(new Date().getTime() / 1000);
+      localStorage.setItem('lastPlayed', JSON.stringify(unixTimestamp));
+      saveHighScore();
+      retrieveHighScore();
     } else if (isRoundOver) {
       !isOpen && onOpen();
     } else {
@@ -85,7 +125,9 @@ const Game: React.FC<GameProps> = ({
     onClose,
     isEndModalOpen,
     onEndModalOpen,
-    onEndModalClose
+    onEndModalClose,
+    currentRound.moves.length,
+    totalTime,
   ]);
 
   useEffect(() => {
