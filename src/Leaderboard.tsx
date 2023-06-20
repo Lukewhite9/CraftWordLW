@@ -7,7 +7,6 @@ import {
   Tr,
   Th,
   Td,
-  Text,
 } from '@chakra-ui/react';
 
 type Score = {
@@ -22,9 +21,8 @@ const Leaderboard: React.FC = () => {
   useEffect(() => {
     const fetchScores = async () => {
       try {
-        const response = await fetch(
-          'https://back-end.lukewhite9.repl.co/leaderboard'
-        );
+        const currentDate = getCurrentDate();
+        const response = await fetch(`https://back-end.lukewhite9.repl.co/leaderboard?date=${currentDate}`);
         if (response.ok) {
           const data = await response.json();
           setScores(data);
@@ -40,8 +38,9 @@ const Leaderboard: React.FC = () => {
   }, []);
 
   return (
-    <Box>
-      <Table variant="striped">
+    <Box mt="4">
+      <h2>Best scores for {getCurrentDate()}</h2>
+      <Table variant="striped" colorScheme="gray">
         <Thead>
           <Tr>
             <Th>Rank</Th>
@@ -64,5 +63,14 @@ const Leaderboard: React.FC = () => {
     </Box>
   );
 };
+
+// Get the current date in the format YYYY-MM-DD
+function getCurrentDate() {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 export default Leaderboard;
