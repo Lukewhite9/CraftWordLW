@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -12,14 +12,21 @@ import {
   Divider,
   useDisclosure,
   Link,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
 } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
 import GameWrapper from './GameWrapper';
 import LearnModal from './LearnModal';
-import { datesAreOnSameDay } from "./utils";
+import { datesAreOnSameDay } from './utils';
 import AboutModal from './AboutModal';
 import GameMenu from './GameMenu';
+import Leaderboard from './Leaderboard';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -29,22 +36,28 @@ export default function App() {
   const {
     isOpen: isLearnModalOpen,
     onOpen: onLearnModalOpen,
-    onClose: onLearnModalClose
+    onClose: onLearnModalClose,
   } = useDisclosure();
 
   const {
     isOpen: isAboutModalOpen,
     onOpen: onAboutModalOpen,
-    onClose: onAboutModalClose
+    onClose: onAboutModalClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isLeaderboardOpen,
+    onOpen: onLeaderboardOpen,
+    onClose: onLeaderboardClose,
   } = useDisclosure();
 
   function readFileToArray(filePath: string) {
     return fetch(filePath)
-      .then(response => response.text())
-      .then(data => data
-        .split('\n')
-        .map(line => line.replace("\r", "")))
-      .catch(error => {
+      .then((response) => response.text())
+      .then((data) =>
+        data.split('\n').map((line) => line.replace('\r', ''))
+      )
+      .catch((error) => {
         console.log('Error:', error);
         return [];
       });
@@ -54,20 +67,21 @@ export default function App() {
     setIsPlaying(true);
     setIsPracticeMode(practiceMode);
     const filePath = '../ospd.txt';
-    readFileToArray(filePath)
-      .then(wordList => {
-        setWordList(wordList);
-      });
+    readFileToArray(filePath).then((wordList) => {
+      setWordList(wordList);
+    });
   }
 
   useEffect(() => {
-    const localValue = localStorage.getItem("lastPlayed");
-    const lastPlayedUnixTimestamp = localValue ? JSON.parse(localValue) : 0;
+    const localValue = localStorage.getItem('lastPlayed');
+    const lastPlayedUnixTimestamp = localValue
+      ? JSON.parse(localValue)
+      : 0;
     const lastPlayedDate = new Date(lastPlayedUnixTimestamp * 1000);
     if (datesAreOnSameDay(lastPlayedDate, new Date())) {
       setAlreadyPlayed(true);
     }
-  }, [setAlreadyPlayed])
+  }, [setAlreadyPlayed]);
 
   return (
     <ChakraProvider>
@@ -102,26 +116,26 @@ export default function App() {
                   <Text color="blue.500">PATH</Text>
                 </Flex>
               </Heading>
-              <GameMenu onAboutModalOpen={onAboutModalOpen} />
+              <GameMenu
+                onAboutModalOpen={onAboutModalOpen}
+                onLeaderboardOpen={onLeaderboardOpen} // Add the prop for opening the leaderboard
+              />
             </HStack>
-            <Divider mt={4} borderColor="gray.250"/>
+            <Divider mt={4} borderColor="gray.250" />
             {!isPlaying && (
               <Text fontSize="lg" mt="8">
-                Get from{" "}
+                Get from{' '}
                 <Text as="span" color="green.500" fontWeight="semibold">
                   START
-                </Text>{" "}
-                to{" "}
+                </Text>{' '}
+                to{' '}
                 <Text as="span" color="blue.500" fontWeight="semibold">
                   GOAL
-                </Text>{" "}
+                </Text>{' '}
                 in as few words as possible.
                 <p>
-                  First time?{" "}
-                  <Link onClick={onLearnModalOpen}>
-                    Read the rules
-                  </Link>
-                  .
+                  First time?{' '}
+                  <Link onClick={onLearnModalOpen}>Read the rules</Link>.
                 </p>
               </Text>
             )}
@@ -130,7 +144,8 @@ export default function App() {
             {alreadyPlayed ? (
               <Flex align="center" justify="center">
                 <Text textAlign="center">
-                  Looks like you already played today's round. Check back tomorrow!
+                  Looks like you already played today's round. Check back
+                  tomorrow!
                 </Text>
               </Flex>
             ) : (
@@ -168,6 +183,16 @@ export default function App() {
         </Box>
         <LearnModal isOpen={isLearnModalOpen} onClose={onLearnModalClose} />
         <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
+        <Modal isOpen={isLeaderboardOpen} onClose={onLeaderboardClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader textAlign="center">Leaderboard</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Leaderboard /> {/* Render the Leaderboard component */}
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </Container>
     </ChakraProvider>
   );
