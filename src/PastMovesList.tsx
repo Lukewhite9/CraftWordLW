@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Text,
   Box,
@@ -14,6 +14,7 @@ const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal }) => 
   const [newWord, setNewWord] = useState("");
 
   const remainingList = moves.length > 1 ? moves.slice(0, -1) : [];
+  const maxMoves = 15 - moves.length;
 
   useEffect(() => {
     let timer: any;
@@ -55,7 +56,11 @@ const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal }) => 
           </>
         </MoveTag>
       )}
-      <MoveTag>...</MoveTag>
+      {
+        Array.from({ length: maxMoves }, (_, k) => (
+          <MoveTag />
+        ))
+      }
       <MoveTag colorScheme="cyan">
         {goal}
       </MoveTag>
@@ -68,7 +73,7 @@ const MoveTag: React.FC<{ children: any; colorScheme?: any }> = ({
   colorScheme,
 }) => {
   return (
-    <Tag size="lg" m="2" colorScheme={colorScheme}>{children}</Tag>
+    <Tag size="lg" m="2" minW="60px" colorScheme={colorScheme}>{children}</Tag>
   );
 }
 
