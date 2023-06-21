@@ -38,8 +38,11 @@ const Leaderboard: React.FC = () => {
   }, []);
 
   return (
-    <Box mt="4">
-      <h2>Best scores for {getCurrentDate()}</h2>
+  <Box mt="4">
+    <h2>Best scores for {getCurrentDate()}</h2>
+    {scores.length === 0 ? (
+      <p>No scores available for this date</p>
+    ) : (
       <Table variant="striped" colorScheme="gray">
         <Thead>
           <Tr>
