@@ -1,10 +1,4 @@
-const wordPairs = await import(`./word_pairs_${getCurrentMonth()}.json`);
-
-// Helper function to get the current month in "mm" format
-const getCurrentMonth = () => {
-  const date = new Date();
-  return (date.getMonth() + 1).toString().padStart(2, '0');
-};
+import wordPairs from './word_pairs_06.json';
 
 export const isValidTransformation = (word1: string, word2: string) => {
   const len_diff = word1.length - word2.length;
@@ -70,14 +64,16 @@ export const isValidTransformation = (word1: string, word2: string) => {
   }
 
   return false;
-};
+}
+
+
 
 export const isValidWord = (word: string, wordList: string[]) => {
   return wordList.includes(word.toLowerCase());
-};
+}
 
 export const getWordPairs = async () => {
-  const response = await fetch(`src/word_pairs_${getCurrentMonth()}.json`);
+  const response = await fetch('src/word_pairs.json');
   const data = await response.json();
   return data;
 };
@@ -99,12 +95,13 @@ export const getNewWordPair = async (roundNumber: number): Promise<[string, stri
   }
 };
 
+
 // Get the appropriate file based on round number
 const getFileName = (roundNumber: number) => {
   // Calculate difficulty based on round number
   const difficulty = Math.min(Math.floor((roundNumber + 1) / 2), 25);
   return `${difficulty}_steps.txt`;
-};
+}
 
 export const getRandomWordPair = async (roundNumber: number) => {
   const fileName = getFileName(roundNumber);
@@ -118,7 +115,7 @@ export const getRandomWordPair = async (roundNumber: number) => {
 
   // Split the line into words and return as a pair
   return randomLine.split(',');
-};
+}
 
 export const datesAreOnSameDay = (first: Date, second: Date) =>
   first.getFullYear() === second.getFullYear() &&
