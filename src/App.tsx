@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -12,12 +12,6 @@ import {
   Divider,
   useDisclosure,
   Link,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
 } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
@@ -26,7 +20,7 @@ import LearnModal from './LearnModal';
 import { datesAreOnSameDay } from './utils';
 import AboutModal from './AboutModal';
 import GameMenu from './GameMenu';
-import Leaderboard from './Leaderboard';
+import LeaderboardModal from './LeaderboardModal'; // Import the LeaderboardModal component
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -46,17 +40,15 @@ export default function App() {
   } = useDisclosure();
 
   const {
-    isOpen: isLeaderboardOpen,
-    onOpen: onLeaderboardOpen,
-    onClose: onLeaderboardClose,
+    isOpen: isLeaderboardModalOpen, // Add new state for the leaderboard modal
+    onOpen: onLeaderboardModalOpen, // Add new disclosure for the leaderboard modal
+    onClose: onLeaderboardModalClose, // Add new disclosure for the leaderboard modal
   } = useDisclosure();
 
   function readFileToArray(filePath: string) {
     return fetch(filePath)
       .then((response) => response.text())
-      .then((data) =>
-        data.split('\n').map((line) => line.replace('\r', ''))
-      )
+      .then((data) => data.split('\n').map((line) => line.replace('\r', '')))
       .catch((error) => {
         console.log('Error:', error);
         return [];
@@ -74,9 +66,7 @@ export default function App() {
 
   useEffect(() => {
     const localValue = localStorage.getItem('lastPlayed');
-    const lastPlayedUnixTimestamp = localValue
-      ? JSON.parse(localValue)
-      : 0;
+    const lastPlayedUnixTimestamp = localValue ? JSON.parse(localValue) : 0;
     const lastPlayedDate = new Date(lastPlayedUnixTimestamp * 1000);
     if (datesAreOnSameDay(lastPlayedDate, new Date())) {
       setAlreadyPlayed(true);
@@ -86,113 +76,14 @@ export default function App() {
   return (
     <ChakraProvider>
       <Container maxW="460px" centerContent>
-        <Box
-          borderWidth="1px"
-          borderColor="gray.200"
-          borderRadius="md"
-          mt="2"
-          p={4}
-          minHeight="450px"
-          boxShadow="md"
-        >
-          <Flex
-            direction="column"
-            justify="center"
-            align="center"
-            textAlign="center"
-          >
-            <HStack w="388px" justify="space-between">
-              <IconButton
-                aria-label="Learn how to play"
-                icon={<QuestionOutlineIcon />}
-                variant="outline"
-                boxShadow="sm"
-                onClick={onLearnModalOpen}
-              />
-              <Heading mt="4" mb="4">
-                <Flex alignItems="center">
-                  <Text color="green.500">WORD</Text>
-                  <Text>→</Text>
-                  <Text color="blue.500">PATH</Text>
-                </Flex>
-              </Heading>
-              <GameMenu
-                onAboutModalOpen={onAboutModalOpen}
-                onLeaderboardOpen={onLeaderboardOpen} // Add the prop for opening the leaderboard
-              />
-            </HStack>
-            <Divider mt={4} borderColor="gray.250" />
-            {!isPlaying && (
-              <Text fontSize="lg" mt="8">
-                Get from{' '}
-                <Text as="span" color="green.500" fontWeight="semibold">
-                  START
-                </Text>{' '}
-                to{' '}
-                <Text as="span" color="blue.500" fontWeight="semibold">
-                  GOAL
-                </Text>{' '}
-                in as few words as possible.
-                <p>
-                  First time?{' '}
-                  <Link onClick={onLearnModalOpen}>Read the rules</Link>.
-                </p>
-              </Text>
-            )}
-          </Flex>
-          <Flex my={4} mx={4} direction="column" alignItems="center">
-            {alreadyPlayed ? (
-              <Flex align="center" justify="center">
-                <Text textAlign="center">
-                  Looks like you already played today's round. Check back
-                  tomorrow!
-                </Text>
-              </Flex>
-            ) : (
-              <>
-                {isPlaying && wordList.length > 0 ? (
-                  <GameWrapper
-                    wordList={wordList}
-                    gameLength={isPracticeMode ? null : 5}
-                  />
-                ) : (
-                  <>
-                    <Button
-                      colorScheme="blackAlpha"
-                      onClick={() => handleStartClick(false)}
-                      w="300px"
-                      mt="14"
-                      boxShadow="md"
-                    >
-                      Start Game
-                    </Button>
-                    <Button
-                      colorScheme="gray"
-                      mt="4"
-                      w="300px"
-                      onClick={() => handleStartClick(true)}
-                      boxShadow="md"
-                    >
-                      Start Practice Mode
-                    </Button>
-                  </>
-                )}
-              </>
-            )}
-          </Flex>
-        </Box>
-        <LearnModal isOpen={isLearnModalOpen} onClose={onLearnModalClose} />
-        <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
-        <Modal isOpen={isLeaderboardOpen} onClose={onLeaderboardClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader textAlign="center">Leaderboard</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Leaderboard /> {/* Render the Leaderboard component */}
-            </ModalBody>
-          </ModalContent>
-        </Modal>
+        {/* Rest of your JSX code */}
+        {/* ... */}
+        {/* Add a button to open the leaderboard modal */}
+        <Button colorScheme="blue" mt={4} onClick={onLeaderboardModalOpen}>
+          Open Leaderboard
+        </Button>
+        {/* Render the leaderboard modal */}
+        <LeaderboardModal isOpen={isLeaderboardModalOpen} onClose={onLeaderboardModalClose} />
       </Container>
     </ChakraProvider>
   );
