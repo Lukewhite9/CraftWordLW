@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -17,9 +17,10 @@ import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
 import GameWrapper from './GameWrapper';
 import LearnModal from './LearnModal';
-import { datesAreOnSameDay } from "./utils";
+import { datesAreOnSameDay } from './utils';
 import AboutModal from './AboutModal';
 import GameMenu from './GameMenu';
+import GameCountdown from './GameCountdown'; // Import the GameCountdown component
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -29,22 +30,20 @@ export default function App() {
   const {
     isOpen: isLearnModalOpen,
     onOpen: onLearnModalOpen,
-    onClose: onLearnModalClose
+    onClose: onLearnModalClose,
   } = useDisclosure();
 
   const {
     isOpen: isAboutModalOpen,
     onOpen: onAboutModalOpen,
-    onClose: onAboutModalClose
+    onClose: onAboutModalClose,
   } = useDisclosure();
 
   function readFileToArray(filePath: string) {
     return fetch(filePath)
-      .then(response => response.text())
-      .then(data => data
-        .split('\n')
-        .map(line => line.replace("\r", "")))
-      .catch(error => {
+      .then((response) => response.text())
+      .then((data) => data.split('\n').map((line) => line.replace('\r', '')))
+      .catch((error) => {
         console.log('Error:', error);
         return [];
       });
@@ -54,20 +53,21 @@ export default function App() {
     setIsPlaying(true);
     setIsPracticeMode(practiceMode);
     const filePath = '../ospd.txt';
-    readFileToArray(filePath)
-      .then(wordList => {
-        setWordList(wordList);
-      });
+    readFileToArray(filePath).then((wordList) => {
+      setWordList(wordList);
+    });
   }
 
   useEffect(() => {
-    const localValue = localStorage.getItem("lastPlayed");
-    const lastPlayedUnixTimestamp = localValue ? JSON.parse(localValue) : 0;
+    const localValue = localStorage.getItem('lastPlayed');
+    const lastPlayedUnixTimestamp = localValue
+      ? JSON.parse(localValue)
+      : 0;
     const lastPlayedDate = new Date(lastPlayedUnixTimestamp * 1000);
     if (datesAreOnSameDay(lastPlayedDate, new Date())) {
       setAlreadyPlayed(true);
     }
-  }, [setAlreadyPlayed])
+  }, [setAlreadyPlayed]);
 
   return (
     <ChakraProvider>
@@ -104,34 +104,32 @@ export default function App() {
               </Heading>
               <GameMenu onAboutModalOpen={onAboutModalOpen} />
             </HStack>
-            <Divider mt={4} borderColor="gray.250"/>
+            <Divider mt={4} borderColor="gray.250" />
             {!isPlaying && (
               <Text fontSize="lg" mt="8">
-                Get from{" "}
+                Get from{' '}
                 <Text as="span" color="green.500" fontWeight="semibold">
                   START
-                </Text>{" "}
-                to{" "}
+                </Text>{' '}
+                to{' '}
                 <Text as="span" color="blue.500" fontWeight="semibold">
                   GOAL
-                </Text>{" "}
+                </Text>{' '}
                 in as few words as possible.
                 <p>
-                  First time?{" "}
-                  <Link onClick={onLearnModalOpen}>
-                    Read the rules
-                  </Link>
-                  .
+                  First time?{' '}
+                  <Link onClick={onLearnModalOpen}>Read the rules</Link>.
                 </p>
               </Text>
             )}
           </Flex>
           <Flex my={4} mx={4} direction="column" alignItems="center">
             {alreadyPlayed ? (
-              <Flex align="center" justify="center">
+              <Flex align="center" justify="center" direction="column"> 
                 <Text textAlign="center">
                   Looks like you already played today's round. Check back tomorrow!
                 </Text>
+                <GameCountdown /> 
               </Flex>
             ) : (
               <>
