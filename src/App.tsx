@@ -106,7 +106,10 @@ export default function App() {
                   <Text color="blue.500">PATH</Text>
                 </Flex>
               </Heading>
-              <GameMenu onAboutModalOpen={onAboutModalOpen} />
+              <GameMenu
+                onAboutModalOpen={onAboutModalOpen}
+                onLeaderboardOpen={onLeaderboardModalOpen}
+              />
             </HStack>
             <Divider mt={4} borderColor="gray.250" />
             {!isPlaying && (
