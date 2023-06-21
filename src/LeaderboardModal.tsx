@@ -15,6 +15,7 @@ import {
   Th,
   Td,
 } from '@chakra-ui/react';
+import { fetchScores } from './api'; // import the function from api.ts
 
 type Score = {
   name: string;
@@ -32,23 +33,14 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
   const [currentDate, setCurrentDate] = useState(getCurrentDate()); // State for current date
 
   useEffect(() => {
-    const fetchScores = async () => {
-      try {
-        const response = await fetch(`https://back-end.lukewhite9.repl.co/leaderboard?date=${currentDate}`);
-        if (response.ok) {
-          const data = await response.json();
-          setScores(data);
-        } else {
-          console.error('Failed to retrieve leaderboard scores');
-        }
-      } catch (error) {
-        console.error('Error retrieving leaderboard scores:', error);
-      }
+    const fetchData = async () => {
+      const scores = await fetchScores(currentDate);
+      setScores(scores);
     };
 
-    fetchScores();
+    fetchData();
   }, [currentDate]);
-
+  
   // Get the current date in the format YYYY-MM-DD
   function getCurrentDate() {
     const currentDate = new Date();

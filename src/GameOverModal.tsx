@@ -9,6 +9,7 @@ import {
   Button,
   Input,
 } from '@chakra-ui/react';
+import { saveHighScore, retrieveHighScore } from './api';
 
 type GameOverModalProps = {
   isOpen: boolean;
@@ -34,52 +35,23 @@ const GameOverModal: React.FC<GameOverModalProps> = ({
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('https://back-end.lukewhite9.repl.co/leaderboard', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: playerName.trim(),
-          score: totalScore,
-          time: totalTime,
-        }),
-      });
+      await saveHighScore(playerName.trim(), totalScore, totalTime);
+      await fetchLeaderboard();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-      if (response.ok) {
-        // High score saved successfully
-        console.log('High score saved successfully');
-
-        // Fetch updated leaderboard data
-        const leaderboardResponse = await fetch('https://back-end.lukewhite9.repl.co/leaderboard');
-        if (leaderboardResponse.ok) {
-          const leaderboardData = await leaderboardResponse.json();
-          setLeaderboard(leaderboardData);
-        } else {
-          console.error('Failed to retrieve leaderboard data');
-        }
-      } else {
-        // Failed to save high score
-        console.error('Failed to save high score');
-      }
+  const fetchLeaderboard = async () => {
+    try {
+      const leaderboardData = await retrieveHighScore();
+      setLeaderboard(leaderboardData);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const response = await fetch('https://back-end.lukewhite9.repl.co/leaderboard');
-        if (response.ok) {
-          const leaderboardData = await response.json();
-          setLeaderboard(leaderboardData);
-        } else {
-          console.error('Failed to retrieve leaderboard data');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchLeaderboard();
   }, []);
 
