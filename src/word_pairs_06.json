@@ -1,1566 +1,957 @@
 {
-    "2023-06-13": {
-        "1": {
-            "start_word": "ways",
-            "goal_word": "fits",
-            "path1": {
-                "length": 4,
-                "words": [
-                    "ways,bays,bats,bits,fits",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 3,
-                "words": [
-                    "ways,fays,fats,fits"
-                ]
-            }
-        },
-        "2": {
-            "start_word": "during",
-            "goal_word": "heading",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "during,daring,baring,bearing,hearing,heading",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "during,daring,earing,hearing,heading"
-                ]
-            }
-        },
-        "3": {
-            "start_word": "lake",
-            "goal_word": "death",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "lake,late,hate,hath,heath,death",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "lake,hake,hate,eath,death"
-                ]
-            }
-        },
-        "4": {
-            "start_word": "beads",
-            "goal_word": "kill",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "beads,bead,bad,bal,ball,bill,kill",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "beads,bads,bals,ball,bill,kill"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "trends",
-            "goal_word": "youth",
-            "path1": {
-                "length": 8,
-                "words": [
-                    "trends,rends,reds,rods,rots,mots,moth,mouth,youth",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 7,
-                "words": [
-                    "trends,rends,reds,rets,rots,routs,routh,youth"
-                ]
-            }
-        }
-    },
-    "2023-06-14": {
-        "1": {
-            "start_word": "reel",
-            "goal_word": "seven",
-            "path1": {
-                "length": 4,
-                "words": [
-                    "reel,keel,keen,seen,seven",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 3,
-                "words": [
-                    "reel,seel,seen,seven"
-                ]
-            }
-        },
-        "2": {
-            "start_word": "must",
-            "goal_word": "quit",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "must,dust,duet,suet,suit,quit",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 3,
-                "words": [
-                    "must,dust,duit,quit"
-                ]
-            }
-        },
-        "3": {
-            "start_word": "wheel",
-            "goal_word": "zero",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "wheel,heel,heed,herd,hero,zero",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "wheel,heel,herl,hero,zero"
-                ]
-            }
-        },
-        "4": {
-            "start_word": "thinks",
-            "goal_word": "wives",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "thinks,think,thine,tine,wine,wines,wives",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "thinks,chinks,chines,chives,hives,wives"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "date",
-            "goal_word": "classes",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "date,bate,base,bases,basses,lasses,classes",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "date,late,lase,lases,lasses,classes"
-                ]
-            }
-        }
-    },
-    "2023-06-15": {
-        "1": {
-            "start_word": "links",
-            "goal_word": "fits",
-            "path1": {
-                "length": 4,
-                "words": [
-                    "links,inks,ins,fins,fits",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 3,
-                "words": [
-                    "links,finks,fins,fits"
-                ]
-            }
-        },
-        "2": {
-            "start_word": "anti",
-            "goal_word": "lung",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "anti,ani,ain,lin,ling,lung",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "anti,ant,aunt,lunt,lung"
-                ]
-            }
-        },
-        "3": {
-            "start_word": "moss",
-            "goal_word": "sword",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "moss,mors,more,sore,swore,sword",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "moss,doss,dors,sord,sword"
-                ]
-            }
-        },
-        "4": {
-            "start_word": "discs",
-            "goal_word": "sticky",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "discs,disc,disk,dick,sick,stick,sticky",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "discs,disks,dicks,sicks,sticks,sticky"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "flex",
-            "goal_word": "valve",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "flex,flea,lea,leva,lave,vale,valve",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "flex,flea,alef,ale,vale,valve"
-                ]
-            }
-        }
-    },
-    "2023-06-16": {
-        "1": {
-            "start_word": "lotus",
-            "goal_word": "route",
-            "path1": {
-                "length": 4,
-                "words": [
-                    "lotus,lots,rots,rote,route",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 3,
-                "words": [
-                    "lotus,louts,routs,route"
-                ]
-            }
-        },
-        "2": {
-            "start_word": "cite",
-            "goal_word": "nick",
-            "path1": {
-                "length": 4,
-                "words": [
-                    "cite,cire,rice,nice,nick",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 3,
-                "words": [
-                    "cite,cine,nice,nick"
-                ]
-            }
-        },
-        "3": {
-            "start_word": "past",
-            "goal_word": "master",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "past,mast,mat,mate,mater,master",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 3,
-                "words": [
-                    "past,paste,paster,master"
-                ]
-            }
-        },
-        "4": {
-            "start_word": "derived",
-            "goal_word": "miles",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "derived,derives,drives,dives,dimes,limes,miles",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "derived,derives,drives,rives,riles,miles"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "mood",
-            "goal_word": "print",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "mood,mod,mid,mind,mint,pint,print",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "mood,pood,pond,poind,point,print"
-                ]
-            }
-        }
-    },
-    "2023-06-17": {
-        "1": {
-            "start_word": "due",
-            "goal_word": "face",
-            "path1": {
-                "length": 4,
-                "words": [
-                    "due,duce,luce,lace,face",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 3,
-                "words": [
-                    "due,duce,dace,face"
-                ]
-            }
-        },
-        "2": {
-            "start_word": "arts",
-            "goal_word": "burn",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "arts,art,are,bare,barn,burn",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "arts,ars,bars,barn,burn"
-                ]
-            }
-        },
-        "3": {
-            "start_word": "hide",
-            "goal_word": "guided",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "hide,ride,rude,gude,guide,guided",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "hide,ride,gride,grided,guided"
-                ]
-            }
-        },
-        "4": {
-            "start_word": "saves",
-            "goal_word": "rapid",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "saves,raves,raven,ravin,rain,raid,rapid",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "saves,raves,rapes,raped,rapid"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "song",
-            "goal_word": "maiden",
-            "path1": {
-                "length": 8,
-                "words": [
-                    "song,sing,sine,mine,mined,minded,midden,madden,maiden",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 7,
-                "words": [
-                    "song,sang,sand,saned,sanded,sadden,madden,maiden"
-                ]
-            }
-        }
-    },
-    "2023-06-18": {
-        "1": {
-            "start_word": "cents",
-            "goal_word": "many",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "cents,cent,cant,ant,any,many",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "cents,cants,cans,mans,many"
-                ]
-            }
-        },
-        "2": {
-            "start_word": "sun",
-            "goal_word": "hook",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "sun,hun,hon,hod,hood,hook",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "sun,hun,hon,honk,hook"
-                ]
-            }
-        },
-        "3": {
-            "start_word": "rows",
-            "goal_word": "board",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "rows,bows,boos,boor,boar,board",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "rows,bows,boas,boar,board"
-                ]
-            }
-        },
-        "4": {
-            "start_word": "hints",
-            "goal_word": "data",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "hints,hits,dits,dite,date,data",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "hints,dints,dits,dita,data"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "scanning",
-            "goal_word": "string",
-            "path1": {
-                "length": 8,
-                "words": [
-                    "scanning,canning,canting,carting,parting,paring,sparing,spring,string",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "scanning,scanting,scarting,scaring,staring,string"
-                ]
-            }
-        }
-    },
-    "2023-06-19": {
-        "1": {
-            "start_word": "dash",
-            "goal_word": "faith",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "dash,dah,bah,bath,baith,faith",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "dash,bash,bath,baith,faith"
-                ]
-            }
-        },
-        "2": {
-            "start_word": "pick",
-            "goal_word": "film",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "pick,ick,ilk,ill,fill,film",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "pick,pice,fice,file,film"
-                ]
-            }
-        },
-        "3": {
-            "start_word": "sticky",
-            "goal_word": "mice",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "sticky,stick,sick,dick,dice,mice",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "sticky,stick,sick,mick,mice"
-                ]
-            }
-        },
-        "4": {
-            "start_word": "web",
-            "goal_word": "camel",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "web,wed,wad,cad,cam,came,camel",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "web,wab,cab,cam,came,camel"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "honey",
-            "goal_word": "open",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "honey,money,mony,mon,men,omen,open",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "honey,hone,hope,ope,open"
-                ]
-            }
-        }
-    },
     "2023-06-20": {
         "1": {
-            "start_word": "hats",
-            "goal_word": "talks",
+            "start_word": "this",
+            "goal_word": "cups",
             "path1": {
                 "length": 5,
                 "words": [
-                    "hats,bats,bals,bales,tales,talks",
+                    "this,his,hes,hues,cues,cups",
                     ""
                 ]
             },
             "path2": {
-                "length": 4,
+                "length": 3,
                 "words": [
-                    "hats,bats,bals,balks,talks"
+                    "this,tuis,tups,cups"
                 ]
             }
         },
         "2": {
-            "start_word": "span",
-            "goal_word": "some",
+            "start_word": "mid",
+            "goal_word": "pump",
             "path1": {
                 "length": 5,
                 "words": [
-                    "span,pan,pane,pone,sone,some",
+                    "mid,bid,bud,bum,bump,pump",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "span,spae,sae,same,some"
+                    "mid,mim,mum,mump,pump"
                 ]
             }
         },
         "3": {
-            "start_word": "sell",
-            "goal_word": "rows",
+            "start_word": "two",
+            "goal_word": "taxi",
             "path1": {
                 "length": 5,
                 "words": [
-                    "sell,sel,ser,res,roes,rows",
+                    "two,too,ton,tan,tax,taxi",
                     ""
                 ]
             },
             "path2": {
-                "length": 4,
+                "length": 3,
                 "words": [
-                    "sell,sels,sews,sows,rows"
+                    "two,tao,tax,taxi"
                 ]
             }
         },
         "4": {
-            "start_word": "dying",
-            "goal_word": "aims",
+            "start_word": "den",
+            "goal_word": "wake",
             "path1": {
                 "length": 5,
                 "words": [
-                    "dying,ding,dig,digs,dims,aims",
+                    "den,dean,wean,wan,wane,wake",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "dying,ding,dins,ains,aims"
+                    "den,dee,wee,wae,wake"
                 ]
             }
         },
         "5": {
-            "start_word": "radius",
-            "goal_word": "dose",
+            "start_word": "hat",
+            "goal_word": "radio",
             "path1": {
                 "length": 8,
                 "words": [
-                    "radius,radios,radio,ratio,rato,dato,date,dote,dose",
+                    "hat,hats,pats,paths,pathos,patios,patio,ratio,radio",
                     ""
                 ]
             },
             "path2": {
-                "length": 5,
+                "length": 4,
                 "words": [
-                    "radius,radios,adios,ados,dos,dose"
+                    "hat,rat,rato,ratio,radio"
                 ]
             }
         }
     },
     "2023-06-21": {
         "1": {
-            "start_word": "baths",
-            "goal_word": "carter",
+            "start_word": "save",
+            "goal_word": "tide",
             "path1": {
-                "length": 5,
+                "length": 4,
                 "words": [
-                    "baths,bath,bate,cate,carte,carter",
+                    "save,have,hive,hide,tide",
                     ""
                 ]
             },
             "path2": {
-                "length": 4,
+                "length": 3,
                 "words": [
-                    "baths,bates,cates,cartes,carter"
+                    "save,sade,side,tide"
                 ]
             }
         },
         "2": {
-            "start_word": "form",
-            "goal_word": "jail",
+            "start_word": "walk",
+            "goal_word": "bag",
             "path1": {
-                "length": 5,
+                "length": 4,
                 "words": [
-                    "form,farm,arm,aim,ail,jail",
+                    "walk,balk,bald,bad,bag",
                     ""
                 ]
             },
             "path2": {
-                "length": 4,
+                "length": 3,
                 "words": [
-                    "form,farm,farl,fail,jail"
+                    "walk,balk,bal,bag"
                 ]
             }
         },
         "3": {
-            "start_word": "dates",
-            "goal_word": "mouse",
+            "start_word": "bones",
+            "goal_word": "king",
             "path1": {
                 "length": 5,
                 "words": [
-                    "dates,date,dote,mote,moue,mouse",
+                    "bones,bonds,binds,bind,kind,king",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "dates,dotes,motes,moues,mouse"
+                    "bones,bines,bine,kine,king"
                 ]
             }
         },
         "4": {
-            "start_word": "wheat",
-            "goal_word": "thus",
+            "start_word": "pace",
+            "goal_word": "outer",
             "path1": {
                 "length": 5,
                 "words": [
-                    "wheat,heat,hat,hut,shut,thus",
+                    "pace,cape,caper,cater,cuter,outer",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "wheat,what,shat,shut,thus"
+                    "pace,pacer,pater,oater,outer"
                 ]
             }
         },
         "5": {
-            "start_word": "whether",
-            "goal_word": "fares",
+            "start_word": "tail",
+            "goal_word": "framing",
             "path1": {
                 "length": 8,
                 "words": [
-                    "whether,wether,wetter,fetter,fatter,fatted,fated,fared,fares",
+                    "tail,bail,basil,basin,basing,baring,faring,farming,framing",
                     ""
                 ]
             },
             "path2": {
-                "length": 7,
+                "length": 6,
                 "words": [
-                    "whether,wether,weather,feather,feater,fearer,farer,fares"
+                    "tail,tain,gain,gamin,gaming,faming,framing"
                 ]
             }
         }
     },
     "2023-06-22": {
         "1": {
-            "start_word": "latex",
-            "goal_word": "naked",
+            "start_word": "grow",
+            "goal_word": "loan",
             "path1": {
                 "length": 5,
                 "words": [
-                    "latex,late,bate,bake,baked,naked",
+                    "grow,grown,gown,goon,loon,loan",
                     ""
                 ]
             },
             "path2": {
-                "length": 3,
+                "length": 4,
                 "words": [
-                    "latex,lated,laked,naked"
+                    "grow,glow,low,lown,loan"
                 ]
             }
         },
         "2": {
-            "start_word": "fires",
-            "goal_word": "feet",
+            "start_word": "bias",
+            "goal_word": "case",
             "path1": {
-                "length": 4,
+                "length": 5,
                 "words": [
-                    "fires,fire,fere,fee,feet",
+                    "bias,bids,bads,bade,base,case",
                     ""
                 ]
             },
             "path2": {
                 "length": 3,
                 "words": [
-                    "fires,feres,fees,feet"
+                    "bias,bas,base,case"
                 ]
             }
         },
         "3": {
-            "start_word": "fail",
-            "goal_word": "roof",
+            "start_word": "link",
+            "goal_word": "clips",
             "path1": {
                 "length": 5,
                 "words": [
-                    "fail,foil,fool,food,rood,roof",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "fail,foil,fool,loof,roof"
-                ]
-            }
-        },
-        "4": {
-            "start_word": "rates",
-            "goal_word": "outer",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "rates,pates,pater,patter,potter,otter,outer",
+                    "link,clink,chink,chins,chips,clips",
                     ""
                 ]
             },
             "path2": {
                 "length": 3,
                 "words": [
-                    "rates,rater,oater,outer"
+                    "link,lins,lips,clips"
                 ]
             }
         },
-        "5": {
-            "start_word": "joins",
-            "goal_word": "every",
+        "4": {
+            "start_word": "tower",
+            "goal_word": "lamp",
             "path1": {
-                "length": 8,
+                "length": 6,
                 "words": [
-                    "joins,coins,cons,cans,cars,vars,vary,very,every",
+                    "tower,lower,loser,laser,lamer,lame,lamp",
                     ""
                 ]
             },
             "path2": {
-                "length": 7,
+                "length": 5,
                 "words": [
-                    "joins,jins,ains,airs,airy,aery,eery,every"
+                    "tower,tawer,tamer,lamer,lame,lamp"
+                ]
+            }
+        },
+        "5": {
+            "start_word": "drill",
+            "goal_word": "died",
+            "path1": {
+                "length": 6,
+                "words": [
+                    "drill,dill,dial,deal,dead,deed,died",
+                    ""
+                ]
+            },
+            "path2": {
+                "length": 3,
+                "words": [
+                    "drill,dill,diel,died"
                 ]
             }
         }
     },
     "2023-06-23": {
         "1": {
-            "start_word": "bikes",
-            "goal_word": "rich",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "bikes,bides,bide,ride,rice,rich",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "bikes,bices,bice,rice,rich"
-                ]
-            }
-        },
-        "2": {
-            "start_word": "lake",
-            "goal_word": "easy",
+            "start_word": "sport",
+            "goal_word": "about",
             "path1": {
                 "length": 4,
                 "words": [
-                    "lake,bake,base,ease,easy",
+                    "sport,port,pout,bout,about",
                     ""
                 ]
             },
             "path2": {
                 "length": 3,
                 "words": [
-                    "lake,lase,ease,easy"
+                    "sport,aport,abort,about"
+                ]
+            }
+        },
+        "2": {
+            "start_word": "bloom",
+            "goal_word": "soup",
+            "path1": {
+                "length": 5,
+                "words": [
+                    "bloom,boom,boo,bop,sop,soup",
+                    ""
+                ]
+            },
+            "path2": {
+                "length": 4,
+                "words": [
+                    "bloom,bloop,loop,loup,soup"
                 ]
             }
         },
         "3": {
-            "start_word": "moon",
-            "goal_word": "cuts",
+            "start_word": "latin",
+            "goal_word": "hint",
             "path1": {
                 "length": 5,
                 "words": [
-                    "moon,coon,con,cons,cots,cuts",
+                    "latin,lain,pain,paint,pint,hint",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "moon,coon,coos,cots,cuts"
+                    "latin,lain,ain,hin,hint"
                 ]
             }
         },
         "4": {
-            "start_word": "lone",
-            "goal_word": "stroke",
+            "start_word": "hands",
+            "goal_word": "weed",
             "path1": {
                 "length": 5,
                 "words": [
-                    "lone,sone,stone,stove,strove,stroke",
+                    "hands,hand,had,head,heed,weed",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "lone,sone,soke,stoke,stroke"
+                    "hands,hand,haed,heed,weed"
                 ]
             }
         },
         "5": {
-            "start_word": "scene",
-            "goal_word": "colony",
+            "start_word": "bugs",
+            "goal_word": "pill",
             "path1": {
-                "length": 8,
+                "length": 6,
                 "words": [
-                    "scene,scent,cent,cant,can,con,coon,colon,colony",
+                    "bugs,bags,bads,pads,pals,pall,pill",
                     ""
                 ]
             },
             "path2": {
-                "length": 5,
+                "length": 4,
                 "words": [
-                    "scene,scone,cone,clone,colone,colony"
+                    "bugs,pugs,puls,pull,pill"
                 ]
             }
         }
     },
     "2023-06-24": {
         "1": {
-            "start_word": "small",
-            "goal_word": "soul",
+            "start_word": "gang",
+            "goal_word": "disk",
+            "path1": {
+                "length": 5,
+                "words": [
+                    "gang,rang,rank,rink,risk,disk",
+                    ""
+                ]
+            },
+            "path2": {
+                "length": 4,
+                "words": [
+                    "gang,dang,dank,dink,disk"
+                ]
+            }
+        },
+        "2": {
+            "start_word": "panel",
+            "goal_word": "bone",
             "path1": {
                 "length": 4,
                 "words": [
-                    "small,sall,sail,soil,soul",
+                    "panel,pane,cane,cone,bone",
                     ""
                 ]
             },
             "path2": {
                 "length": 3,
                 "words": [
-                    "small,sall,saul,soul"
-                ]
-            }
-        },
-        "2": {
-            "start_word": "reed",
-            "goal_word": "chess",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "reed,treed,trees,tress,cress,chess",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "reed,rees,cees,cess,chess"
+                    "panel,pane,bane,bone"
                 ]
             }
         },
         "3": {
-            "start_word": "guide",
-            "goal_word": "kit",
+            "start_word": "sky",
+            "goal_word": "fur",
             "path1": {
                 "length": 5,
                 "words": [
-                    "guide,guile,guilt,gilt,git,kit",
+                    "sky,say,bay,bar,far,fur",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "guide,guid,gid,git,kit"
+                    "sky,say,fay,far,fur"
                 ]
             }
         },
         "4": {
-            "start_word": "hill",
-            "goal_word": "guy",
+            "start_word": "volt",
+            "goal_word": "sports",
             "path1": {
-                "length": 5,
+                "length": 6,
                 "words": [
-                    "hill,gill,gall,gal,gay,guy",
+                    "volt,bolt,blot,blots,slots,spots,sports",
                     ""
                 ]
             },
             "path2": {
-                "length": 4,
+                "length": 5,
                 "words": [
-                    "hill,gill,gull,gul,guy"
+                    "volt,bolt,bolts,borts,ports,sports"
                 ]
             }
         },
         "5": {
-            "start_word": "helped",
-            "goal_word": "ranked",
+            "start_word": "added",
+            "goal_word": "opens",
             "path1": {
-                "length": 6,
+                "length": 8,
                 "words": [
-                    "helped,heaped,heated,hated,rated,raked,ranked",
+                    "added,aided,aide,aid,and,end,pend,pens,opens",
                     ""
                 ]
             },
             "path2": {
-                "length": 5,
+                "length": 6,
                 "words": [
-                    "helped,heaped,reaped,raped,raked,ranked"
+                    "added,aided,aides,ides,odes,opes,opens"
                 ]
             }
         }
     },
     "2023-06-25": {
         "1": {
-            "start_word": "lace",
-            "goal_word": "tackle",
+            "start_word": "cast",
+            "goal_word": "tooth",
             "path1": {
                 "length": 5,
                 "words": [
-                    "lace,laced,lacked,tacked,tackled,tackle",
+                    "cast,cat,cot,tot,toot,tooth",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "lace,mace,macle,mackle,tackle"
+                    "cast,cost,coot,toot,tooth"
                 ]
             }
         },
         "2": {
-            "start_word": "class",
-            "goal_word": "docs",
+            "start_word": "flower",
+            "goal_word": "lone",
             "path1": {
-                "length": 5,
+                "length": 4,
                 "words": [
-                    "class,clans,cans,cons,dons,docs",
+                    "flower,lower,loser,lose,lone",
                     ""
                 ]
             },
             "path2": {
-                "length": 4,
+                "length": 3,
                 "words": [
-                    "class,clads,cads,cods,docs"
+                    "flower,lower,loner,lone"
                 ]
             }
         },
         "3": {
-            "start_word": "manage",
-            "goal_word": "angels",
+            "start_word": "bone",
+            "goal_word": "faced",
             "path1": {
                 "length": 5,
                 "words": [
-                    "manage,manager,manger,anger,angel,angels",
+                    "bone,bode,bade,fade,face,faced",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "manage,manages,manges,mangels,angels"
+                    "bone,bane,fane,face,faced"
                 ]
             }
         },
         "4": {
-            "start_word": "closes",
-            "goal_word": "clouds",
+            "start_word": "hours",
+            "goal_word": "loud",
             "path1": {
                 "length": 6,
                 "words": [
-                    "closes,loses,loges,logs,clogs,clods,clouds",
+                    "hours,fours,four,for,ford,lord,loud",
                     ""
                 ]
             },
             "path2": {
-                "length": 4,
+                "length": 3,
                 "words": [
-                    "closes,clones,clons,clods,clouds"
+                    "hours,hour,lour,loud"
                 ]
             }
         },
         "5": {
-            "start_word": "meat",
-            "goal_word": "valid",
+            "start_word": "saying",
+            "goal_word": "genius",
             "path1": {
-                "length": 7,
+                "length": 8,
                 "words": [
-                    "meat,eat,rat,rad,raid,rapid,vapid,valid",
+                    "saying,sawing,swing,sing,gins,guns,gnus,genus,genius",
                     ""
                 ]
             },
             "path2": {
-                "length": 6,
+                "length": 7,
                 "words": [
-                    "meat,heat,haet,haed,haled,halid,valid"
+                    "saying,sating,sting,sing,gins,gens,genus,genius"
                 ]
             }
         }
     },
     "2023-06-26": {
         "1": {
-            "start_word": "earning",
-            "goal_word": "posing",
+            "start_word": "tank",
+            "goal_word": "push",
             "path1": {
                 "length": 5,
                 "words": [
-                    "earning,darning,daring,paring,poring,posing",
+                    "tank,bank,bask,bash,bush,push",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "earning,earing,paring,poring,posing"
+                    "tank,task,tusk,tush,push"
                 ]
             }
         },
         "2": {
-            "start_word": "titled",
-            "goal_word": "wind",
+            "start_word": "boy",
+            "goal_word": "kids",
             "path1": {
                 "length": 5,
                 "words": [
-                    "titled,tiled,filed,fined,find,wind",
+                    "boy,bay,bad,bads,bids,kids",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "titled,tiled,tined,wined,wind"
+                    "boy,bod,bid,bids,kids"
                 ]
             }
         },
         "3": {
-            "start_word": "blame",
-            "goal_word": "lips",
+            "start_word": "arising",
+            "goal_word": "posing",
             "path1": {
                 "length": 5,
                 "words": [
-                    "blame,blade,lade,lads,laps,lips",
+                    "arising,rising,riling,piling,poling,posing",
                     ""
                 ]
             },
             "path2": {
-                "length": 4,
+                "length": 3,
                 "words": [
-                    "blame,blams,lams,laps,lips"
+                    "arising,prising,poising,posing"
                 ]
             }
         },
         "4": {
-            "start_word": "nerve",
-            "goal_word": "pursue",
+            "start_word": "prep",
+            "goal_word": "ruled",
             "path1": {
                 "length": 6,
                 "words": [
-                    "nerve,serve,sere,sure,pure,purse,pursue",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "nerve,serve,verse,perse,purse,pursue"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "feels",
-            "goal_word": "ferry",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "feels,feel,fuel,furl,fury,furry,ferry",
+                    "prep,peep,deep,deed,reed,rued,ruled",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "feels,fells,felly,ferly,ferry"
+                    "prep,rep,red,rued,ruled"
+                ]
+            }
+        },
+        "5": {
+            "start_word": "duck",
+            "goal_word": "value",
+            "path1": {
+                "length": 8,
+                "words": [
+                    "duck,buck,back,balk,bale,hale,halve,valve,value",
+                    ""
+                ]
+            },
+            "path2": {
+                "length": 5,
+                "words": [
+                    "duck,duce,dace,dale,vale,value"
                 ]
             }
         }
     },
     "2023-06-27": {
         "1": {
-            "start_word": "aims",
-            "goal_word": "less",
+            "start_word": "heel",
+            "goal_word": "sweet",
             "path1": {
                 "length": 5,
                 "words": [
-                    "aims,aids,lids,lads,lass,less",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "aims,ains,lins,lens,less"
-                ]
-            }
-        },
-        "2": {
-            "start_word": "beef",
-            "goal_word": "debt",
-            "path1": {
-                "length": 4,
-                "words": [
-                    "beef,beet,bent,dent,debt",
+                    "heel,feel,feet,fleet,sleet,sweet",
                     ""
                 ]
             },
             "path2": {
                 "length": 3,
                 "words": [
-                    "beef,beet,deet,debt"
+                    "heel,weel,weet,sweet"
+                ]
+            }
+        },
+        "2": {
+            "start_word": "plates",
+            "goal_word": "plot",
+            "path1": {
+                "length": 5,
+                "words": [
+                    "plates,pates,pate,pat,pot,plot",
+                    ""
+                ]
+            },
+            "path2": {
+                "length": 3,
+                "words": [
+                    "plates,plate,plat,plot"
                 ]
             }
         },
         "3": {
-            "start_word": "tiny",
-            "goal_word": "leg",
+            "start_word": "gore",
+            "goal_word": "moral",
             "path1": {
                 "length": 5,
                 "words": [
-                    "tiny,tin,bin,ben,beg,leg",
+                    "gore,more,mode,model,modal,moral",
                     ""
                 ]
             },
             "path2": {
-                "length": 4,
+                "length": 3,
                 "words": [
-                    "tiny,tin,ten,teg,leg"
+                    "gore,more,mora,moral"
                 ]
             }
         },
         "4": {
-            "start_word": "marking",
-            "goal_word": "binding",
+            "start_word": "prizes",
+            "goal_word": "trades",
             "path1": {
-                "length": 6,
+                "length": 5,
                 "words": [
-                    "marking,barking,baring,boring,boding,biding,binding",
+                    "prizes,prices,rices,races,traces,trades",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "marking,barking,banking,banding,binding"
+                    "prizes,prices,trices,traces,trades"
                 ]
             }
         },
         "5": {
-            "start_word": "pulled",
-            "goal_word": "red",
+            "start_word": "chief",
+            "goal_word": "spies",
             "path1": {
-                "length": 6,
+                "length": 7,
                 "words": [
-                    "pulled,palled,paled,pared,bared,bred,red",
+                    "chief,chef,chew,hew,hes,shes,shies,spies",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "pulled,puled,pled,led,red"
+                    "chief,chiel,shiel,shies,spies"
                 ]
             }
         }
     },
     "2023-06-28": {
         "1": {
-            "start_word": "genes",
-            "goal_word": "feel",
+            "start_word": "calling",
+            "goal_word": "spelling",
             "path1": {
                 "length": 4,
                 "words": [
-                    "genes,gene,gee,fee,feel",
+                    "calling,balling,belling,selling,spelling",
                     ""
                 ]
             },
             "path2": {
                 "length": 3,
                 "words": [
-                    "genes,gees,fees,feel"
+                    "calling,celling,selling,spelling"
                 ]
             }
         },
         "2": {
-            "start_word": "tile",
-            "goal_word": "trainer",
+            "start_word": "mask",
+            "goal_word": "big",
             "path1": {
                 "length": 5,
                 "words": [
-                    "tile,tiled,tailed,trailed,trailer,trainer",
+                    "mask,bask,bank,ban,bag,big",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "tile,tiler,tailer,trailer,trainer"
+                    "mask,bask,bas,bag,big"
                 ]
             }
         },
         "3": {
-            "start_word": "game",
-            "goal_word": "wires",
+            "start_word": "power",
+            "goal_word": "solved",
             "path1": {
                 "length": 5,
                 "words": [
-                    "game,came,care,cares,wares,wires",
+                    "power,cower,cowed,sowed,soled,solved",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "game,games,wames,wares,wires"
+                    "power,poler,poled,soled,solved"
                 ]
             }
         },
         "4": {
-            "start_word": "dial",
-            "goal_word": "sheep",
+            "start_word": "copper",
+            "goal_word": "over",
             "path1": {
                 "length": 6,
                 "words": [
-                    "dial,deal,dear,deer,seer,sheer,sheep",
+                    "copper,copier,copies,copes,coves,cover,over",
+                    ""
+                ]
+            },
+            "path2": {
+                "length": 3,
+                "words": [
+                    "copper,coper,cover,over"
+                ]
+            }
+        },
+        "5": {
+            "start_word": "cage",
+            "goal_word": "miller",
+            "path1": {
+                "length": 7,
+                "words": [
+                    "cage,caged,paged,paled,palled,pilled,milled,miller",
                     ""
                 ]
             },
             "path2": {
                 "length": 5,
                 "words": [
-                    "dial,deal,seal,seel,seep,sheep"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "eye",
-            "goal_word": "canyon",
-            "path1": {
-                "length": 7,
-                "words": [
-                    "eye,ere,are,ane,cane,canoe,canon,canyon",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 6,
-                "words": [
-                    "eye,aye,ane,cane,canoe,canon,canyon"
+                    "cage,mage,male,mile,miler,miller"
                 ]
             }
         }
     },
     "2023-06-29": {
         "1": {
-            "start_word": "brand",
-            "goal_word": "boss",
+            "start_word": "pipe",
+            "goal_word": "bulk",
             "path1": {
                 "length": 5,
                 "words": [
-                    "brand,band,bad,bas,bass,boss",
+                    "pipe,pile,bile,bale,balk,bulk",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "brand,band,bans,bass,boss"
+                    "pipe,pile,bile,bilk,bulk"
                 ]
             }
         },
         "2": {
-            "start_word": "clay",
-            "goal_word": "blue",
+            "start_word": "shut",
+            "goal_word": "spa",
             "path1": {
-                "length": 5,
+                "length": 4,
                 "words": [
-                    "clay,flay,flax,flux,flue,blue",
+                    "shut,shot,spot,spat,spa",
                     ""
                 ]
             },
             "path2": {
-                "length": 4,
+                "length": 3,
                 "words": [
-                    "clay,clam,blam,blae,blue"
+                    "shut,shat,sha,spa"
                 ]
             }
         },
         "3": {
-            "start_word": "need",
-            "goal_word": "pipe",
+            "start_word": "ray",
+            "goal_word": "fish",
             "path1": {
                 "length": 5,
                 "words": [
-                    "need,deed,dee,die,pie,pipe",
+                    "ray,rat,fat,fast,fist,fish",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "need,nee,pee,pie,pipe"
+                    "ray,fay,fas,fash,fish"
                 ]
             }
         },
         "4": {
-            "start_word": "rising",
-            "goal_word": "feeling",
+            "start_word": "firms",
+            "goal_word": "jets",
             "path1": {
-                "length": 6,
-                "words": [
-                    "rising,raising,railing,failing,falling,felling,feeling",
-                    ""
-                ]
-            },
-            "path2": {
                 "length": 5,
                 "words": [
-                    "rising,riding,reding,reeding,feeding,feeling"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "lets",
-            "goal_word": "works",
-            "path1": {
-                "length": 6,
-                "words": [
-                    "lets,lots,cots,cons,corns,corks,works",
+                    "firms,firs,fits,bits,bets,jets",
                     ""
                 ]
             },
             "path2": {
                 "length": 4,
                 "words": [
-                    "lets,lots,wots,woks,works"
+                    "firms,firs,fits,fets,jets"
+                ]
+            }
+        },
+        "5": {
+            "start_word": "agree",
+            "goal_word": "frog",
+            "path1": {
+                "length": 8,
+                "words": [
+                    "agree,agreed,greed,freed,feed,fee,foe,fog,frog",
+                    ""
+                ]
+            },
+            "path2": {
+                "length": 4,
+                "words": [
+                    "agree,gree,free,froe,frog"
                 ]
             }
         }
     },
     "2023-06-30": {
         "1": {
-            "start_word": "rides",
-            "goal_word": "silver",
+            "start_word": "styles",
+            "goal_word": "phases",
             "path1": {
                 "length": 5,
                 "words": [
-                    "rides,rider,river,liver,sliver,silver",
+                    "styles,stales,stakes,shakes,shapes,phases",
                     ""
                 ]
             },
             "path2": {
-                "length": 3,
+                "length": 4,
                 "words": [
-                    "rides,rives,siver,silver"
+                    "styles,stales,shales,shapes,phases"
                 ]
             }
         },
         "2": {
-            "start_word": "souls",
-            "goal_word": "seas",
+            "start_word": "blanket",
+            "goal_word": "lakes",
             "path1": {
+                "length": 5,
+                "words": [
+                    "blanket,blanked,banked,baked,bakes,lakes",
+                    ""
+                ]
+            },
+            "path2": {
                 "length": 4,
                 "words": [
-                    "souls,sols,sots,sets,seas",
+                    "blanket,blanker,lanker,laker,lakes"
+                ]
+            }
+        },
+        "3": {
+            "start_word": "yeast",
+            "goal_word": "kept",
+            "path1": {
+                "length": 5,
+                "words": [
+                    "yeast,beast,best,west,wept,kept",
+                    ""
+                ]
+            },
+            "path2": {
+                "length": 4,
+                "words": [
+                    "yeast,least,leapt,lept,kept"
+                ]
+            }
+        },
+        "4": {
+            "start_word": "glen",
+            "goal_word": "tiles",
+            "path1": {
+                "length": 6,
+                "words": [
+                    "glen,glee,flee,fled,filed,files,tiles",
+                    ""
+                ]
+            },
+            "path2": {
+                "length": 4,
+                "words": [
+                    "glen,gien,gies,ties,tiles"
+                ]
+            }
+        },
+        "5": {
+            "start_word": "sticks",
+            "goal_word": "skirt",
+            "path1": {
+                "length": 6,
+                "words": [
+                    "sticks,sicks,sick,sic,sit,skit,skirt",
                     ""
                 ]
             },
             "path2": {
                 "length": 3,
                 "words": [
-                    "souls,sols,sels,seas"
-                ]
-            }
-        },
-        "3": {
-            "start_word": "pure",
-            "goal_word": "prince",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "pure,cure,cire,rice,price,prince",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "pure,puce,pice,price,prince"
-                ]
-            }
-        },
-        "4": {
-            "start_word": "wool",
-            "goal_word": "mug",
-            "path1": {
-                "length": 5,
-                "words": [
-                    "wool,tool,too,tog,tug,mug",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 4,
-                "words": [
-                    "wool,mool,mol,mog,mug"
-                ]
-            }
-        },
-        "5": {
-            "start_word": "fever",
-            "goal_word": "raised",
-            "path1": {
-                "length": 7,
-                "words": [
-                    "fever,ever,aver,ave,rave,rase,raise,raised",
-                    ""
-                ]
-            },
-            "path2": {
-                "length": 5,
-                "words": [
-                    "fever,fiver,river,riser,raiser,raised"
+                    "sticks,stick,stirk,skirt"
                 ]
             }
         }

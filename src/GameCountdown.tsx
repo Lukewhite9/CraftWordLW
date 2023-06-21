@@ -1,3 +1,4 @@
+import { Center } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { Box, Text } from '@chakra-ui/react';
 
