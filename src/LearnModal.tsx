@@ -65,8 +65,8 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose, onStartPractic
 
           <Text mb="2">
             {generateText('change', 'orange.500', 'bold')}: <br />
-            date → {generateText('m', 'orange.500', 'bold')}ate → ma
-            {generateText('l', 'orange.500', 'bold')}e → {generateText('p', 'orange.500', 'bold')}ale
+            date → {generateText('l', 'orange.500', 'bold')}ate → la
+            {generateText('k', 'orange.500', 'bold')}e → l{generateText('i', 'orange.500', 'bold')}ke
           </Text>
 
           <Text mb="2">
