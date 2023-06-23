@@ -33,16 +33,16 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose }) => {
       <ModalContent bg="gray.100">
         <ModalHeader textAlign="center">
           How To Play{" "}
-          {generateText("WORD", "green.500", "bold")} →
-          {generateText("PATH", "blue.500", "bold")}
+          {generateText("LOGO", "green.500", "bold")} →
+          {generateText("LINK", "blue.500", "bold")}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <div>
             <Text mb={4}>
               Get from{" "}
-              {generateText("START", "green.500", "bold")} to{" "}
-              {generateText("GOAL", "blue.500", "bold")} in as few words as possible.
+              {generateText("LOGO", "green.500", "bold")} to{" "}
+              {generateText("LINK", "blue.500", "bold")} in as few words as possible.
             </Text>
 
             <Text mb="4">
