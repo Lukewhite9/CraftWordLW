@@ -41,8 +41,8 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose }) => {
           <div>
             <Text mb={4}>
               Get from{" "}
-              {generateText("LOGO", "green.500", "bold")} to{" "}
-              {generateText("LINK", "blue.500", "bold")} in as few words as possible.
+              {generateText("START", "green.500", "bold")} to{" "}
+              {generateText("GOAL", "blue.500", "bold")} in as few words as possible.
             </Text>
 
             <Text mb="4">
