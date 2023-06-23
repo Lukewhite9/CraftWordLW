@@ -97,9 +97,9 @@ export default function App() {
               />
               <Heading mt="4" mb="4">
                 <Flex alignItems="center">
-                  <Text color="green.500">WORD</Text>
+                  <Text color="green.500">LOGO</Text>
                   <Text>→</Text>
-                  <Text color="blue.500">PATH</Text>
+                  <Text color="blue.500">LINK</Text>
                 </Flex>
               </Heading>
               <GameMenu onAboutModalOpen={onAboutModalOpen} />

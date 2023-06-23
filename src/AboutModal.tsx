@@ -26,8 +26,8 @@ export default function AboutModal({ isOpen, onClose }) {
       <ModalContent>
         <ModalHeader textAlign="center">
           About{" "}
-          {generateText("WORD", "green.500", "bold")} →
-          {generateText("PATH", "blue.500", "bold")}
+          {generateText("LOGO", "green.500", "bold")} →
+          {generateText("LINK", "blue.500", "bold")}
         </ModalHeader>
         <ModalCloseButton />
 <ModalBody>
