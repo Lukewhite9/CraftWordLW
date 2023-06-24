@@ -12,6 +12,7 @@ import {
   Divider,
   useDisclosure,
   Link,
+  Image,
 } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
@@ -97,9 +98,9 @@ export default function App() {
               />
               <Heading mt="4" mb="4">
                 <Flex alignItems="center">
-                  <Text color="green.500">LOGO</Text>
+                  <Text color="green.500">WORD</Text>
                   <Text>→</Text>
-                  <Text color="blue.500">LINK</Text>
+                  <Text color="blue.500">SHIFT</Text>
                 </Flex>
               </Heading>
               <GameMenu onAboutModalOpen={onAboutModalOpen} />

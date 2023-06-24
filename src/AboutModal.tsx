@@ -26,13 +26,13 @@ export default function AboutModal({ isOpen, onClose }) {
       <ModalContent>
         <ModalHeader textAlign="center">
           About{" "}
-          {generateText("LOGO", "green.500", "bold")} →
-          {generateText("LINK", "blue.500", "bold")}
+          {generateText("WORD", "green.500", "bold")} →
+          {generateText("SHIFT", "blue.500", "bold")}
         </ModalHeader>
         <ModalCloseButton />
 <ModalBody>
-  <Text mb={4}>Wordpath is a game where you transform words. Each new word is a step on your path to the goal word. The shorter your path, the better your score. The best path might use words you don't hear every day, but only real words in English are allowed. </Text>
-  <Text mb={5}>I thought of Wordpath while watching my four year old son learn to spell. I learned to code the game by asking ChatGPT how to make it, and then I finished it with a human friend. Thanks for playing!</Text>
+  <Text mb={4}>WordShift is a game where you transform words. Each new word is a step on your path to the goal word. The shorter your path, the better your score. The best path might use words you don't hear every day, but only real words in English are allowed. </Text>
+  <Text mb={5}>I thought of WordShift while watching my four year old son learn to spell. I learned to code the game by asking ChatGPT how to make it, and then I finished it with a human friend. Thanks for playing!</Text>
   <Text mb={6}></Text>
   <Text ml={8} mb={2}>-Lukematik</Text>
   
