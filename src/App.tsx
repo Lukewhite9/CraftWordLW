@@ -12,6 +12,7 @@ import {
   Divider,
   useDisclosure,
   Link,
+  Image,
 } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
@@ -21,6 +22,7 @@ import { datesAreOnSameDay } from './utils';
 import AboutModal from './AboutModal';
 import GameMenu from './GameMenu';
 import LeaderboardModal from './LeaderboardModal';
+import GameCountdown from './GameCountdown';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -101,9 +103,9 @@ export default function App() {
               />
               <Heading mt="4" mb="4">
                 <Flex alignItems="center">
-                  <Text color="green.500">WORD</Text>
+                  <Text color="green.500">CRAFT</Text>
                   <Text>→</Text>
-                  <Text color="blue.500">PATH</Text>
+                  <Text color="blue.500">WORD</Text>
                 </Flex>
               </Heading>
               <GameMenu
@@ -132,10 +134,11 @@ export default function App() {
           </Flex>
           <Flex my={4} mx={4} direction="column" alignItems="center">
             {alreadyPlayed ? (
-              <Flex align="center" justify="center">
+              <Flex align="center" justify="center" direction="column"> 
                 <Text textAlign="center">
                   Looks like you already played today's round. Check back tomorrow!
                 </Text>
+                <GameCountdown /> 
               </Flex>
             ) : (
               <>
@@ -159,7 +162,10 @@ export default function App() {
                       colorScheme="gray"
                       mt="4"
                       w="300px"
-                      onClick={() => handleStartClick(true)}
+                      onClick={() => {
+                        handleStartClick(true);
+                        onLearnModalClose();
+                      }}
                       boxShadow="md"
                     >
                       Start Practice Mode
@@ -170,7 +176,14 @@ export default function App() {
             )}
           </Flex>
         </Box>
-        <LearnModal isOpen={isLearnModalOpen} onClose={onLearnModalClose} />
+        <LearnModal
+          isOpen={isLearnModalOpen}
+          onClose={onLearnModalClose}
+          onStartPracticeMode={() => {
+            handleStartClick(true);
+            onLearnModalClose();
+          }}
+        />
         <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
         <LeaderboardModal
           isOpen={isLeaderboardModalOpen}
