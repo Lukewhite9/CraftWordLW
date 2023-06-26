@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import {
-  ChakraProvider,
   Heading,
   Box,
   Flex,
@@ -11,8 +10,6 @@ import {
   Container,
   Divider,
   useDisclosure,
-  Link,
-  Image,
 } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
@@ -77,106 +74,104 @@ export default function App() {
   }, [setAlreadyPlayed]);
 
   return (
-    <ChakraProvider>
-      <Container maxW="460px" centerContent>
-        <Box
-          borderWidth="1px"
-          borderColor="gray.200"
-          borderRadius="md"
-          mt="2"
-          p={4}
-          minHeight="450px"
-          boxShadow="md"
+    <Container maxW="460px" centerContent>
+      <Box
+        borderWidth="1px"
+        borderColor="gray.200"
+        borderRadius="md"
+        mt="2"
+        p={4}
+        minHeight="450px"
+        boxShadow="md"
+      >
+        <Flex
+          direction="column"
+          justify="center"
+          align="center"
+          textAlign="center"
         >
-          <Flex
-            direction="column"
-            justify="center"
-            align="center"
-            textAlign="center"
-          >
-            <HStack w="388px" justify="space-between">
-              <IconButton
-                aria-label="Learn how to play"
-                icon={<QuestionOutlineIcon />}
-                variant="outline"
-                boxShadow="sm"
-                onClick={onLearnModalOpen}
-              />
-              <Heading mt="4" mb="4">
-                <Flex alignItems="center">
-                  <Text color="green.500">CRAFT</Text>
-                  <Text>→</Text>
-                  <Text color="blue.500">WORD</Text>
-                </Flex>
-              </Heading>
-              <GameMenu
-                onAboutModalOpen={onAboutModalOpen}
-                onLeaderboardOpen={onLeaderboardModalOpen}
-              />
-            </HStack>
-            <Divider mt={4} borderColor="gray.250" />
-            {!isPlaying && (
-              <GameIntro onLearnModalOpen={onLearnModalOpen} />
-            )}
-          </Flex>
-          <Flex my={4} mx={4} direction="column" alignItems="center">
-            {alreadyPlayed ? (
-              <Flex align="center" justify="center" direction="column">
-                <Text textAlign="center">
-                  Looks like you already played today's round. Check back tomorrow!
-                </Text>
-                <GameCountdown />
+          <HStack w="388px" justify="space-between">
+            <IconButton
+              aria-label="Learn how to play"
+              icon={<QuestionOutlineIcon />}
+              variant="outline"
+              boxShadow="sm"
+              onClick={onLearnModalOpen}
+            />
+            <Heading mt="4" mb="4">
+              <Flex alignItems="center">
+                <Text color="green.500">CRAFT</Text>
+                <Text>→</Text>
+                <Text color="blue.500">WORD</Text>
               </Flex>
-            ) : (
-              <>
-                {isPlaying && wordList.length > 0 ? (
-                  <GameWrapper
-                    wordList={wordList}
-                    gameLength={isPracticeMode ? null : 5}
-                  />
-                ) : (
-                  <>
-                    <Button
-                      colorScheme="blackAlpha"
-                      onClick={() => handleStartClick(false)}
-                      w="300px"
-                      mt="14"
-                      boxShadow="md"
-                    >
-                      Start Game
-                    </Button>
-                    <Button
-                      colorScheme="gray"
-                      mt="4"
-                      w="300px"
-                      onClick={() => {
-                        handleStartClick(true);
-                        onLearnModalClose();
-                      }}
-                      boxShadow="md"
-                    >
-                      Start Practice Mode
-                    </Button>
-                  </>
-                )}
-              </>
-            )}
-          </Flex>
-        </Box>
-        <LearnModal
-          isOpen={isLearnModalOpen}
-          onClose={onLearnModalClose}
-          onStartPracticeMode={() => {
-            handleStartClick(true);
-            onLearnModalClose();
-          }}
-        />
-        <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
-        <LeaderboardModal
-          isOpen={isLeaderboardModalOpen}
-          onClose={onLeaderboardModalClose}
-        />
-      </Container>
-    </ChakraProvider>
+            </Heading>
+            <GameMenu
+              onAboutModalOpen={onAboutModalOpen}
+              onLeaderboardOpen={onLeaderboardModalOpen}
+            />
+          </HStack>
+          <Divider mt={4} borderColor="gray.250" />
+          {!isPlaying && (
+            <GameIntro onLearnModalOpen={onLearnModalOpen} />
+          )}
+        </Flex>
+        <Flex my={4} mx={4} direction="column" alignItems="center">
+          {alreadyPlayed ? (
+            <Flex align="center" justify="center" direction="column">
+              <Text textAlign="center">
+                Looks like you already played today's round. Check back tomorrow!
+              </Text>
+              <GameCountdown />
+            </Flex>
+          ) : (
+            <>
+              {isPlaying && wordList.length > 0 ? (
+                <GameWrapper
+                  wordList={wordList}
+                  gameLength={isPracticeMode ? null : 5}
+                />
+              ) : (
+                <>
+                  <Button
+                    colorScheme="blackAlpha"
+                    onClick={() => handleStartClick(false)}
+                    w="300px"
+                    mt="14"
+                    boxShadow="md"
+                  >
+                    Start Game
+                  </Button>
+                  <Button
+                    colorScheme="gray"
+                    mt="4"
+                    w="300px"
+                    onClick={() => {
+                      handleStartClick(true);
+                      onLearnModalClose();
+                    }}
+                    boxShadow="md"
+                  >
+                    Start Practice Mode
+                  </Button>
+                </>
+              )}
+            </>
+          )}
+        </Flex>
+      </Box>
+      <LearnModal
+        isOpen={isLearnModalOpen}
+        onClose={onLearnModalClose}
+        onStartPracticeMode={() => {
+          handleStartClick(true);
+          onLearnModalClose();
+        }}
+      />
+      <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
+      <LeaderboardModal
+        isOpen={isLeaderboardModalOpen}
+        onClose={onLeaderboardModalClose}
+      />
+    </Container>
   );
 }
