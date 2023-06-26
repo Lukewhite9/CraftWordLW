@@ -21,3 +21,18 @@ export const fetchWordPair = async (roundNumber: number): Promise<[string, strin
     return [];
   }
 };
+
+// TODO: Retrieve high score
+export const fetchScores = async () => {
+  return [];
+}
+
+// TODO: Retrieve high score
+export const retrieveHighScore = async () => {
+  return "dummy retrieve high score"
+}
+
+// TODO: Save high score
+export const saveHighScore = async () => {
+  return "dummy save high score"
+}

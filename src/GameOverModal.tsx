@@ -34,21 +34,29 @@ const GameOverModal: React.FC<GameOverModalProps> = ({
   const [leaderboard, setLeaderboard] = useState<Score[]>([]);
 
   const handleSubmit = async () => {
-    try {
-      await saveHighScore(playerName.trim(), totalScore, totalTime);
-      await fetchLeaderboard();
-    } catch (error) {
-      console.error(error);
-    }
+    console.log("submit with data: ", playerName.trim(), totalScore, totalTime);
+    // TODO: Hook up leaderboard
+    // try {
+    //   await saveHighScore(playerName.trim(), totalScore, totalTime);
+    //   await fetchLeaderboard();
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   const fetchLeaderboard = async () => {
-    try {
-      const leaderboardData = await retrieveHighScore();
-      setLeaderboard(leaderboardData);
-    } catch (error) {
-      console.error(error);
-    }
+    // TODO: Hook up leaderboard
+    // try {
+    //   const leaderboardData = await retrieveHighScore();
+    //   setLeaderboard(leaderboardData);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    return [{
+      name: "ACP",
+      score: 12,
+      time: 103
+    }]
   };
 
   useEffect(() => {
