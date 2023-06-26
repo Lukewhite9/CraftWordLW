@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalBody,
   ModalFooter,
+  ModalBody,
   Button,
+  Input,
 } from '@chakra-ui/react';
-import GameCountdown from './GameCountdown'; 
+import { saveHighScore, retrieveHighScore } from './api';
 
 type GameOverModalProps = {
   isOpen: boolean;
@@ -17,14 +18,42 @@ type GameOverModalProps = {
   totalTime: number;
 };
 
+type Score = {
+  name: string;
+  score: number;
+  time: number;
+};
+
 const GameOverModal: React.FC<GameOverModalProps> = ({
   isOpen,
   onClose,
   totalScore,
   totalTime,
 }) => {
-  const minutes = Math.floor(totalTime / 60);
-  const seconds = Math.round(totalTime % 60);
+  const [playerName, setPlayerName] = useState('');
+  const [leaderboard, setLeaderboard] = useState<Score[]>([]);
+
+  const handleSubmit = async () => {
+    try {
+      await saveHighScore(playerName.trim(), totalScore, totalTime);
+      await fetchLeaderboard();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchLeaderboard = async () => {
+    try {
+      const leaderboardData = await retrieveHighScore();
+      setLeaderboard(leaderboardData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLeaderboard();
+  }, []);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -33,11 +62,24 @@ const GameOverModal: React.FC<GameOverModalProps> = ({
         <ModalHeader>Game Over</ModalHeader>
         <ModalBody>
           <p>Your total score: {totalScore}</p>
-          <p>Total time taken: {minutes} minutes {seconds} seconds</p>
-          <GameCountdown /> {/* add Countdown component here */}
+          <p>Your total time: {totalTime} seconds</p>
+          <Input
+            placeholder="Enter your name"
+            value={playerName}
+            onChange={(e) => setPlayerName(e.target.value)}
+          />
+          <ul>
+            {leaderboard.map((score, index) => (
+              <li key={index}>
+                {score.name}: {score.score} points, Time: {score.time} seconds
+              </li>
+            ))}
+          </ul>
         </ModalBody>
         <ModalFooter>
-          <Button onClick={onClose}>Close</Button>
+          <Button colorScheme="blue" onClick={handleSubmit}>
+            Submit
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

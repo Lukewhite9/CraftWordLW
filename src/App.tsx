@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -21,6 +21,7 @@ import LearnModal from './LearnModal';
 import { datesAreOnSameDay } from './utils';
 import AboutModal from './AboutModal';
 import GameMenu from './GameMenu';
+import LeaderboardModal from './LeaderboardModal';
 import GameCountdown from './GameCountdown';
 
 export default function App() {
@@ -38,6 +39,12 @@ export default function App() {
     isOpen: isAboutModalOpen,
     onOpen: onAboutModalOpen,
     onClose: onAboutModalClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isLeaderboardModalOpen,
+    onOpen: onLeaderboardModalOpen,
+    onClose: onLeaderboardModalClose,
   } = useDisclosure();
 
   function readFileToArray(filePath: string) {
@@ -61,9 +68,7 @@ export default function App() {
 
   useEffect(() => {
     const localValue = localStorage.getItem('lastPlayed');
-    const lastPlayedUnixTimestamp = localValue
-      ? JSON.parse(localValue)
-      : 0;
+    const lastPlayedUnixTimestamp = localValue ? JSON.parse(localValue) : 0;
     const lastPlayedDate = new Date(lastPlayedUnixTimestamp * 1000);
     if (datesAreOnSameDay(lastPlayedDate, new Date())) {
       setAlreadyPlayed(true);
@@ -103,7 +108,10 @@ export default function App() {
                   <Text color="blue.500">WORD</Text>
                 </Flex>
               </Heading>
-              <GameMenu onAboutModalOpen={onAboutModalOpen} />
+              <GameMenu
+                onAboutModalOpen={onAboutModalOpen}
+                onLeaderboardOpen={onLeaderboardModalOpen}
+              />
             </HStack>
             <Divider mt={4} borderColor="gray.250" />
             {!isPlaying && (
@@ -177,6 +185,10 @@ export default function App() {
           }}
         />
         <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
+        <LeaderboardModal
+          isOpen={isLeaderboardModalOpen}
+          onClose={onLeaderboardModalClose}
+        />
       </Container>
     </ChakraProvider>
   );

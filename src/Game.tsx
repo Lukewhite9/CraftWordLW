@@ -4,13 +4,16 @@ import WordPair from './WordPair';
 import { isValidTransformation, isValidWord } from './utils';
 import GameOverModal from "./GameOverModal";
 import RoundModal from "./RoundModal";
-import { Round } from "./GameWrapper";
+import { Round, Score } from "./GameWrapper";
+import { saveHighScore, retrieveHighScore } from './api';
 
 type GameProps = {
-  currentRound: any; // replace any with your type
-  updateCurrentRound: (round: any) => void; // replace any with your type
+  currentRound: Round;
+  updateCurrentRound: (round: Round) => void;
   wordList: string[];
   rounds: Round[];
+  leaderboard: Score[];
+  setLeaderboard: (scores: Score[]) => void;
   isRoundOver: boolean;
   isGameOver: boolean;
   onContinue: () => void;
@@ -21,6 +24,8 @@ const Game: React.FC<GameProps> = ({
   updateCurrentRound,
   wordList,
   rounds,
+  leaderboard,
+  setLeaderboard,
   isRoundOver,
   isGameOver,
   onContinue,
@@ -29,7 +34,6 @@ const Game: React.FC<GameProps> = ({
   const { startWord, goalWord, moves } = currentRound;
   const currentWord = moves.length > 0 ? moves[moves.length - 1] : startWord;
 
-  // modal state controls
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isEndModalOpen,
@@ -68,10 +72,26 @@ const Game: React.FC<GameProps> = ({
   );
 
   useEffect(() => {
+    const saveAndRetrieveScores = async () => {
+      if (isGameOver) {
+        !isEndModalOpen && onEndModalOpen();
+        const unixTimestamp = Math.floor(new Date().getTime() / 1000);
+        localStorage.setItem('lastPlayed', JSON.stringify(unixTimestamp));
+        const newScore: Score = {
+          name: '', // Player name will be entered in the GameOverModal
+          score: currentRound.moves.length,
+          time: totalTime
+        };
+        await saveHighScore(newScore);
+        const scores = await retrieveHighScore();
+        setLeaderboard(scores);
+      }
+    };
+
+    saveAndRetrieveScores();
+
     if (isGameOver) {
-      !isEndModalOpen && onEndModalOpen();
-      const unixTimestamp = Math.floor(new Date().getTime() / 1000)
-      localStorage.setItem("lastPlayed", JSON.stringify(unixTimestamp));
+      // Existing game over logic
     } else if (isRoundOver) {
       !isOpen && onOpen();
     } else {
@@ -85,7 +105,11 @@ const Game: React.FC<GameProps> = ({
     onClose,
     isEndModalOpen,
     onEndModalOpen,
-    onEndModalClose
+    onEndModalClose,
+    currentRound.moves.length,
+    totalTime,
+    currentRound,
+    setLeaderboard
   ]);
 
   useEffect(() => {
@@ -146,6 +170,8 @@ const Game: React.FC<GameProps> = ({
         onClose={onEndModalClose}
         totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
         totalTime={totalTime}
+        leaderboard={leaderboard}
+        setLeaderboard={setLeaderboard}
       />
     </Flex>
   );
