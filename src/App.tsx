@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -12,6 +12,7 @@ import {
   Divider,
   useDisclosure,
   Link,
+  Image,
 } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
@@ -20,7 +21,8 @@ import LearnModal from './LearnModal';
 import { datesAreOnSameDay } from './utils';
 import AboutModal from './AboutModal';
 import GameMenu from './GameMenu';
-import GameCountdown from './GameCountdown'; // Import the GameCountdown component
+import LeaderboardModal from './LeaderboardModal';
+import GameCountdown from './GameCountdown';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -37,6 +39,12 @@ export default function App() {
     isOpen: isAboutModalOpen,
     onOpen: onAboutModalOpen,
     onClose: onAboutModalClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isLeaderboardModalOpen,
+    onOpen: onLeaderboardModalOpen,
+    onClose: onLeaderboardModalClose,
   } = useDisclosure();
 
   function readFileToArray(filePath: string) {
@@ -60,9 +68,7 @@ export default function App() {
 
   useEffect(() => {
     const localValue = localStorage.getItem('lastPlayed');
-    const lastPlayedUnixTimestamp = localValue
-      ? JSON.parse(localValue)
-      : 0;
+    const lastPlayedUnixTimestamp = localValue ? JSON.parse(localValue) : 0;
     const lastPlayedDate = new Date(lastPlayedUnixTimestamp * 1000);
     if (datesAreOnSameDay(lastPlayedDate, new Date())) {
       setAlreadyPlayed(true);
@@ -97,12 +103,15 @@ export default function App() {
               />
               <Heading mt="4" mb="4">
                 <Flex alignItems="center">
-                  <Text color="green.500">WORD</Text>
+                  <Text color="green.500">CRAFT</Text>
                   <Text>→</Text>
-                  <Text color="blue.500">PATH</Text>
+                  <Text color="blue.500">WORD</Text>
                 </Flex>
               </Heading>
-              <GameMenu onAboutModalOpen={onAboutModalOpen} />
+              <GameMenu
+                onAboutModalOpen={onAboutModalOpen}
+                onLeaderboardOpen={onLeaderboardModalOpen}
+              />
             </HStack>
             <Divider mt={4} borderColor="gray.250" />
             {!isPlaying && (
@@ -153,7 +162,10 @@ export default function App() {
                       colorScheme="gray"
                       mt="4"
                       w="300px"
-                      onClick={() => handleStartClick(true)}
+                      onClick={() => {
+                        handleStartClick(true);
+                        onLearnModalClose();
+                      }}
                       boxShadow="md"
                     >
                       Start Practice Mode
@@ -164,8 +176,19 @@ export default function App() {
             )}
           </Flex>
         </Box>
-        <LearnModal isOpen={isLearnModalOpen} onClose={onLearnModalClose} />
+        <LearnModal
+          isOpen={isLearnModalOpen}
+          onClose={onLearnModalClose}
+          onStartPracticeMode={() => {
+            handleStartClick(true);
+            onLearnModalClose();
+          }}
+        />
         <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
+        <LeaderboardModal
+          isOpen={isLeaderboardModalOpen}
+          onClose={onLeaderboardModalClose}
+        />
       </Container>
     </ChakraProvider>
   );

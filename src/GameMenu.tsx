@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Menu,
   MenuButton,
@@ -11,9 +12,10 @@ import { HamburgerIcon, InfoIcon, EmailIcon, StarIcon } from '@chakra-ui/icons';
 
 type GameMenuProps = {
   onAboutModalOpen: () => void;
-}
+  onLeaderboardOpen: () => void; // Add the prop for opening the leaderboard
+};
 
-const GameMenu: React.FC<GameMenuProps> = ({ onAboutModalOpen }) => {
+const GameMenu: React.FC<GameMenuProps> = ({ onAboutModalOpen, onLeaderboardOpen }) => {
   const paypalDonateLink = 'https://www.paypal.com/donate/?hosted_button_id=Y3FU5EF7L86T6';
 
   return (
@@ -29,6 +31,11 @@ const GameMenu: React.FC<GameMenuProps> = ({ onAboutModalOpen }) => {
         <MenuItem onClick={onAboutModalOpen}>
           <HStack>
             <InfoIcon /><Text>About This Game</Text>
+          </HStack>
+        </MenuItem>
+        <MenuItem onClick={onLeaderboardOpen}> {/* Add the onClick handler */}
+          <HStack>
+            <StarIcon /><Text>Leaderboard</Text> {/* Update the text */}
           </HStack>
         </MenuItem>
         <MenuItem as="a" href="mailto:wordpathgame@gmail.com">
@@ -48,7 +55,7 @@ const GameMenu: React.FC<GameMenuProps> = ({ onAboutModalOpen }) => {
         </MenuItem>
       </MenuList>
     </Menu>
-  )
-}
+  );
+};
 
-export default GameMenu
+export default GameMenu;

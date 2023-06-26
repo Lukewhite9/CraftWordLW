@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Flex } from '@chakra-ui/react';
 import { getNewWordPair, getRandomWordPair } from './utils';
 import Game from './Game';
+import { fetchScores } from './api';
 
 type GameWrapperProps = {
   wordList: string[];
@@ -14,8 +15,15 @@ export type Round = {
   moves: string[];
 };
 
+export type Score = {
+  name: string;
+  score: number;
+  time: number;
+};
+
 const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
+  const [leaderboard, setLeaderboard] = useState<Score[]>([]);
 
   const newRoundWordPair = async (roundNumber: number) => {
     try {
@@ -34,9 +42,15 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
   useEffect(() => {
     if (rounds.length === 0) {
       newRoundWordPair(1).then((pair) => addRound(pair));
-
     }
   }, [rounds.length, newRoundWordPair]);
+
+  useEffect(() => {
+    const date = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    fetchScores(date)
+      .then(data => setLeaderboard(data))
+      .catch(err => console.error('Error fetching scores:', err));
+  }, []);
 
   const addRound = useCallback((wordPair: string[]) => {
     const newRound: Round = {
@@ -45,7 +59,7 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
       moves: [],
     };
     setRounds([...rounds, newRound]);
-  }, [rounds, setRounds]);
+  }, [rounds]);
 
   const updateCurrentRound = useCallback((updateRound: Round) => {
     setRounds((prevRounds) => {
@@ -53,7 +67,7 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
       updatedRounds[updatedRounds.length - 1] = updateRound;
       return updatedRounds;
     });
-  }, [setRounds]);
+  }, []);
 
   const currentRound = rounds.length > 0 ? rounds[rounds.length - 1] : null;
   const isRoundOver = currentRound && currentRound.moves[currentRound.moves.length - 1] === currentRound.goalWord;
@@ -73,6 +87,8 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
           updateCurrentRound={updateCurrentRound}
           wordList={wordList}
           rounds={rounds}
+          leaderboard={leaderboard}
+          setLeaderboard={setLeaderboard}
           isRoundOver={!!isRoundOver}
           isGameOver={!!isGameOver}
           onContinue={() => {
