@@ -1,13 +1,11 @@
-import { useEffect, useState, useCallback } from "react";
-import {
-  Text,
-  Box,
-  Tag
-} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Box, Tag } from "@chakra-ui/react";
 import ReactTextTransition, { presets } from "react-text-transition";
 
 type PastMovesListProps = {
   moves: string[];
+  start: string;
+  goal: string;
 };
 
 const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal }) => {
@@ -58,7 +56,7 @@ const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal }) => 
       )}
       {
         Array.from({ length: maxMoves }, (_, k) => (
-          <MoveTag />
+          <MoveTag key={k} />
         ))
       }
       <MoveTag colorScheme="cyan">
@@ -68,7 +66,7 @@ const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal }) => 
   )
 };
 
-const MoveTag: React.FC<{ children: any; colorScheme?: any }> = ({
+const MoveTag: React.FC<{ children?: any; colorScheme?: any }> = ({
   children,
   colorScheme,
 }) => {
