@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Flex } from '@chakra-ui/react';
-import { getNewWordPair, getRandomWordPair } from './utils';
+import { getNewWordPair, getRandomWordPair } from '../utils/utils';
 import Game from './Game';
-import { fetchScores } from './api';
+import { fetchScores } from '../api/api';
 
 type GameWrapperProps = {
   wordList: string[];

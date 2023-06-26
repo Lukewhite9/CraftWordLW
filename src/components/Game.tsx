@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Flex, useDisclosure, Text } from '@chakra-ui/react';
 import WordPair from './WordPair';
-import { isValidTransformation, isValidWord } from './utils';
+import { isValidTransformation, isValidWord } from '../utils/utils';
 import GameOverModal from "./GameOverModal";
 import RoundModal from "./RoundModal";
 import { Round, Score } from "./GameWrapper";
-import { saveHighScore, retrieveHighScore } from './api';
+import { saveHighScore, retrieveHighScore } from '../api/api';
 
 type GameProps = {
   currentRound: Round;

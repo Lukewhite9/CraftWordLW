@@ -15,7 +15,7 @@ import {
   Th,
   Td,
 } from '@chakra-ui/react';
-import { fetchScores } from './api'; // import the function from api.ts
+import { fetchScores } from "../api/api"
 
 type Score = {
   name: string;
@@ -40,7 +40,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
 
     fetchData();
   }, [currentDate]);
-  
+
   // Get the current date in the format YYYY-MM-DD
   function getCurrentDate() {
     const currentDate = new Date();
@@ -75,7 +75,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
                     <Th>Rank</Th>
                     <Th>Name</Th>
                     <Th>Score</Th>
-                    <Th>Time</Th> 
+                    <Th>Time</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -84,7 +84,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
                       <Td>{index + 1}</Td>
                       <Td>{score.name}</Td>
                       <Td>{score.score}</Td>
-                      <Td>{score.time}</Td> 
+                      <Td>{score.time}</Td>
                     </Tr>
                   ))}
                 </Tbody>

@@ -1,4 +1,3 @@
-import React from "react";
 import ReactTextTransition, { presets } from "react-text-transition";
 
 interface CurrentWordProps {
