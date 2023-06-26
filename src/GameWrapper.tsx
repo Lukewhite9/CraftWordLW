@@ -25,7 +25,7 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [leaderboard, setLeaderboard] = useState<Score[]>([]);
 
-  const fetchNewWordPair = async (roundNumber: number) => {
+  const newRoundWordPair = async (roundNumber: number) => {
     try {
       let newWordPair;
       if (gameLength) {
@@ -41,9 +41,9 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
 
   useEffect(() => {
     if (rounds.length === 0) {
-      fetchNewWordPair(1).then((pair) => pair && addRound(pair));
+      newRoundWordPair(1).then((pair) => addRound(pair));
     }
-  }, [rounds.length, fetchNewWordPair]);
+  }, [rounds.length, newRoundWordPair]);
 
   useEffect(() => {
     const date = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
@@ -92,7 +92,7 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
           isRoundOver={!!isRoundOver}
           isGameOver={!!isGameOver}
           onContinue={() => {
-            fetchNewWordPair(rounds.length + 1).then((pair) => pair && addRound(pair))
+            newRoundWordPair(rounds.length + 1).then((pair) => { pair && addRound(pair) })
           }}
         />
       )}

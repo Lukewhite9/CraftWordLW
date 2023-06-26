@@ -1,52 +1,23 @@
-const BASE_URL = 'https://back-end.lukewhite9.repl.co';
+const BASE_URL = 'https://back-end-20.lukewhite9.repl.co';
 
-export const fetchScores = async (date: string): Promise<any> => {
+export const fetchWordPair = async (roundNumber: number): Promise<[string, string] | []> => {
+  const version = 1; // Define the version number
+
   try {
-    const response = await fetch(`${BASE_URL}/leaderboard?date=${date}`);
+    const date = new Date();
+    const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    const response = await fetch(`${BASE_URL}/wordpairs?version=${version}&date=${dateKey}&round=${roundNumber}`);
     if (!response.ok) {
-      console.error('Failed to retrieve leaderboard scores');
+      console.error('Failed to fetch new word pair');
       return [];
     }
 
     const data = await response.json();
-    return data;
+    return [data.start_word, data.goal_word];
   } catch (error) {
-    console.error('Error retrieving leaderboard scores:', error);
+    console.error('Error fetching new word pair:', error);
     return [];
-  }
-};
-
-export const saveHighScore = async (name: string, score: number, time: number): Promise<void> => {
-  try {
-    const response = await fetch(`${BASE_URL}/leaderboard`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        score,
-        time,
-      }),
-    });
-    if (!response.ok) {
-      console.error('Failed to save high score');
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const retrieveHighScore = async () => {
-  try {
-    const response = await fetch('https://back-end.lukewhite9.repl.co/leaderboard');
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-    } else {
-      console.error('Failed to retrieve high score');
-    }
-  } catch (error) {
-    console.error(error);
   }
 };
