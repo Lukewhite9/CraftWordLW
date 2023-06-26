@@ -33,8 +33,8 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose }) => {
       <ModalContent bg="gray.100">
         <ModalHeader textAlign="center">
           How To Play{" "}
-          {generateText("WORD", "green.500", "bold")} →
-          {generateText("PATH", "blue.500", "bold")}
+          {generateText("CRAFT", "green.500", "bold")} →
+          {generateText("WORD", "blue.500", "bold")}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
