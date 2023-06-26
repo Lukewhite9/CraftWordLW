@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Flex } from '@chakra-ui/react';
-import { getNewWordPair, getRandomWordPair } from '../utils/utils';
+import { getNewWordPairAPI, getRandomWordPair } from '../utils/utils';
 import Game from './Game';
 import { fetchScores } from '../api/api';
 
@@ -29,7 +29,7 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
     try {
       let newWordPair;
       if (gameLength) {
-        newWordPair = await getNewWordPair(roundNumber);
+        newWordPair = await getNewWordPairAPI(roundNumber);
       } else {
         newWordPair = await getRandomWordPair(roundNumber);
       }
