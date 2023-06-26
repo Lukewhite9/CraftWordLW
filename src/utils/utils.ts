@@ -1,5 +1,5 @@
-import { fetchWordPair } from './api';
-import wordPairs from './word_pairs_06.json';
+import { fetchWordPair } from '../api/api';
+import wordPairs from '../word_pairs_06.json';
 
 export const isValidTransformation = (word1: string, word2: string) => {
   const len_diff = word1.length - word2.length;
