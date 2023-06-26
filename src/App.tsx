@@ -23,6 +23,7 @@ import AboutModal from './AboutModal';
 import GameMenu from './GameMenu';
 import LeaderboardModal from './LeaderboardModal';
 import GameCountdown from './GameCountdown';
+import GameIntro from './GameIntro';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -115,30 +116,16 @@ export default function App() {
             </HStack>
             <Divider mt={4} borderColor="gray.250" />
             {!isPlaying && (
-              <Text fontSize="lg" mt="8">
-                Get from{' '}
-                <Text as="span" color="green.500" fontWeight="semibold">
-                  START
-                </Text>{' '}
-                to{' '}
-                <Text as="span" color="blue.500" fontWeight="semibold">
-                  GOAL
-                </Text>{' '}
-                in as few words as possible.
-                <p>
-                  First time?{' '}
-                  <Link onClick={onLearnModalOpen}>Read the rules</Link>.
-                </p>
-              </Text>
+              <GameIntro onLearnModalOpen={onLearnModalOpen} />
             )}
           </Flex>
           <Flex my={4} mx={4} direction="column" alignItems="center">
             {alreadyPlayed ? (
-              <Flex align="center" justify="center" direction="column"> 
+              <Flex align="center" justify="center" direction="column">
                 <Text textAlign="center">
                   Looks like you already played today's round. Check back tomorrow!
                 </Text>
-                <GameCountdown /> 
+                <GameCountdown />
               </Flex>
             ) : (
               <>
