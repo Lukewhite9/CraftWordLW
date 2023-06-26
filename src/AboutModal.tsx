@@ -35,7 +35,6 @@ export default function AboutModal({ isOpen, onClose }) {
   <Text mb={5}>I thought of CRAFTWORD while watching my four year old son learn to spell. I learned to code the game by asking ChatGPT how to make it, and then I finished it with a human friend. Thanks for playing!</Text>
   <Text mb={6}></Text>
   <Text ml={8} mb={2}>-Lukematik</Text>
-  
 </ModalBody>
 <ModalFooter justifyContent="right">
   <Text color="gray.500" fontSize="xs">©2023 Lukematik and ACPrice</Text>

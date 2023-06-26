@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -21,7 +21,7 @@ import LearnModal from './LearnModal';
 import { datesAreOnSameDay } from './utils';
 import AboutModal from './AboutModal';
 import GameMenu from './GameMenu';
-import GameCountdown from './GameCountdown'; // Import the GameCountdown component
+import GameCountdown from './GameCountdown';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -154,7 +154,10 @@ export default function App() {
                       colorScheme="gray"
                       mt="4"
                       w="300px"
-                      onClick={() => handleStartClick(true)}
+                      onClick={() => {
+                        handleStartClick(true);
+                        onLearnModalClose();
+                      }}
                       boxShadow="md"
                     >
                       Start Practice Mode
@@ -165,7 +168,14 @@ export default function App() {
             )}
           </Flex>
         </Box>
-        <LearnModal isOpen={isLearnModalOpen} onClose={onLearnModalClose} />
+        <LearnModal
+          isOpen={isLearnModalOpen}
+          onClose={onLearnModalClose}
+          onStartPracticeMode={() => {
+            handleStartClick(true);
+            onLearnModalClose();
+          }}
+        />
         <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
       </Container>
     </ChakraProvider>
