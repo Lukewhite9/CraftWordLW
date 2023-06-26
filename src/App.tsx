@@ -12,6 +12,7 @@ import {
   Divider,
   useDisclosure,
   Link,
+  Image,
 } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
