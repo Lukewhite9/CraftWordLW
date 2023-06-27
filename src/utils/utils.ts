@@ -1,4 +1,5 @@
-import wordPairs from './word_pairs_06.json';
+import { fetchWordPair } from '../api/api';
+import wordPairs from '../word_pairs_06.json';
 
 export const isValidTransformation = (word1: string, word2: string) => {
   const len_diff = word1.length - word2.length;
@@ -66,16 +67,22 @@ export const isValidTransformation = (word1: string, word2: string) => {
   return false;
 }
 
-
-
 export const isValidWord = (word: string, wordList: string[]) => {
   return wordList.includes(word.toLowerCase());
 }
 
-export const getWordPairs = async () => {
-  const response = await fetch('src/word_pairs.json');
-  const data = await response.json();
-  return data;
+export const getNewWordPairAPI = async (roundNumber: number): Promise<[string, string] | []> => {
+  try {
+    const pairData = await fetchWordPair(roundNumber); // fetchWordPair already handles errors and returns parsed data
+    if (pairData.length < 2) { // If no word pair was returned
+      console.error('Failed to fetch new word pair');
+      return [];
+    }
+    return pairData;
+  } catch (error) {
+    console.error('Error fetching new word pair:', error);
+    return [];
+  }
 };
 
 export const getNewWordPair = async (roundNumber: number): Promise<[string, string] | []> => {
@@ -95,14 +102,6 @@ export const getNewWordPair = async (roundNumber: number): Promise<[string, stri
   }
 };
 
-
-// Get the appropriate file based on round number
-const getFileName = (roundNumber: number) => {
-  // Calculate difficulty based on round number
-  const difficulty = Math.min(Math.floor((roundNumber + 1) / 2), 25);
-  return `${difficulty}_steps.txt`;
-}
-
 export const getRandomWordPair = async (roundNumber: number) => {
   const fileName = getFileName(roundNumber);
   // Load the word pair file
@@ -115,6 +114,13 @@ export const getRandomWordPair = async (roundNumber: number) => {
 
   // Split the line into words and return as a pair
   return randomLine.split(',');
+}
+
+// Get the appropriate file based on round number
+const getFileName = (roundNumber: number) => {
+  // Calculate difficulty based on round number
+  const difficulty = Math.min(Math.floor((roundNumber + 1) / 2), 25);
+  return `${difficulty}_steps.txt`;
 }
 
 export const datesAreOnSameDay = (first: Date, second: Date) =>
