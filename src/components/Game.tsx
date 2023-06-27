@@ -49,7 +49,7 @@ const Game: React.FC<GameProps> = ({
       const validTransformation = isValidTransformation(currentWord, userInput);
       const validWord = isValidWord(userInput, wordList);
       const isSameWord = currentWord === userInput;
-      let newErrorMessage = '';
+      let newErrorMessage = "";
 
       if (validTransformation && validWord && !isSameWord) {
         clearInput();
@@ -63,11 +63,11 @@ const Game: React.FC<GameProps> = ({
         if (!validWord && !validTransformation) {
           newErrorMessage = "Nope, that change is not allowed, and it's not a word in English.";
         } else if (!validWord) {
-          newErrorMessage += "Nope, not a valid English word. ";
+          newErrorMessage = "Nope, not a valid English word.";
         } else if (isSameWord) {
-          newErrorMessage += "Nope, try to change the word. ";
+          newErrorMessage = "Nope, try to change the word.";
         } else if (!validTransformation) {
-          newErrorMessage += "Nope, that change is not allowed. ";
+          newErrorMessage = "Nope, that change is not allowed.";
         }
 
         setErrorMessage(newErrorMessage.trim());
