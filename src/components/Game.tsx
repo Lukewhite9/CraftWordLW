@@ -58,7 +58,6 @@ const Game: React.FC<GameProps> = ({
           moves: [...currentRound.moves, userInput.toLowerCase()],
         });
         setErrorMessage(null);
-        setInvalidMoveCount(0);
       } else {
         clearInput();
         if (!validWord && !validTransformation) {
@@ -72,7 +71,6 @@ const Game: React.FC<GameProps> = ({
         }
 
         setErrorMessage(newErrorMessage.trim());
-        setInvalidMoveCount(count => count + 1); 
       }
     },
     [currentWord, wordList, currentRound, updateCurrentRound]
