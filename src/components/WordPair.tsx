@@ -8,6 +8,7 @@ type WordPairProps = {
   onSubmitWord: (userInput: string, clearInput: () => void) => void;
   currentWord: string;
   pastMoves: string[];
+  maxMoves: number;
   errorMessage: string | null;
 };
 
@@ -16,6 +17,7 @@ const WordPair: React.FC<WordPairProps> = ({
   onSubmitWord,
   currentWord,
   pastMoves,
+  maxMoves,
   errorMessage,
 }) => {
   const [userInput, setUserInput] = useState<string>("");
@@ -41,6 +43,8 @@ const WordPair: React.FC<WordPairProps> = ({
     });
   };
 
+  console.log(currentWord)
+
   return (
     <Flex
       direction="column"
@@ -58,7 +62,12 @@ const WordPair: React.FC<WordPairProps> = ({
           <Text fontWeight="bold" fontSize="xl">{wordPair[1]}</Text>
         </Box>
       </Flex>
-      <PastMovesList moves={pastMoves} start={wordPair[0]} goal={wordPair[1]} />
+      <PastMovesList
+        moves={pastMoves}
+        start={wordPair[0]}
+        goal={wordPair[1]}
+        maxMoves={maxMoves}
+      />
       <Flex direction="column" alignItems="center" mt="4">
         <Flex width="100%" alignItems="center" justifyContent="center">
           <Input

@@ -1,5 +1,5 @@
 import { fetchWordPair } from '../api/api';
-import wordPairs from '../word_pairs_06.json';
+import wordPairs from '../../words/word_pairs_06.json'
 
 export const isValidTransformation = (word1: string, word2: string) => {
   const len_diff = word1.length - word2.length;
@@ -71,17 +71,17 @@ export const isValidWord = (word: string, wordList: string[]) => {
   return wordList.includes(word.toLowerCase());
 }
 
-export const getNewWordPairAPI = async (roundNumber: number): Promise<[string, string] | []> => {
+export const getNewWordPairAPI = async (roundNumber: number): Promise<{ startWord: string, goalWord: string, pathLength: number } | null> => {
   try {
     const pairData = await fetchWordPair(roundNumber); // fetchWordPair already handles errors and returns parsed data
     if (pairData.length < 2) { // If no word pair was returned
       console.error('Failed to fetch new word pair');
-      return [];
+      return null;
     }
     return pairData;
   } catch (error) {
     console.error('Error fetching new word pair:', error);
-    return [];
+    return null;
   }
 };
 
@@ -113,7 +113,12 @@ export const getRandomWordPair = async (roundNumber: number) => {
   const randomLine = lines[Math.floor(Math.random() * lines.length)];
 
   // Split the line into words and return as a pair
-  return randomLine.split(',');
+  const words = randomLine.split(',');
+  return {
+    startWord: words[0],
+    goalWord: words[1],
+    pathLength: 20,
+  }
 }
 
 // Get the appropriate file based on round number

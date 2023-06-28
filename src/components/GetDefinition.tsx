@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, Box } from "@chakra-ui/react";
+import { fetchDefinition } from '../api/api'
 
 type GetDefinitionProps = {
   word: string;
@@ -11,23 +12,21 @@ const GetDefinition: React.FC<GetDefinitionProps> = ({ word }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    // Clear previous error message
-    setErrorMessage(null);
-
-    fetch(`https://back-end.lukewhite9.repl.co/definition/${word}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.length === 0) {
-          setErrorMessage('No definition found');
-        } else {
+    const fetchData = async () => {
+      try {
+        const data = await fetchDefinition(word);
+        if (!data || data.length === 0) {
+          setErrorMessage("Oops! We couldn't get a definition for this word.");
+        } else if (data) {
           setDefinitionData(data);
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        setErrorMessage('Error fetching definition');
-      });
-  }, [word]);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+
+    fetchData();
+  }, [word, setDefinitionData, setErrorMessage]);
 
   const removeHtmlTags = (text: string) => {
     return text.replace(/<[^>]+>/g, '');
@@ -40,6 +39,8 @@ const GetDefinition: React.FC<GetDefinitionProps> = ({ word }) => {
       </Box>
     );
   }
+
+  console.log(definitionData)
 
   return (
     <Box color="gray.500" fontSize="sm" textAlign="left" mt="0.5">

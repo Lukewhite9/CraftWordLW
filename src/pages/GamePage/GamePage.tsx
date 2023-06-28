@@ -13,14 +13,14 @@ import {
 } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
-import GameWrapper from '../GameWrapper';
-import LearnModal from '../LearnModal';
+import GameWrapper from '../../components/GameWrapper'
+import LearnModal from '../../components/LearnModal';
 import { datesAreOnSameDay } from '../../utils/utils';
-import AboutModal from '../AboutModal';
-import GameMenu from '../GameMenu';
-import LeaderboardModal from '../LeaderboardModal';
-import GameCountdown from '../GameCountdown';
-import GameIntro from '../GameIntro';
+import AboutModal from '../../components/AboutModal';
+import GameMenu from '../../components/GameMenu';
+import LeaderboardModal from '../../components/LeaderboardModal';
+import GameCountdown from '../../components/GameCountdown';
+import GameIntro from '../../components/GameIntro';
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -58,7 +58,7 @@ export default function App() {
   async function handleStartClick(practiceMode: boolean = false) {
     setIsPlaying(true);
     setIsPracticeMode(practiceMode);
-    const filePath = '../ospd.txt';
+    const filePath = '../dictionary/ospd.txt';
     readFileToArray(filePath).then((wordList) => {
       setWordList(wordList);
     });

@@ -6,13 +6,14 @@ type PastMovesListProps = {
   moves: string[];
   start: string;
   goal: string;
+  maxMoves: number;
 };
 
-const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal }) => {
+const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal, maxMoves }) => {
   const [newWord, setNewWord] = useState("");
+  console.log(moves)
 
   const remainingList = moves.length > 1 ? moves.slice(0, -1) : [];
-  const maxMoves = 15 - moves.length;
 
   useEffect(() => {
     let timer: any;
@@ -24,6 +25,8 @@ const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal }) => 
       timer = setTimeout(() => {
         setNewWord(currentWord);
       }, 500);
+    } else {
+      setNewWord("");
     }
     return () => { timer && clearTimeout(timer); }
   }, [moves.length, start]);
@@ -55,7 +58,7 @@ const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal }) => 
         </MoveTag>
       )}
       {
-        Array.from({ length: maxMoves }, (_, k) => (
+        Array.from({ length: maxMoves - moves.length }, (_, k) => (
           <MoveTag key={k} />
         ))
       }

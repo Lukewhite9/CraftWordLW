@@ -1,11 +1,11 @@
 import { ChakraProvider } from '@chakra-ui/react';
 
-import MainTmp from './components/MainTmp';
+import GamePage from './pages/GamePage';
 
 export default function App() {
   return (
     <ChakraProvider>
-      <MainTmp />
+      <GamePage />
     </ChakraProvider>
   );
 }
