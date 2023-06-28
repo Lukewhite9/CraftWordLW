@@ -14,7 +14,7 @@ export const fetchWordPair = async (roundNumber: number): Promise<[string, strin
       return [];
     }
 
-    const data = await response.json();
+        const data = await response.json();
 return [data.start_word, data.goal_word];
   } catch (error) {
     console.error('Error fetching new word pair:', error);
