@@ -156,6 +156,7 @@ const Game: React.FC<GameProps> = ({
         onSubmitWord={checkTransformation}
         currentWord={currentWord}
         pastMoves={moves}
+        maxMoves={currentRound.maxMoves}
         errorMessage={errorMessage}
       />
       <RoundModal

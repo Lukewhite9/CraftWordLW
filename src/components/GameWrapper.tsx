@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Flex } from '@chakra-ui/react';
-import { getNewWordPair, getRandomWordPair } from '../utils/utils';
+import { getNewWordPairAPI, getRandomWordPair } from '../utils/utils';
 import Game from './Game';
 import { fetchScores } from '../api/api';
 
@@ -12,6 +12,7 @@ type GameWrapperProps = {
 export type Round = {
   startWord: string;
   goalWord: string;
+  maxMoves: number;
   moves: string[];
 };
 
@@ -25,15 +26,15 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [leaderboard, setLeaderboard] = useState<Score[]>([]);
 
-  const newRoundWordPair = async (roundNumber: number) => {
+  const newRound = async (roundNumber: number) => {
     try {
-      let newWordPair;
+      let newRound;
       if (gameLength) {
-        newWordPair = await getNewWordPair(roundNumber);
+        newRound = await getNewWordPairAPI(roundNumber);
       } else {
-        newWordPair = await getRandomWordPair(roundNumber);
+        newRound = await getRandomWordPair(roundNumber);
       }
-      return newWordPair;
+      return newRound;
     } catch (error) {
       console.error(error);
     }
@@ -41,9 +42,9 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
 
   useEffect(() => {
     if (rounds.length === 0) {
-      newRoundWordPair(1).then((pair) => addRound(pair));
+      newRound(1).then((round) => round && addRound(round));
     }
-  }, [rounds.length, newRoundWordPair]);
+  }, [rounds.length, newRound]);
 
   useEffect(() => {
     const date = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
@@ -52,10 +53,10 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
       .catch(err => console.error('Error fetching scores:', err));
   }, []);
 
-  const addRound = useCallback((wordPair: string[]) => {
+  const addRound = useCallback((roundData: { startWord: string, goalWord: string, pathLength: number }) => {
     const newRound: Round = {
-      startWord: wordPair[0],
-      goalWord: wordPair[1],
+      ...roundData,
+      maxMoves: roundData.pathLength + 1,
       moves: [],
     };
     setRounds([...rounds, newRound]);
@@ -70,7 +71,7 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
   }, []);
 
   const currentRound = rounds.length > 0 ? rounds[rounds.length - 1] : null;
-  const isRoundOver = currentRound && currentRound.moves[currentRound.moves.length - 1] === currentRound.goalWord;
+  const isRoundOver = currentRound && (currentRound.moves[currentRound.moves.length - 1] === currentRound.goalWord || currentRound.moves.length === currentRound.maxMoves);
   const isGameOver = isRoundOver && rounds.length === gameLength;
 
   return (
@@ -92,7 +93,7 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
           isRoundOver={!!isRoundOver}
           isGameOver={!!isGameOver}
           onContinue={() => {
-            newRoundWordPair(rounds.length + 1).then((pair) => { pair && addRound(pair) })
+            newRound(rounds.length + 1).then((round) => round && addRound(round))
           }}
         />
       )}
