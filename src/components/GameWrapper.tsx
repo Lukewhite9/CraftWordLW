@@ -24,47 +24,43 @@ export type Score = {
 
 const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
+  const [allRoundData, setAllRoundData] = useState<Round[]>([]);
   const [leaderboard, setLeaderboard] = useState<Score[]>([]);
 
   const loadGameData = useCallback(async () => {
-  const roundsData = await getNewWordPairAPI(rounds.length + 1);
+    console.log('Loading game data...');
+
+    const roundsData = await getNewWordPairAPI(gameLength);
+
+    console.log('Loaded game data:', roundsData);
 
     if (!roundsData) {
       // Handle error case
       return;
     }
 
-    roundsData.forEach((round) => addRound(round));
-  }, [gameLength]);
-
-  const newRound = useCallback(async (roundsNumber: number) => {
-  // Call loadGameData to fetch the game data if it hasn't been loaded yet
-  if (rounds.length === 0) {
-    await loadGameData();
-  }
-
-  // Retrieve the data for the current round
-  const roundData = rounds[roundsNumber - 1];
-
-  // Return the round data
-  return roundData;
-}, [rounds.length, loadGameData]);
-
-
-  useEffect(() => {
-    if (gameLength && rounds.length < gameLength) {
-      // Load the game data initially
-      loadGameData();
-    }
-  }, [rounds.length, gameLength, loadGameData]);
-
-  const addRound = useCallback((roundData: { startWord: string, goalWord: string, pathLength: number }) => {
-    const newRound: Round = {
+    const rounds: Round[] = roundsData.map((roundData) => ({
       ...roundData,
       maxMoves: roundData.pathLength + 1,
       moves: [],
-    };
-    setRounds((prevRounds) => [...prevRounds, newRound]);
+    }));
+
+    setAllRoundData(rounds);
+  }, [gameLength]);
+
+  const newRound = useCallback((roundsNumber: number) => {
+    const roundData = allRoundData[roundsNumber - 1];
+    return roundData;
+  }, [allRoundData]);
+
+  useEffect(() => {
+    if (gameLength) {
+      loadGameData();
+    }
+  }, [gameLength, loadGameData]);
+
+  const addRound = useCallback((roundData: Round) => {
+    setRounds((prevRounds) => [...prevRounds, roundData]);
   }, []);
 
   const updateCurrentRound = useCallback((updateRound: Round) => {
@@ -105,7 +101,11 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
           isRoundOver={!!isRoundOver}
           isGameOver={!!isGameOver}
           onContinue={() => {
-            newRound(rounds.length + 1).then((round) => round && addRound(round))
+            newRound(rounds.length + 1).then((round) => {
+              if (round) {
+                addRound(round);
+              }
+            });
           }}
         />
       )}

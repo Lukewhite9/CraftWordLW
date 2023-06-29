@@ -11,7 +11,7 @@ import {
 
 type RoundModalProps = {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: () => void; // Add onClose prop
   score: number;
   onContinue: () => void;
   time: number;
@@ -19,7 +19,7 @@ type RoundModalProps = {
 
 const RoundModal: React.FC<RoundModalProps> = ({
   isOpen,
-  onClose,
+  onClose, // Receive onClose prop
   score,
   onContinue,
   time,
@@ -37,14 +37,7 @@ const RoundModal: React.FC<RoundModalProps> = ({
           <p>Time taken: {minutes} minutes {seconds} seconds</p>
         </ModalBody>
         <ModalFooter>
-          <Button
-  onClick={() => {
-    onContinue();
-    onClose();
-  }}
->
-  Continue
-</Button>
+          <Button onClick={onContinue}>Continue</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
