@@ -37,7 +37,14 @@ const RoundModal: React.FC<RoundModalProps> = ({
           <p>Time taken: {minutes} minutes {seconds} seconds</p>
         </ModalBody>
         <ModalFooter>
-          <Button onClick={onContinue}>Continue</Button>
+          <Button
+  onClick={() => {
+    onContinue();
+    onClose();
+  }}
+>
+  Continue
+</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
