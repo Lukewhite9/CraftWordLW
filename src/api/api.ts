@@ -7,6 +7,8 @@ export const fetchDefinition = async (word: string): Promise<any> => {
 
 export const fetchWordPair = async (): Promise<any | {}> => {
   try {
+    console.log('fetchWordPair started'); // log when the function starts
+
     const date = new Date();
     const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)
       .toString()
@@ -14,17 +16,24 @@ export const fetchWordPair = async (): Promise<any | {}> => {
 
     const response = await fetch(`${BASE_URL}/wordpairs?date=${dateKey}`);
 
+    console.log('fetch response received', response); // log when the response is received
+
     if (!response.ok) {
       console.error('Failed to fetch new word pair');
       return {};
     }
 
     const data = await response.json();
+
+    console.log('data parsed', data); // log when the data is parsed
+
     const gameData = data.rounds.map((round) => ({
       startWord: round.start_word,
       goalWord: round.goal_word,
       pathLength: round.path_length,
     }));
+
+    console.log('gameData', gameData); // log the final result
 
     return {
       gameID: data.gameID,

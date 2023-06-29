@@ -127,9 +127,9 @@ export default function App() {
             <>
               {isPlaying && wordList.length > 0 ? (
                 <GameWrapper
-                  wordList={wordList}
-                  gameLength={isPracticeMode ? null : 5}
-                />
+    wordList={wordList}
+    gameLength={isPracticeMode ? null : 5}
+/>
               ) : (
                 <>
                   <Button
