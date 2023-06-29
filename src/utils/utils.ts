@@ -1,5 +1,5 @@
 import { fetchWordPair } from '../api/api';
-import wordPairs from '../../words/word_pairs_06.json'
+
 
 export const isValidTransformation = (word1: string, word2: string) => {
   const len_diff = word1.length - word2.length;
@@ -71,36 +71,21 @@ export const isValidWord = (word: string, wordList: string[]) => {
   return wordList.includes(word.toLowerCase());
 }
 
-export const getNewWordPairAPI = async (roundNumber: number): Promise<{ startWord: string, goalWord: string, pathLength: number } | null> => {
+export const getNewWordPairAPI = async (): Promise<{ gameID: string, rounds: {startWord: string, goalWord: string, pathLength: number}[] } | null> => {
   try {
-    const pairData = await fetchWordPair(roundNumber); // fetchWordPair already handles errors and returns parsed data
-    if (pairData.length < 2) { // If no word pair was returned
+    const gameData = await fetchWordPair(); // fetchWordPair already handles errors and returns parsed data
+    if (!gameData.gameID || gameData.rounds.length !== 5) { // If game data is invalid
       console.error('Failed to fetch new word pair');
       return null;
     }
-    return pairData;
+    console.log(gameData); // Displaying all the game data in the console
+    return gameData;
   } catch (error) {
     console.error('Error fetching new word pair:', error);
     return null;
   }
 };
 
-export const getNewWordPair = async (roundNumber: number): Promise<[string, string] | []> => {
-  const date = new Date();
-  const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
-  // TODO: add typing for JSON
-  // @ts-ignore
-  const dayConfig = wordPairs[dateKey];
-  const roundConfig = dayConfig ? dayConfig[`${roundNumber}`] : null;
-  if (roundConfig) {
-    return [roundConfig.start_word, roundConfig.goal_word];
-  } else {
-    console.error("No data found for the current date and round number");
-    return [];
-  }
-};
 
 export const getRandomWordPair = async (roundNumber: number) => {
   const fileName = getFileName(roundNumber);
