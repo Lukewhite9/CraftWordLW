@@ -71,20 +71,24 @@ export const isValidWord = (word: string, wordList: string[]) => {
   return wordList.includes(word.toLowerCase());
 }
 
-export const getNewWordPairAPI = async (): Promise<{ gameID: string, rounds: {startWord: string, goalWord: string, pathLength: number}[] } | null> => {
+export const getNewWordPairAPI = async (rounds: number = 5): Promise<{ startWord: string, goalWord: string, pathLength: number }[] | null> => {
   try {
-    const gameData = await fetchWordPair(); // fetchWordPair already handles errors and returns parsed data
-    if (!gameData.gameID || gameData.rounds.length !== 5) { // If game data is invalid
-      console.error('Failed to fetch new word pair');
-      return null;
+    const pairsData = [];
+    for (let i = 1; i <= rounds; i++) {
+      const pairData = await fetchWordPair(i);
+      if (pairData.length < 2) {
+        console.error('Failed to fetch new word pair for round', i);
+        return null;
+      }
+      pairsData.push(pairData);
     }
-    console.log(gameData); // Displaying all the game data in the console
-    return gameData;
+    return pairsData;
   } catch (error) {
-    console.error('Error fetching new word pair:', error);
+    console.error('Error fetching new word pairs:', error);
     return null;
   }
 };
+
 
 
 export const getRandomWordPair = async (roundNumber: number) => {
