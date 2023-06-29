@@ -5,16 +5,14 @@ export const fetchDefinition = async (word: string): Promise<any> => {
   return fetch(`${BASE_URL}/definition/${word}`).then(data => data.json());
 }
 
-export const fetchWordPair = async (roundNumber: number): Promise<any | {}> => {
-  const version = 1; // Define the version number
-
+export const fetchWordPair = async (): Promise<any | {}> => {
   try {
     const date = new Date();
     const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)
       .toString()
       .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
-    const response = await fetch(`${BASE_URL}` + `/wordpairs?version=${version}&date=${dateKey}&round=${roundNumber}`);
+    const response = await fetch(`${BASE_URL}/wordpairs?date=${dateKey}`);
 
     if (!response.ok) {
       console.error('Failed to fetch new word pair');
@@ -22,10 +20,15 @@ export const fetchWordPair = async (roundNumber: number): Promise<any | {}> => {
     }
 
     const data = await response.json();
+    const gameData = data.rounds.map((round) => ({
+      startWord: round.start_word,
+      goalWord: round.goal_word,
+      pathLength: round.path_length,
+    }));
+
     return {
-      startWord: data.start_word,
-      goalWord: data.goal_word,
-      pathLength: data.path_length,
+      gameID: data.gameID,
+      rounds: gameData
     };
   } catch (error) {
     console.error('Error fetching new word pair:', error);
