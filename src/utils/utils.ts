@@ -73,21 +73,27 @@ export const isValidWord = (word: string, wordList: string[]) => {
 
 export const getNewWordPairAPI = async (rounds: number = 5): Promise<{ startWord: string, goalWord: string, pathLength: number }[] | null> => {
   try {
-    const pairsData = [];
-    for (let i = 1; i <= rounds; i++) {
-      const pairData = await fetchWordPair(i);
-      if (pairData.length < 2) {
-        console.error('Failed to fetch new word pair for round', i);
-        return null;
-      }
-      pairsData.push(pairData);
+    const pairData = await fetchWordPair();
+    
+    if (pairData.rounds.length < rounds) {
+      console.error('Insufficient word pairs available');
+      return null;
     }
-    return pairsData;
+
+    const gameID = pairData.gameID;
+    const pairsData = pairData.rounds.slice(0, rounds);
+
+    return pairsData.map((round) => ({
+      startWord: round.startWord,
+      goalWord: round.goalWord,
+      pathLength: round.pathLength,
+    }));
   } catch (error) {
     console.error('Error fetching new word pairs:', error);
     return null;
   }
 };
+
 
 
 

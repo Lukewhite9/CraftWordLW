@@ -26,7 +26,7 @@ export const fetchWordPair = async (): Promise<any | {}> => {
     const data = await response.json();
 
     console.log('data parsed', data); // log when the data is parsed
-
+    console.log('Received game ID:', data.gameID);
     const gameData = data.rounds.map((round) => ({
       startWord: round.start_word,
       goalWord: round.goal_word,

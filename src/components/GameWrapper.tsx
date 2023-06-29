@@ -26,20 +26,37 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [leaderboard, setLeaderboard] = useState<Score[]>([]);
 
-  const newRound = useCallback(async (roundsNumber: number) => {
-    let roundsData: any[];
-    try {
-      if (gameLength) {
-        roundsData = await getNewWordPairAPI(roundsNumber);
-      } else {
-        roundsData = Array(roundsNumber).fill(0).map((_, i) => getRandomWordPair(i + 1));
-        roundsData = await Promise.all(roundsData);
-      }
-      return roundsData;
-    } catch (error) {
-      console.error(error);
+  const loadGameData = useCallback(async () => {
+  const roundsData = await getNewWordPairAPI(rounds.length + 1);
+
+    if (!roundsData) {
+      // Handle error case
+      return;
     }
+
+    roundsData.forEach((round) => addRound(round));
   }, [gameLength]);
+
+  const newRound = useCallback(async (roundsNumber: number) => {
+  // Call loadGameData to fetch the game data if it hasn't been loaded yet
+  if (rounds.length === 0) {
+    await loadGameData();
+  }
+
+  // Retrieve the data for the current round
+  const roundData = rounds[roundsNumber - 1];
+
+  // Return the round data
+  return roundData;
+}, [rounds.length, loadGameData]);
+
+
+  useEffect(() => {
+    if (gameLength && rounds.length < gameLength) {
+      // Load the game data initially
+      loadGameData();
+    }
+  }, [rounds.length, gameLength, loadGameData]);
 
   const addRound = useCallback((roundData: { startWord: string, goalWord: string, pathLength: number }) => {
     const newRound: Round = {
@@ -47,22 +64,7 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
       maxMoves: roundData.pathLength + 1,
       moves: [],
     };
-    setRounds(prevRounds => [...prevRounds, newRound]);
-  }, []);
-
-  useEffect(() => {
-    if (gameLength && rounds.length < gameLength) {
-      newRound(gameLength).then((roundsData) => {
-        roundsData && roundsData.forEach((round) => addRound(round));
-      });
-    }
-  }, [rounds.length, newRound, gameLength, addRound]);
-
-  useEffect(() => {
-    const date = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-    fetchScores(date)
-      .then(data => setLeaderboard(data))
-      .catch(err => console.error('Error fetching scores:', err));
+    setRounds((prevRounds) => [...prevRounds, newRound]);
   }, []);
 
   const updateCurrentRound = useCallback((updateRound: Round) => {
@@ -71,6 +73,13 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
       updatedRounds[updatedRounds.length - 1] = updateRound;
       return updatedRounds;
     });
+  }, []);
+
+  useEffect(() => {
+    const date = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    fetchScores(date)
+      .then(data => setLeaderboard(data))
+      .catch(err => console.error('Error fetching scores:', err));
   }, []);
 
   const currentRound = rounds.length > 0 ? rounds[rounds.length - 1] : null;
@@ -87,23 +96,18 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
       </Flex>
       {currentRound && (
         <Game
-  currentRound={currentRound}
-  updateCurrentRound={updateCurrentRound}
-  wordList={wordList}
-  rounds={rounds}
-  leaderboard={leaderboard}
-  setLeaderboard={setLeaderboard}
-  isRoundOver={!!isRoundOver}
-  isGameOver={!!isGameOver}
-  onContinue={() => {
-    if (rounds.length < gameLength) {
-      newRound(gameLength - rounds.length).then((roundsData) => {
-        roundsData && roundsData.forEach((round) => addRound(round));
-      });
-    }
-  }}
-/>
-
+          currentRound={currentRound}
+          updateCurrentRound={updateCurrentRound}
+          wordList={wordList}
+          rounds={rounds}
+          leaderboard={leaderboard}
+          setLeaderboard={setLeaderboard}
+          isRoundOver={!!isRoundOver}
+          isGameOver={!!isGameOver}
+          onContinue={() => {
+            newRound(rounds.length + 1).then((round) => round && addRound(round))
+          }}
+        />
       )}
     </div>
   );
