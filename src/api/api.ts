@@ -5,7 +5,7 @@ export const fetchDefinition = async (word: string): Promise<any> => {
   return fetch(`${BASE_URL}/definition/${word}`).then(data => data.json());
 }
 
-export const fetchWordPair = async (): Promise<any | {}> => {
+export const fetchWordPair = async (version: number): Promise<any | {}> => {
   try {
     console.log('fetchWordPair started'); // log when the function starts
 
@@ -14,7 +14,7 @@ export const fetchWordPair = async (): Promise<any | {}> => {
       .toString()
       .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
-    const response = await fetch(`${BASE_URL}/wordpairs?date=${dateKey}`);
+    const response = await fetch(`${BASE_URL}/wordpairs?date=${dateKey}&version=${version}`);
 
     console.log('fetch response received', response); // log when the response is received
 

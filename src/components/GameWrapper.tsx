@@ -22,6 +22,7 @@ export type Score = {
   time: number;
 };
 
+
 const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [allRoundData, setAllRoundData] = useState<Round[]>([]);
@@ -101,13 +102,12 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
           isRoundOver={!!isRoundOver}
           isGameOver={!!isGameOver}
           onContinue={() => {
-            newRound(rounds.length + 1).then((round) => {
-              if (round) {
-                addRound(round);
-              }
-            });
-          }}
-        />
+    const round = newRound(rounds.length + 1);
+    if (round) {
+      addRound(round);
+    }
+  }}
+/>
       )}
     </div>
   );
