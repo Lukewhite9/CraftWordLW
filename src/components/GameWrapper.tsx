@@ -4,6 +4,7 @@ import { getNewWordPairAPI, getRandomWordPair } from '../utils/utils';
 import Game from './Game';
 import { fetchScores } from '../api/api';
 
+
 type GameWrapperProps = {
   wordList: string[];
   gameLength: number | null;
