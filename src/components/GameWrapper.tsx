@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Flex } from '@chakra-ui/react';
-import { getNewWordPairAPI, getRandomWordPair } from '../utils/utils';
+import { Flex, Text, Button } from '@chakra-ui/react';
 import Game from './Game';
-import { fetchScores } from '../api/api';
+import { fetchWordPair } from '../api/api';
 
 
 type GameWrapperProps = {
   wordList: string[];
-  gameLength: number | null;
 };
 
 export type Round = {
@@ -15,6 +13,8 @@ export type Round = {
   goalWord: string;
   maxMoves: number;
   moves: string[];
+  startedAt: any;
+  completedAt: any;
 };
 
 export type Score = {
@@ -24,65 +24,57 @@ export type Score = {
 };
 
 
-const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
+const GameWrapper: React.FC<GameWrapperProps> = ({ wordList }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
-  const [allRoundData, setAllRoundData] = useState<Round[]>([]);
-  const [leaderboard, setLeaderboard] = useState<Score[]>([]);
+  const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
 
-  const loadGameData = useCallback(async () => {
-    console.log('Loading game data...');
+  const advanceRound = useCallback(() => {
+    const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
+    setCurrentRoundIndex(nextRoundIndex);
+  }, [currentRoundIndex, setCurrentRoundIndex]);
 
-    const roundsData = await getNewWordPairAPI(gameLength);
-
-    console.log('Loaded game data:', roundsData);
-
+  const startGame = useCallback(async () => {
+    const roundsData = await fetchWordPair();
     if (!roundsData) {
-      // Handle error case
+      console.log("Error fetching game");
       return;
     }
 
-    const rounds: Round[] = roundsData.map((roundData) => ({
-      ...roundData,
-      maxMoves: roundData.pathLength + 1,
-      moves: [],
-    }));
-
-    setAllRoundData(rounds);
-  }, [gameLength]);
-
-  const newRound = useCallback((roundsNumber: number) => {
-    const roundData = allRoundData[roundsNumber - 1];
-    return roundData;
-  }, [allRoundData]);
+    setRounds(
+      roundsData.rounds.map((round: any) => ({
+        ...round,
+        maxMoves: round.pathLength + 1,
+        moves: [],
+        startedAt: null,
+        completedAt: null,
+      })));
+    advanceRound();
+  }, [advanceRound, setRounds]);
 
   useEffect(() => {
-    if (gameLength) {
-      loadGameData();
+    if (currentRoundIndex === null) {
+      startGame();
     }
-  }, [gameLength, loadGameData]);
+  }, [currentRoundIndex]);
 
-  const addRound = useCallback((roundData: Round) => {
-    setRounds((prevRounds) => [...prevRounds, roundData]);
-  }, []);
+  const updateCurrentRound = useCallback((move: string) => {
+    if (currentRoundIndex !== null) {
+      setRounds((prevRounds) => {
+        const updatedRounds = [...prevRounds];
+        const newRound = updatedRounds[currentRoundIndex];
 
-  const updateCurrentRound = useCallback((updateRound: Round) => {
-    setRounds((prevRounds) => {
-      const updatedRounds = [...prevRounds];
-      updatedRounds[updatedRounds.length - 1] = updateRound;
-      return updatedRounds;
-    });
-  }, []);
+        newRound.moves.push(move);
+        newRound.completedAt = move === newRound.goalWord;
 
-  useEffect(() => {
-    const date = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-    fetchScores(date)
-      .then(data => setLeaderboard(data))
-      .catch(err => console.error('Error fetching scores:', err));
-  }, []);
+        updatedRounds[currentRoundIndex] = newRound;
+        return updatedRounds;
+      });
+    }
+  }, [currentRoundIndex]);
 
-  const currentRound = rounds.length > 0 ? rounds[rounds.length - 1] : null;
-  const isRoundOver = currentRound && (currentRound.moves[currentRound.moves.length - 1] === currentRound.goalWord || currentRound.moves.length === currentRound.maxMoves);
-  const isGameOver = isRoundOver && rounds.length === gameLength;
+  const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
+  const isRoundOver = currentRound && !!currentRound.completedAt;
+  console.log(currentRound, isRoundOver)
 
   return (
     <div>
@@ -92,23 +84,25 @@ const GameWrapper: React.FC<GameWrapperProps> = ({ wordList, gameLength }) => {
         direction="column"
       >
       </Flex>
-      {currentRound && (
-        <Game
-          currentRound={currentRound}
-          updateCurrentRound={updateCurrentRound}
-          wordList={wordList}
-          rounds={rounds}
-          leaderboard={leaderboard}
-          setLeaderboard={setLeaderboard}
-          isRoundOver={!!isRoundOver}
-          isGameOver={!!isGameOver}
-          onContinue={() => {
-    const round = newRound(rounds.length + 1);
-    if (round) {
-      addRound(round);
-    }
-  }}
-/>
+      {currentRound && !isRoundOver && (
+        <>
+          {currentRoundIndex && (<Text>Round: {currentRoundIndex + 1}</Text>)}
+          <Game
+            startWord={currentRound.startWord}
+            goalWord={currentRound.goalWord}
+            moves={currentRound.moves}
+            maxMoves={currentRound.maxMoves}
+            wordList={wordList}
+            updateCurrentRound={updateCurrentRound}
+            onContinue={advanceRound}
+          />
+        </>
+      )}
+      {isRoundOver && (
+        <>
+          <Text>Nicely done! You finished in {currentRound.moves.length} moves.</Text>
+          <Button onClick={advanceRound}>Onwards!</Button>
+        </>
       )}
     </div>
   );

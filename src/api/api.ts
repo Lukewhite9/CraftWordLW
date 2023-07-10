@@ -1,22 +1,19 @@
 const BASE_URL = 'https://back-end-20.lukewhite9.repl.co';
+const CHALLENGE_VERSION = 1;
 
 // TODO: Fix typing
 export const fetchDefinition = async (word: string): Promise<any> => {
   return fetch(`${BASE_URL}/definition/${word}`).then(data => data.json());
 }
 
-export const fetchWordPair = async (version: number): Promise<any | {}> => {
+export const fetchWordPair = async (): Promise<any | {}> => {
   try {
-    console.log('fetchWordPair started'); // log when the function starts
-
     const date = new Date();
     const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)
       .toString()
       .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
-    const response = await fetch(`${BASE_URL}/wordpairs?date=${dateKey}&version=${version}`);
-
-    console.log('fetch response received', response); // log when the response is received
+    const response = await fetch(`${BASE_URL}/wordpairs?date=${dateKey}&version=${CHALLENGE_VERSION}`);
 
     if (!response.ok) {
       console.error('Failed to fetch new word pair');
@@ -24,16 +21,19 @@ export const fetchWordPair = async (version: number): Promise<any | {}> => {
     }
 
     const data = await response.json();
+    console.log('Received game:', data);
 
-    console.log('data parsed', data); // log when the data is parsed
-    console.log('Received game ID:', data.gameID);
-    const gameData = data.rounds.map((round) => ({
+    const gameData = data.rounds.map((
+      round: {
+        start_word: string;
+        goal_word: string;
+        path_length: string;
+      }
+    ) => ({
       startWord: round.start_word,
       goalWord: round.goal_word,
       pathLength: round.path_length,
     }));
-
-    console.log('gameData', gameData); // log the final result
 
     return {
       gameID: data.gameID,

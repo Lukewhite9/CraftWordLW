@@ -1,8 +1,3 @@
-import { fetchWordPair } from '../api/api';
-
-const version = 1; // Set the desired version number
-const pairData = await fetchWordPair(version);
-
 export const isValidTransformation = (word1: string, word2: string) => {
   const len_diff = word1.length - word2.length;
 
@@ -71,29 +66,6 @@ export const isValidTransformation = (word1: string, word2: string) => {
 
 export const isValidWord = (word: string, wordList: string[]) => {
   return wordList.includes(word.toLowerCase());
-};
-
-export const getNewWordPairAPI = async (rounds: number = 5): Promise<{ startWord: string, goalWord: string, pathLength: number }[] | null> => {
-  try {
-    const pairData = await fetchWordPair(version);
-    
-    if (pairData.rounds.length < rounds) {
-      console.error('Insufficient word pairs available');
-      return null;
-    }
-
-    const gameID = pairData.gameID;
-    const pairsData = pairData.rounds.slice(0, rounds);
-
-    return pairsData.map((round) => ({
-      startWord: round.startWord,
-      goalWord: round.goalWord,
-      pathLength: round.pathLength,
-    }));
-  } catch (error) {
-    console.error('Error fetching new word pairs:', error);
-    return null;
-  }
 };
 
 export const getRandomWordPair = async (roundNumber: number) => {

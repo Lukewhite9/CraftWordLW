@@ -40,8 +40,6 @@ const GetDefinition: React.FC<GetDefinitionProps> = ({ word }) => {
     );
   }
 
-  console.log(definitionData)
-
   return (
     <Box color="gray.500" fontSize="sm" textAlign="left" mt="0.5">
       {definitionData.length > 0 ? (
