@@ -4,41 +4,40 @@ import WordPair from './WordPair';
 import { isValidTransformation, isValidWord } from '../utils/utils';
 import GameOverModal from "./GameOverModal";
 import RoundModal from "./RoundModal";
-import { Round, Score } from "./GameWrapper";
+import { Score } from "./GameWrapper";
 import { saveHighScore, retrieveHighScore } from '../api/api';
 
 type GameProps = {
-  currentRound: Round;
-  updateCurrentRound: (round: Round) => void;
+  startWord: string;
+  goalWord: string;
+  moves: string[];
+  maxMoves: number;
+  updateCurrentRound: (move: string) => void;
   wordList: string[];
-  rounds: Round[];
-  leaderboard: Score[];
-  setLeaderboard: (scores: Score[]) => void;
-  isRoundOver: boolean;
-  isGameOver: boolean;
   onContinue: () => void;
 };
 
 const Game: React.FC<GameProps> = ({
-  currentRound,
+  startWord,
+  goalWord,
+  moves,
+  maxMoves,
   updateCurrentRound,
-  wordList,
-  rounds,
-  leaderboard,
-  setLeaderboard,
-  isRoundOver,
-  isGameOver,
+  wordList, // TODO: we shouldn't need to pass the wordList
   onContinue,
 }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { startWord, goalWord, moves } = currentRound;
   const currentWord = moves.length > 0 ? moves[moves.length - 1] : startWord;
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
-    isOpen: isEndModalOpen,
-    onOpen: onEndModalOpen,
-    onClose: onEndModalClose
+    isOpen: isRoundOverModalOpen,
+    onOpen: onRoundOverModalOpen,
+    onClose: onRoundOverModalClose
+  } = useDisclosure();
+  const {
+    isOpen: isGameOverModalOpen,
+    onOpen: onGameOverModalOpen,
+    onClose: onGameOverModalClose
   } = useDisclosure();
 
   const [startTime, setStartTime] = useState<number>(0);
@@ -51,12 +50,11 @@ const Game: React.FC<GameProps> = ({
       const isSameWord = currentWord === userInput;
       let newErrorMessage = "";
 
+      console.log(userInput, validWord, isSameWord)
+
       if (validTransformation && validWord && !isSameWord) {
         clearInput();
-        updateCurrentRound({
-          ...currentRound,
-          moves: [...currentRound.moves, userInput.toLowerCase()],
-        });
+        updateCurrentRound(userInput.toLowerCase());
         setErrorMessage(null);
       } else {
         clearInput();
@@ -73,63 +71,63 @@ const Game: React.FC<GameProps> = ({
         setErrorMessage(newErrorMessage.trim());
       }
     },
-    [currentWord, wordList, currentRound, updateCurrentRound]
+    [currentWord, wordList, updateCurrentRound]
   );
 
 
-  useEffect(() => {
-    const saveAndRetrieveScores = async () => {
-      if (isGameOver) {
-        !isEndModalOpen && onEndModalOpen();
-        const unixTimestamp = Math.floor(new Date().getTime() / 1000);
-        localStorage.setItem('lastPlayed', JSON.stringify(unixTimestamp));
-        const newScore: Score = {
-          name: '', // Player name will be entered in the GameOverModal
-          score: currentRound.moves.length,
-          time: totalTime
-        };
-        await saveHighScore(newScore);
-        const scores = await retrieveHighScore();
-        setLeaderboard(scores);
-      }
-    };
+  // useEffect(() => {
+  //   const saveAndRetrieveScores = async () => {
+  //     if (isGameOver) {
+  //       !isGameOverModalOpen && onGameOverModalOpen();
+  //       const unixTimestamp = Math.floor(new Date().getTime() / 1000);
+  //       localStorage.setItem('lastPlayed', JSON.stringify(unixTimestamp));
+  //       const newScore: Score = {
+  //         name: '', // Player name will be entered in the GameOverModal
+  //         score: currentRound.moves.length,
+  //         time: totalTime
+  //       };
+  //       await saveHighScore(newScore);
+  //       const scores = await retrieveHighScore();
+  //       setLeaderboard(scores);
+  //     }
+  //   };
 
-    saveAndRetrieveScores();
+  //   saveAndRetrieveScores();
 
-    if (isGameOver) {
-      // Existing game over logic
-    } else if (isRoundOver) {
-      !isOpen && onOpen();
-    } else {
-      isOpen && onClose();
-    }
-  }, [
-    isRoundOver,
-    isGameOver,
-    isOpen,
-    onOpen,
-    onClose,
-    isEndModalOpen,
-    onEndModalOpen,
-    onEndModalClose,
-    currentRound.moves.length,
-    totalTime,
-    currentRound,
-    setLeaderboard
-  ]);
+  //   if (isGameOver) {
+  //     // Existing game over logic
+  //   } else if (isRoundOver) {
+  //     !isRoundOverModalOpen && onRoundOverModalOpen();
+  //   } else {
+  //     isRoundOverModalOpen && onRoundOverModalClose();
+  //   }
+  // }, [
+  //   isRoundOver,
+  //   isGameOver,
+  //   isRoundOverModalOpen,
+  //   onRoundOverModalOpen,
+  //   onRoundOverModalClose,
+  //   isGameOverModalOpen,
+  //   onGameOverModalOpen,
+  //   onGameOverModalClose,
+  //   currentRound.moves.length,
+  //   totalTime,
+  //   currentRound,
+  //   setLeaderboard
+  // ]);
 
-  useEffect(() => {
-    if (!isGameOver && !isRoundOver) {
-      setStartTime(Date.now());
-    }
-  }, [isGameOver, isRoundOver]);
+  // useEffect(() => {
+  //   if (!isGameOver && !isRoundOver) {
+  //     setStartTime(Date.now());
+  //   }
+  // }, [isGameOver, isRoundOver]);
 
-  useEffect(() => {
-    if (isRoundOver || isGameOver) {
-      const endTime = Date.now();
-      setTotalTime((endTime - startTime) / 1000); // get the time in seconds
-    }
-  }, [isRoundOver, isGameOver]);
+  // useEffect(() => {
+  //   if (isRoundOver || isGameOver) {
+  //     const endTime = Date.now();
+  //     setTotalTime((endTime - startTime) / 1000); // get the time in seconds
+  //   }
+  // }, [isRoundOver, isGameOver]);
 
   return (
     <Flex
@@ -147,39 +145,23 @@ const Game: React.FC<GameProps> = ({
         alignItems="center"
         width="100%"
       >
-        <Text fontSize="sm" color="green">
-          START
-        </Text>
-        <Text ml="3">
-          round: {rounds.length}  score: {currentRound?.moves.length || 0}
-        </Text>
-        <Text fontSize="sm" color="blue">
-          GOAL
-        </Text>
       </Flex>
       <WordPair
         wordPair={[startWord, goalWord]}
         onSubmitWord={checkTransformation}
         currentWord={currentWord}
         pastMoves={moves}
-        maxMoves={currentRound.maxMoves}
+        maxMoves={maxMoves}
         errorMessage={errorMessage}
       />
-      <RoundModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onContinue={onContinue}
-        score={currentRound.moves.length}
-        time={totalTime}
-      />
-      <GameOverModal
-        isOpen={isEndModalOpen}
-        onClose={onEndModalClose}
+      {/* <GameOverModal
+        isOpen={isGameOverModalOpen}
+        onClose={onGameOverModalClose}
         totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
         totalTime={totalTime}
         leaderboard={leaderboard}
         setLeaderboard={setLeaderboard}
-      />
+      /> */}
     </Flex>
   );
 };

@@ -43,8 +43,6 @@ const WordPair: React.FC<WordPairProps> = ({
     });
   };
 
-  console.log(currentWord)
-
   return (
     <Flex
       direction="column"

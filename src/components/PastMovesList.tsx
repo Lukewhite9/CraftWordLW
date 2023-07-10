@@ -11,7 +11,6 @@ type PastMovesListProps = {
 
 const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal, maxMoves }) => {
   const [newWord, setNewWord] = useState("");
-  console.log(moves)
 
   const remainingList = moves.length > 1 ? moves.slice(0, -1) : [];
 
