@@ -3,7 +3,7 @@ import { Flex } from '@chakra-ui/react';
 import RoundDisplay from './RoundDisplay';
 import { isValidTransformation, isValidWord } from '../../utils/utils';
 
-type CurrentRoundProps = {
+type RoundProps = {
   startWord: string;
   goalWord: string;
   moves: string[];
@@ -12,7 +12,7 @@ type CurrentRoundProps = {
   wordList: string[];
 };
 
-const CurrentRound: React.FC<CurrentRoundProps> = ({
+const Round: React.FC<RoundProps> = ({
   startWord,
   goalWord,
   moves,
@@ -80,4 +80,4 @@ const CurrentRound: React.FC<CurrentRoundProps> = ({
   );
 };
 
-export default CurrentRound;
+export default Round;
