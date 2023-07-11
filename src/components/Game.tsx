@@ -1,168 +1,102 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Flex, useDisclosure, Text } from '@chakra-ui/react';
-import WordPair from './WordPair';
-import { isValidTransformation, isValidWord } from '../utils/utils';
-import GameOverModal from "./GameOverModal";
-import RoundModal from "./RoundModal";
-import { Score } from "./GameWrapper";
-import { saveHighScore, retrieveHighScore } from '../api/api';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Flex, Text, Button } from '@chakra-ui/react';
+import Round from './Round';
+import { fetchWordPair } from '../api/api';
 
 type GameProps = {
-  startWord: string;
-  goalWord: string;
-  moves: string[];
-  maxMoves: number;
-  updateCurrentRound: (move: string) => void;
   wordList: string[];
-  onContinue: () => void;
 };
 
-const Game: React.FC<GameProps> = ({
-  startWord,
-  goalWord,
-  moves,
-  maxMoves,
-  updateCurrentRound,
-  wordList, // TODO: we shouldn't need to pass the wordList
-  onContinue,
-}) => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const currentWord = moves.length > 0 ? moves[moves.length - 1] : startWord;
+export type Round = {
+  startWord: string;
+  goalWord: string;
+  maxMoves: number;
+  moves: string[];
+  startedAt: any;
+  completedAt: any;
+};
 
-  const {
-    isOpen: isRoundOverModalOpen,
-    onOpen: onRoundOverModalOpen,
-    onClose: onRoundOverModalClose
-  } = useDisclosure();
-  const {
-    isOpen: isGameOverModalOpen,
-    onOpen: onGameOverModalOpen,
-    onClose: onGameOverModalClose
-  } = useDisclosure();
-
-  const [startTime, setStartTime] = useState<number>(0);
-  const [totalTime, setTotalTime] = useState<number>(0);
-
-  const checkTransformation = useCallback(
-    (userInput: string, clearInput: () => void) => {
-      const validTransformation = isValidTransformation(currentWord, userInput);
-      const validWord = isValidWord(userInput, wordList);
-      const isSameWord = currentWord === userInput;
-      let newErrorMessage = "";
-
-      console.log(userInput, validWord, isSameWord)
-
-      if (validTransformation && validWord && !isSameWord) {
-        clearInput();
-        updateCurrentRound(userInput.toLowerCase());
-        setErrorMessage(null);
-      } else {
-        clearInput();
-        if (!validWord && !validTransformation) {
-          newErrorMessage = "Nope, that change is not allowed, and it's not a word in English.";
-        } else if (!validWord) {
-          newErrorMessage = "Nope, not a valid English word.";
-        } else if (isSameWord) {
-          newErrorMessage = "Nope, try to change the word.";
-        } else if (!validTransformation) {
-          newErrorMessage = "Nope, that change is not allowed.";
-        }
-
-        setErrorMessage(newErrorMessage.trim());
-      }
-    },
-    [currentWord, wordList, updateCurrentRound]
-  );
+export type Score = {
+  name: string;
+  score: number;
+  time: number;
+};
 
 
-  // useEffect(() => {
-  //   const saveAndRetrieveScores = async () => {
-  //     if (isGameOver) {
-  //       !isGameOverModalOpen && onGameOverModalOpen();
-  //       const unixTimestamp = Math.floor(new Date().getTime() / 1000);
-  //       localStorage.setItem('lastPlayed', JSON.stringify(unixTimestamp));
-  //       const newScore: Score = {
-  //         name: '', // Player name will be entered in the GameOverModal
-  //         score: currentRound.moves.length,
-  //         time: totalTime
-  //       };
-  //       await saveHighScore(newScore);
-  //       const scores = await retrieveHighScore();
-  //       setLeaderboard(scores);
-  //     }
-  //   };
+const Game: React.FC<GameProps> = ({ wordList }) => {
+  const [rounds, setRounds] = useState<Round[]>([]);
+  const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
 
-  //   saveAndRetrieveScores();
+  const advanceRound = useCallback(() => {
+    const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
+    setCurrentRoundIndex(nextRoundIndex);
+  }, [currentRoundIndex, setCurrentRoundIndex]);
 
-  //   if (isGameOver) {
-  //     // Existing game over logic
-  //   } else if (isRoundOver) {
-  //     !isRoundOverModalOpen && onRoundOverModalOpen();
-  //   } else {
-  //     isRoundOverModalOpen && onRoundOverModalClose();
-  //   }
-  // }, [
-  //   isRoundOver,
-  //   isGameOver,
-  //   isRoundOverModalOpen,
-  //   onRoundOverModalOpen,
-  //   onRoundOverModalClose,
-  //   isGameOverModalOpen,
-  //   onGameOverModalOpen,
-  //   onGameOverModalClose,
-  //   currentRound.moves.length,
-  //   totalTime,
-  //   currentRound,
-  //   setLeaderboard
-  // ]);
+  const startGame = useCallback(async () => {
+    const roundsData = await fetchWordPair();
+    if (!roundsData) {
+      console.log("Error fetching game");
+      return;
+    }
 
-  // useEffect(() => {
-  //   if (!isGameOver && !isRoundOver) {
-  //     setStartTime(Date.now());
-  //   }
-  // }, [isGameOver, isRoundOver]);
+    setRounds(
+      roundsData.rounds.map((round: any) => ({
+        ...round,
+        maxMoves: round.pathLength + 1,
+        moves: [],
+        startedAt: null,
+        completedAt: null,
+      })));
+    advanceRound();
+  }, [advanceRound, setRounds]);
 
-  // useEffect(() => {
-  //   if (isRoundOver || isGameOver) {
-  //     const endTime = Date.now();
-  //     setTotalTime((endTime - startTime) / 1000); // get the time in seconds
-  //   }
-  // }, [isRoundOver, isGameOver]);
+  useEffect(() => {
+    if (currentRoundIndex === null) {
+      startGame();
+    }
+  }, [currentRoundIndex]);
 
+  const addMove = useCallback((move: string) => {
+    if (currentRoundIndex !== null) {
+      setRounds((prevRounds) => {
+        const updatedRounds = [...prevRounds];
+        const newRound = updatedRounds[currentRoundIndex];
+
+        newRound.moves.push(move);
+        newRound.completedAt = move === newRound.goalWord || newRound.maxMoves + 1 === newRound.moves.length;
+
+        updatedRounds[currentRoundIndex] = newRound;
+        return updatedRounds;
+      });
+    }
+  }, [setRounds, currentRoundIndex]);
+
+  const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
+  const isRoundOver = currentRound && !!currentRound.completedAt;
+  const isRoundWon = isRoundOver && currentRound.moves.includes(currentRound.goalWord);
+  
   return (
-    <Flex
-      h="100%"
-      w="100%"
-      maxW="480px"
-      display="flex"
-      justifyContent="center"
-      direction="column"
-      position="relative"
-    >
-      <Flex
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        width="100%"
-      >
-      </Flex>
-      <WordPair
-        wordPair={[startWord, goalWord]}
-        onSubmitWord={checkTransformation}
-        currentWord={currentWord}
-        pastMoves={moves}
-        maxMoves={maxMoves}
-        errorMessage={errorMessage}
-      />
-      {/* <GameOverModal
-        isOpen={isGameOverModalOpen}
-        onClose={onGameOverModalClose}
-        totalScore={rounds.reduce((acc, curr) => acc + curr.moves.length, 0)}
-        totalTime={totalTime}
-        leaderboard={leaderboard}
-        setLeaderboard={setLeaderboard}
-      /> */}
-    </Flex>
+    <div>
+      {currentRound && !isRoundOver && (
+        <>
+          {currentRoundIndex && (<Text>Round: {currentRoundIndex + 1}</Text>)}
+          <Round
+            startWord={currentRound.startWord}
+            goalWord={currentRound.goalWord}
+            moves={currentRound.moves}
+            maxMoves={currentRound.maxMoves}
+            wordList={wordList}
+            addMove={addMove}
+          />
+        </>
+      )}
+      {isRoundOver && (
+        <>
+          {isRoundWon ? <Text>Nicely done! You finished in {currentRound.moves.length} moves.</Text> : <Text>Welp, no more moves left. Better luck next round!</Text>}
+          <Button onClick={advanceRound}>Onwards!</Button>
+        </>
+      )}
+    </div>
   );
 };
 
