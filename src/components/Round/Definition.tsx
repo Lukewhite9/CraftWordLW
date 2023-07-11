@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Text, Box } from "@chakra-ui/react";
-import { fetchDefinition } from '../api/api'
+import { fetchDefinition } from '../../api/api'
 
-type GetDefinitionProps = {
+type DefinitionProps = {
   word: string;
 };
 
-const GetDefinition: React.FC<GetDefinitionProps> = ({ word }) => {
+const Definition: React.FC<DefinitionProps> = ({ word }) => {
   const [definitionData, setDefinitionData] = useState<any[]>([]);
   const [phoneticData, setPhoneticData] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -77,4 +77,4 @@ const GetDefinition: React.FC<GetDefinitionProps> = ({ word }) => {
   );
 };
 
-export default GetDefinition;
+export default Definition;

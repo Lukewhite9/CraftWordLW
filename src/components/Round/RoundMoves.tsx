@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { Box, Tag } from "@chakra-ui/react";
 import ReactTextTransition, { presets } from "react-text-transition";
 
-type PastMovesListProps = {
+type RoundMovesProps = {
   moves: string[];
   start: string;
   goal: string;
   maxMoves: number;
 };
 
-const PastMovesList: React.FC<PastMovesListProps> = ({ moves, start, goal, maxMoves }) => {
+const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves }) => {
   const [newWord, setNewWord] = useState("");
 
   const remainingList = moves.length > 1 ? moves.slice(0, -1) : [];
@@ -77,4 +77,4 @@ const MoveTag: React.FC<{ children?: any; colorScheme?: any }> = ({
   );
 }
 
-export default PastMovesList;
+export default RoundMoves;

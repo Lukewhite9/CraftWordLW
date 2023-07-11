@@ -1,9 +1,9 @@
-import React, { useState, ChangeEvent } from "react";
-import { Text, Box, Flex, Input, Wrap, Button } from "@chakra-ui/react";
-import GetDefinition from './GetDefinition';
-import PastMovesList from './PastMovesList';
+import React, { useState } from "react";
+import { Text, Box, Flex, Input, Button } from "@chakra-ui/react";
+import Definition from './Definition';
+import RoundMoves from './RoundMoves';
 
-type WordPairProps = {
+type RoundDisplayProps = {
   wordPair: string[];
   onSubmitWord: (userInput: string, clearInput: () => void) => void;
   currentWord: string;
@@ -12,7 +12,7 @@ type WordPairProps = {
   errorMessage: string | null;
 };
 
-const WordPair: React.FC<WordPairProps> = ({
+const RoundDisplay: React.FC<RoundDisplayProps> = ({
   wordPair,
   onSubmitWord,
   currentWord,
@@ -60,7 +60,7 @@ const WordPair: React.FC<WordPairProps> = ({
           <Text fontWeight="bold" fontSize="xl">{wordPair[1]}</Text>
         </Box>
       </Flex>
-      <PastMovesList
+      <RoundMoves
         moves={pastMoves}
         start={wordPair[0]}
         goal={wordPair[1]}
@@ -85,10 +85,10 @@ const WordPair: React.FC<WordPairProps> = ({
         {errorMessage && <Box mt={3}>{errorMessage}</Box>}
       </Flex>
       <Box p="3" mt="2" textAlign="center">
-        <GetDefinition word={currentWord} />
+        <Definition word={currentWord} />
       </Box>
     </Flex>
   );
 };
 
-export default WordPair;
+export default RoundDisplay;

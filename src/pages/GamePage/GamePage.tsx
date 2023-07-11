@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
-import GameWrapper from '../../components/GameWrapper'
+import Game from '../../components/Game';
 import LearnModal from '../../components/LearnModal';
 import { datesAreOnSameDay } from '../../utils/utils';
 import AboutModal from '../../components/AboutModal';
@@ -126,10 +126,10 @@ export default function App() {
           ) : (
             <>
               {isPlaying && wordList.length > 0 ? (
-                <GameWrapper
-    wordList={wordList}
-    gameLength={isPracticeMode ? null : 5}
-/>
+                <Game
+                  wordList={wordList}
+                  gameLength={isPracticeMode ? null : 5}
+                />
               ) : (
                 <>
                   <Button
