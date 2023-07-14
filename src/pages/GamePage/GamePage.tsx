@@ -145,13 +145,10 @@ export default function App() {
                     colorScheme="gray"
                     mt="4"
                     w="300px"
-                    onClick={() => {
-                      handleStartClick(true);
-                      onLearnModalClose();
-                    }}
                     boxShadow="md"
+                    onClick={() => handleStartClick(true)}
                   >
-                    Start Practice Mode
+                    Practice
                   </Button>
                 </>
               )}
@@ -159,14 +156,7 @@ export default function App() {
           )}
         </Flex>
       </Box>
-      <LearnModal
-        isOpen={isLearnModalOpen}
-        onClose={onLearnModalClose}
-        onStartPracticeMode={() => {
-          handleStartClick(true);
-          onLearnModalClose();
-        }}
-      />
+      <LearnModal isOpen={isLearnModalOpen} onClose={onLearnModalClose} />
       <AboutModal isOpen={isAboutModalOpen} onClose={onAboutModalClose} />
       <LeaderboardModal
         isOpen={isLeaderboardModalOpen}

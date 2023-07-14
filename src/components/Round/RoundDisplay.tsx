@@ -10,6 +10,7 @@ type RoundDisplayProps = {
   pastMoves: string[];
   maxMoves: number;
   errorMessage: string | null;
+  practiceMode: boolean; // This should be passed from the very top level where the practice mode state is defined
 };
 
 const RoundDisplay: React.FC<RoundDisplayProps> = ({
@@ -17,10 +18,12 @@ const RoundDisplay: React.FC<RoundDisplayProps> = ({
   onSubmitWord,
   currentWord,
   pastMoves,
-  maxMoves,
+  initialMaxMoves,
   errorMessage,
+  practiceMode,
 }) => {
   const [userInput, setUserInput] = useState<string>("");
+  const [maxMoves, setMaxMoves] = useState(initialMaxMoves); // Define state for maxMoves
 
   const handleInputChange = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const lowercaseInput = e.target.value.toLowerCase();
@@ -65,6 +68,8 @@ const RoundDisplay: React.FC<RoundDisplayProps> = ({
         start={wordPair[0]}
         goal={wordPair[1]}
         maxMoves={maxMoves}
+        setMaxMoves={setMaxMoves} // Pass down the setMaxMoves function
+        practiceMode={practiceMode} // Also pass down the practiceMode
       />
       <Flex direction="column" alignItems="center" mt="4">
         <Flex width="100%" alignItems="center" justifyContent="center">
