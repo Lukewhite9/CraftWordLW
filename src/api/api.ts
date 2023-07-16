@@ -6,7 +6,7 @@ export const fetchDefinition = async (word: string): Promise<any> => {
   return fetch(`${BASE_URL}/definition/${word}`).then(data => data.json());
 }
 
-export const fetchWordPair = async (): Promise<any | {}> => {
+export const fetchGameRounds = async (): Promise<any | {}> => {
   try {
     const date = new Date();
     const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)
@@ -45,7 +45,7 @@ export const fetchWordPair = async (): Promise<any | {}> => {
   }
 };
 
-export const fetchRandomWordPair = async (roundNumber: number): Promise<{ startWord: string, goalWord: string } | null> => {
+export const fetchRandomRound = async (roundNumber: number): Promise<{ startWord: string, goalWord: string } | null> => {
   try {
     const response = await fetch(`${BASE_URL}/randomwordpair?round=${roundNumber}`);
 

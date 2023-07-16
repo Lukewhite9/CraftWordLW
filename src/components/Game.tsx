@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Flex, Text, Button } from '@chakra-ui/react';
+import { Text, Button } from '@chakra-ui/react';
 import Round from './Round';
-import { fetchWordPair, fetchRandomWordPair } from '../api/api';
+import { fetchGameRounds, fetchRandomRound } from '../api/api';
 
 type GameProps = {
   wordList: string[];
@@ -11,7 +11,6 @@ type GameProps = {
 export type Round = {
   startWord: string;
   goalWord: string;
-  maxMoves: number;
   moves: string[];
   startedAt: any;
   completedAt: any;
@@ -30,19 +29,20 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
 
   const fetchRoundData = useCallback(async (roundIndex: number) => {
     if (gameLength === null) { // If practice mode
-      const roundData = await fetchRandomWordPair(roundIndex);
-      const newRound = {
-        ...roundData,
-        maxMoves: Infinity,
-        moves: [],
-        startedAt: null,
-        completedAt: null,
-      };
+      const roundData = await fetchRandomRound(roundIndex);
+      if (roundData) {
+        const newRound = {
+          ...roundData,
+          moves: [],
+          startedAt: null,
+          completedAt: null,
+        };
 
-      setRounds((prevRounds) => [...prevRounds, newRound]); // Append the new round to the existing rounds
-      setMaxMoves(Infinity);
-    } else if (roundIndex === 0) { // If normal mode and first round
-      const gameData = await fetchWordPair();
+        setRounds((prevRounds) => [...prevRounds, newRound]);
+        setMaxMoves(Infinity);
+      }
+    } else if (roundIndex === 0) {
+      const gameData = await fetchGameRounds();
       const newRounds = gameData.rounds.map((roundData: any) => ({
         ...roundData,
         maxMoves: parseInt(roundData.pathLength) + 1,
@@ -83,13 +83,13 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         const newRound = updatedRounds[currentRoundIndex];
 
         newRound.moves.push(move);
-        newRound.completedAt = move === newRound.goalWord || newRound.maxMoves + 1 === newRound.moves.length;
+        newRound.completedAt = move === newRound.goalWord || maxMoves + 1 === newRound.moves.length;
 
         updatedRounds[currentRoundIndex] = newRound;
         return updatedRounds;
       });
     }
-  }, [setRounds, currentRoundIndex]);
+  }, [setRounds, currentRoundIndex, maxMoves]);
 
   const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
   const isRoundOver = currentRound && !!currentRound.completedAt;
@@ -104,7 +104,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
             startWord={currentRound.startWord}
             goalWord={currentRound.goalWord}
             moves={currentRound.moves}
-            maxMoves={maxMoves} // use maxMoves from Game state
+            maxMoves={maxMoves}
             wordList={wordList}
             addMove={addMove}
           />

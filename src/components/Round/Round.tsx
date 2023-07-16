@@ -76,6 +76,7 @@ const Round: React.FC<RoundProps> = ({
         pastMoves={moves}
         maxMoves={maxMoves}
         errorMessage={errorMessage}
+        practiceMode={}
       />
     </Flex>
   );
