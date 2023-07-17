@@ -28,6 +28,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
   const [maxMoves, setMaxMoves] = useState<number>(gameLength === null ? Infinity : 0);
+  const [totalGameTime, setTotalGameTime] = useState<number>(0);
 
   const fetchRoundData = useCallback(async (roundIndex: number) => {
     if (gameLength === null) {
@@ -103,6 +104,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         newRound.moves.push(move);
         if (move === newRound.goalWord || newRound.maxMoves + 1 === newRound.moves.length) {
           newRound.completedAt = Date.now();
+          setTotalGameTime(prevTime => prevTime + (newRound.completedAt - newRound.startedAt) / 1000); // Add round time to total game time
         }
         updatedRounds[currentRoundIndex] = newRound;
         return updatedRounds;
@@ -142,7 +144,9 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
               Nicely done!
           You finished in {currentRound.moves.length} moves. 
               Your time to complete round {currentRoundIndex + 1} was {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
-
+              {currentRoundIndex === 4 && (
+                <Text>Your total time for all rounds was {formatTime(totalGameTime)}.</Text> // Display total game time at the end of round 5
+              )}
             </Text>
           ) : (
             <Text mt="5">You have exceeded the maximum moves. Try again!</Text>
