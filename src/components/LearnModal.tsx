@@ -48,11 +48,11 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose, onStartPractic
           </Text>
 
           <Text mb="4">
-            You can{' '}
+            To make new words you can{' '}
             {generateText('add', 'green', 'bold')},{' '}
-            {generateText('remove', 'red', 'bold')},{' '}
-            {generateText('change', 'orange.500', 'bold')}, or{' '}
-            {generateText('swap', 'purple', 'bold')} one letter at a time to make new words.
+            {generateText('remove', 'red', 'bold')},{' '} or{' '}
+            {generateText('change', 'orange.500', 'bold')} one letter at a time, or {' '}
+            {generateText('swap', 'purple', 'bold')} all the letters any way you want.
           </Text>
 
           <Text mb="2">Like this:</Text>
@@ -75,34 +75,13 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose, onStartPractic
           </Text>
 
           <Text mb="2">
-            {generateText('swap', 'purple', 'bold')}: <br />
-            Any two letters: race → {generateText('c', 'purple', 'bold')}a{generateText('r', 'purple', 'bold')}e → {generateText('ac', 'purple', 'bold')}re
-            <br />
-            First letter to last: each → ach{generateText('e', 'purple', 'bold')}
-            <br />
-            Or last letter to first: reef → {generateText('f', 'purple', 'bold')}ree
-          </Text>
-
-          <Text my="4">
-            Try practice mode to learn how to play!
+             {generateText('swap', 'purple', 'bold')}: <br />
+            stale → s{generateText('l', 'purple', 'bold')}a{generateText('t', 'purple', 'bold')}e → s{generateText('t', 'purple', 'bold')}{generateText('e', 'purple', 'bold')}{generateText('a', 'purple', 'bold')}{generateText('l', 'purple', 'bold')} → {generateText('least', 'purple', 'bold')}
           </Text>
         </ModalBody>
 
         <ModalFooter justifyContent="center">
-          <Box >
-            <Button
-              colorScheme="blue"
-              boxShadow="md"
-              mt="-3"
-              mb="2"
-              onClick={() => {
-                onStartPracticeMode();
-                onClose();
-              }}
-            >
-              Try Practice Mode
-            </Button>
-          </Box>
+          
         </ModalFooter>
       </ModalContent>
     </Modal>
