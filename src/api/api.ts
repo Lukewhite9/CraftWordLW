@@ -6,7 +6,7 @@ export const fetchDefinition = async (word: string): Promise<any> => {
   return fetch(`${BASE_URL}/definition/${word}`).then(data => data.json());
 }
 
-export const fetchWordPair = async (): Promise<any | {}> => {
+export const fetchGameRounds = async (): Promise<any | {}> => {
   try {
     const date = new Date();
     const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)
@@ -44,6 +44,27 @@ export const fetchWordPair = async (): Promise<any | {}> => {
     return {};
   }
 };
+
+export const fetchRandomRound = async (roundNumber: number): Promise<{ startWord: string, goalWord: string } | null> => {
+  try {
+    const response = await fetch(`${BASE_URL}/randomwordpair?round=${roundNumber}`);
+
+    if (!response.ok) {
+      console.error('Failed to fetch random word pair');
+      return null;
+    }
+
+    const data = await response.json();
+    return {
+      startWord: data.start_word,
+      goalWord: data.goal_word,
+    };
+  } catch (error) {
+    console.error('Error fetching random word pair:', error);
+    return null;
+  }
+}
+
 
 // TODO: Retrieve high score
 export const fetchScores = async () => {
