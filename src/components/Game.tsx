@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Text, Button } from '@chakra-ui/react';
+import { Text, Button, Box, Flex } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
 
@@ -29,6 +29,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
   const [maxMoves, setMaxMoves] = useState<number>(gameLength === null ? Infinity : 0);
   const [totalGameTime, setTotalGameTime] = useState<number>(0);
+  const [totalMoves, setTotalMoves] = useState<number>(0);
 
   const fetchRoundData = useCallback(async (roundIndex: number) => {
     if (gameLength === null) {
@@ -97,20 +98,22 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
 }, [currentRoundIndex, fetchRoundData, gameLength]);
 
   const addMove = useCallback((move: string) => {
-    if (currentRoundIndex !== null) {
-      setRounds((prevRounds) => {
-        const updatedRounds = [...prevRounds];
-        const newRound = updatedRounds[currentRoundIndex];
-        newRound.moves.push(move);
-        if (move === newRound.goalWord || newRound.maxMoves + 1 === newRound.moves.length) {
-          newRound.completedAt = Date.now();
-          setTotalGameTime(prevTime => prevTime + (newRound.completedAt - newRound.startedAt) / 1000); // Add round time to total game time
-        }
-        updatedRounds[currentRoundIndex] = newRound;
-        return updatedRounds;
-      });
-    }
-  }, [setRounds, currentRoundIndex, maxMoves]);
+  if (currentRoundIndex !== null) {
+    setRounds((prevRounds) => {
+      const updatedRounds = [...prevRounds];
+      const newRound = updatedRounds[currentRoundIndex];
+      newRound.moves.push(move);
+      if (move === newRound.goalWord || newRound.maxMoves + 1 === newRound.moves.length) {
+        newRound.completedAt = Date.now();
+        setTotalGameTime(prevTime => prevTime + (newRound.completedAt - newRound.startedAt) / 1000);
+      }
+      updatedRounds[currentRoundIndex] = newRound;
+      return updatedRounds;
+    });
+    setTotalMoves((prevTotalMoves) => prevTotalMoves + 1); // Update total moves
+  }
+}, [setRounds, currentRoundIndex, maxMoves]);
+
 
   const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
   const isRoundOver = currentRound && !!currentRound.completedAt;
@@ -122,44 +125,61 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   return `${minutes}:${seconds < 10 ? '0' + seconds :     seconds}`;
 };
 
-  return (
-    <div>
-      {currentRound && !isRoundOver && (
-        <>
-          {currentRoundIndex !== null && (<Text>Round: {currentRoundIndex + 1}</Text>)}
-          <Round 
-            startWord={currentRound.startWord}
-            goalWord={currentRound.goalWord}
-            moves={currentRound.moves}
-            maxMoves={maxMoves}
-            wordList={wordList}
-            addMove={addMove}
-          />
-        </>
-      )}
-      {isRoundOver && (
-        <>
-          {isRoundWon ? (
-            <Text mt="5">
+ return (
+  <div>
+    {currentRound && !isRoundOver && (
+      <>
+        {currentRoundIndex !== null && <Text>Round: {currentRoundIndex + 1}</Text>}
+        <Round
+          startWord={currentRound.startWord}
+          goalWord={currentRound.goalWord}
+          moves={currentRound.moves}
+          maxMoves={maxMoves}
+          wordList={wordList}
+          addMove={addMove}
+        />
+      </>
+    )}
+    {isRoundOver && (
+      <>
+        {isRoundWon ? (
+          <Box>
+            <Text textAlign="center" my="5" fontWeight="bold">
               Nicely done!
-          You finished in {currentRound.moves.length} moves. 
-              Your time to complete round {currentRoundIndex + 1} was {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
+            </Text>
+            <Text my="2">
+              You finished in {currentRound.moves.length} moves.
+            </Text>
+            <Text my="2">
+              Your time to complete round {currentRoundIndex + 1} was{' '}
+              {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
               {currentRoundIndex === 4 && (
-                <Text>Your total time for all rounds was {formatTime(totalGameTime)}.</Text> 
+                <>
+                  <Text mt="5">Your total moves for all rounds was {totalMoves}.</Text>
+                  <Text my="2">Your total time for all rounds was {formatTime(totalGameTime)}.</Text>
+                  
+                </>
               )}
             </Text>
-          ) : (
-            <Text mt="5">You have exceeded the maximum moves. Try again!</Text>
-          )}
-          {gameLength === null || (currentRoundIndex !== null && currentRoundIndex + 1 < gameLength) ? (
-            <Button mt="3" onClick={advanceRound}>Next Round</Button>
-          ) : (
-            <Text mt="3">You have completed all rounds! Good job!</Text>
-          )}
-        </>
-      )}
-    </div>
-  );
+            <Flex justifyContent="center" mt="5">
+              {gameLength === null || (currentRoundIndex !== null && currentRoundIndex + 1 < gameLength) ? (
+                <Button onClick={advanceRound}>
+                  Next Round
+                </Button>
+              ) : (
+                <Text fontWeight="bold" mt="3">You have completed all rounds! Good job!</Text>
+              )}
+            </Flex>
+          </Box>
+        ) : (
+          <Text fontWeight="bold" mt="5">You have exceeded the maximum moves. Try again!</Text>
+        )}
+      </>
+    )}
+  </div>
+);
 };
 
 export default Game;
+
+
