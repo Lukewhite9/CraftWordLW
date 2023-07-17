@@ -145,7 +145,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
           You finished in {currentRound.moves.length} moves. 
               Your time to complete round {currentRoundIndex + 1} was {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
               {currentRoundIndex === 4 && (
-                <Text>Your total time for all rounds was {formatTime(totalGameTime)}.</Text> // Display total game time at the end of round 5
+                <Text>Your total time for all rounds was {formatTime(totalGameTime)}.</Text> 
               )}
             </Text>
           ) : (
