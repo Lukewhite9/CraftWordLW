@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Text, Button, Flex } from '@chakra-ui/react';
+import { Text, Button } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
 
@@ -36,7 +36,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         const newRound = {
           ...roundData,
           moves: [],
-          startedAt: null,
+          startedAt: Date.now(),
           completedAt: null,
         };
         setRounds((prevRounds) => [...prevRounds, newRound]);
@@ -51,8 +51,21 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         startedAt: Date.now(),
         completedAt: null,
       }));
-      setRounds(newRounds); // Replace rounds with the new data
+      setRounds(newRounds); 
       setMaxMoves(parseInt(gameData.rounds[0].pathLength) + 1);
+    } else {
+      const gameData = await fetchGameRounds();
+      const nextRound = gameData.rounds[roundIndex];
+      if (nextRound) {
+        const newRound = {
+          ...nextRound,
+          maxMoves: parseInt(nextRound.pathLength) + 1,
+          moves: [],
+          startedAt: Date.now(),
+          completedAt: null,
+        };
+        setRounds((prevRounds) => [...prevRounds, newRound]);
+      }
     }
   }, [gameLength]);
 
@@ -61,18 +74,26 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     setCurrentRoundIndex(0);
   }, [fetchRoundData]);
 
-  const advanceRound = useCallback(() => {
-    const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
-    setCurrentRoundIndex(nextRoundIndex);
-  }, [currentRoundIndex]);
-
   useEffect(() => {
     if (currentRoundIndex === null) {
       startGame();
-    } else {
-      fetchRoundData(currentRoundIndex);
     }
-  }, [currentRoundIndex, startGame, fetchRoundData]);
+  }, [currentRoundIndex, startGame]);
+
+  const advanceRound = useCallback(() => {
+  const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
+  setCurrentRoundIndex(nextRoundIndex);
+  if (gameLength !== null && nextRoundIndex < gameLength) {
+    fetchRoundData(nextRoundIndex);
+  }
+  setRounds(prevRounds => prevRounds.map((round, index) => {
+    if (index === nextRoundIndex) {
+      return { ...round, startedAt: Date.now() };
+    } else {
+      return round;
+    }
+  }));
+}, [currentRoundIndex, fetchRoundData, gameLength]);
 
   const addMove = useCallback((move: string) => {
     if (currentRoundIndex !== null) {
@@ -93,6 +114,12 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const isRoundOver = currentRound && !!currentRound.completedAt;
   const isRoundWon = isRoundOver && currentRound.moves.includes(currentRound.goalWord);
 
+  const formatTime = (timeInSeconds) => {
+  const minutes = Math.floor(timeInSeconds / 60);
+  const seconds = Math.floor(timeInSeconds % 60);
+  return `${minutes}:${seconds < 10 ? '0' + seconds :     seconds}`;
+};
+
   return (
     <div>
       {currentRound && !isRoundOver && (
@@ -112,16 +139,19 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         <>
           {isRoundWon ? (
             <Text mt="5">
-              Nicely done! You finished in {currentRound.moves.length} moves. <br /><br/>
-              Your time to complete round {currentRoundIndex + 1} is{' '}
-              {new Date(currentRound.completedAt - currentRound.startedAt).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })} <br /><br />
+              Nicely done!
+          You finished in {currentRound.moves.length} moves. 
+              Your time to complete round {currentRoundIndex + 1} was {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
+
             </Text>
           ) : (
-            <Text>Welp, no more moves left. Better luck next round!</Text>
+            <Text mt="5">You have exceeded the maximum moves. Try again!</Text>
           )}
-          <Flex justify="center">
-            <Button onClick={advanceRound}>Onwards!</Button>
-          </Flex>
+          {gameLength === null || (currentRoundIndex !== null && currentRoundIndex + 1 < gameLength) ? (
+            <Button mt="3" onClick={advanceRound}>Next Round</Button>
+          ) : (
+            <Text mt="3">You have completed all rounds! Good job!</Text>
+          )}
         </>
       )}
     </div>
