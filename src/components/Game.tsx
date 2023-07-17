@@ -26,7 +26,8 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
   const [maxMoves, setMaxMoves] = useState<number>(gameLength === null ? Infinity : 0);
-
+  const isPracticeMode = maxMoves === Infinity;
+  
   const fetchRoundData = useCallback(async (roundIndex: number) => {
     if (gameLength === null) { // If practice mode
       const roundData = await fetchRandomRound(roundIndex);

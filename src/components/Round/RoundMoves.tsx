@@ -7,10 +7,9 @@ type RoundMovesProps = {
   start: string;
   goal: string;
   maxMoves: number;
-  practiceMode: boolean; // Added the practiceMode prop
 };
 
-const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves, practiceMode }) => {
+const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves }) => {
   const [newWord, setNewWord] = useState("");
 
   const remainingList = moves.length > 1 ? moves.slice(0, -1) : [];
@@ -57,7 +56,7 @@ const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves, p
           </>
         </MoveTag>
       )}
-      { !practiceMode && Array.from({ length: maxMoves - moves.length }, (_, k) => (
+      {maxMoves !== Infinity && Array.from({ length: maxMoves - moves.length }, (_, k) => (
         <MoveTag key={k} />
       ))}
       <MoveTag colorScheme="cyan">

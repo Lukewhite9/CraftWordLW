@@ -23,7 +23,6 @@ const Round: React.FC<RoundProps> = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const currentWord = moves.length > 0 ? moves[moves.length - 1] : startWord;
 
-
   const checkTransformation = useCallback(
     (userInput: string, clearInput: () => void) => {
       const validTransformation = isValidTransformation(currentWord, userInput);
@@ -76,7 +75,6 @@ const Round: React.FC<RoundProps> = ({
         pastMoves={moves}
         maxMoves={maxMoves}
         errorMessage={errorMessage}
-        practiceMode={}
       />
     </Flex>
   );

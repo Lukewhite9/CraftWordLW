@@ -10,7 +10,6 @@ type RoundDisplayProps = {
   pastMoves: string[];
   maxMoves: number;
   errorMessage: string | null;
-  practiceMode: boolean;
 };
 
 const RoundDisplay: React.FC<RoundDisplayProps> = ({
@@ -20,7 +19,6 @@ const RoundDisplay: React.FC<RoundDisplayProps> = ({
   pastMoves,
   maxMoves,
   errorMessage,
-  practiceMode,
 }) => {
   const [userInput, setUserInput] = useState<string>("");
 
@@ -67,8 +65,6 @@ const RoundDisplay: React.FC<RoundDisplayProps> = ({
         start={wordPair[0]}
         goal={wordPair[1]}
         maxMoves={maxMoves}
-        setMaxMoves={setMaxMoves} // Pass down the setMaxMoves function
-        practiceMode={practiceMode} // Also pass down the practiceMode
       />
       <Flex direction="column" alignItems="center" mt="4">
         <Flex width="100%" alignItems="center" justifyContent="center">
