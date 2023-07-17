@@ -3,6 +3,8 @@ import { Text, Button } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
 
+const PRACTICE_MODE_DIFFICULTY = 1;
+
 type GameProps = {
   wordList: string[];
   gameLength: number | null;
@@ -26,11 +28,10 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
   const [maxMoves, setMaxMoves] = useState<number>(gameLength === null ? Infinity : 0);
-  const isPracticeMode = maxMoves === Infinity;
-  
+
   const fetchRoundData = useCallback(async (roundIndex: number) => {
-    if (gameLength === null) { // If practice mode
-      const roundData = await fetchRandomRound(roundIndex);
+    if (gameLength === null) {
+      const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
       if (roundData) {
         const newRound = {
           ...roundData,

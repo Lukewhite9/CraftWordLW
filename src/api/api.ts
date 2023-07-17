@@ -45,9 +45,9 @@ export const fetchGameRounds = async (): Promise<any | {}> => {
   }
 };
 
-export const fetchRandomRound = async (roundNumber: number): Promise<{ startWord: string, goalWord: string } | null> => {
+export const fetchRandomRound = async (roundNumber: number, difficulty: number): Promise<{ startWord: string, goalWord: string } | null> => {
   try {
-    const response = await fetch(`${BASE_URL}/randomwordpair?round=${roundNumber}`);
+    const response = await fetch(`${BASE_URL}/randomwordpair?round=${roundNumber}&difficulty=${difficulty}`);
 
     if (!response.ok) {
       console.error('Failed to fetch random word pair');
