@@ -4,6 +4,7 @@ import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
 
 const PRACTICE_MODE_DIFFICULTY = 1;
+const GAME_ROUNDS = 5;
 
 type GameProps = {
   wordList: string[];
@@ -28,6 +29,14 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
   const [maxMoves, setMaxMoves] = useState<number>(gameLength === null ? Infinity : 0);
+  const [totalTime, setTotalTime] = useState<number>(0); // New state variable for total time
+
+  // Function to format seconds into minutes and seconds
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes} minutes ${remainingSeconds} seconds`;
+  }
 
   const fetchRoundData = useCallback(async (roundIndex: number) => {
     if (gameLength === null) {
@@ -36,7 +45,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         const newRound = {
           ...roundData,
           moves: [],
-          startedAt: null,
+          startedAt: Date.now(),
           completedAt: null,
         };
 
@@ -49,15 +58,15 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         ...roundData,
         maxMoves: parseInt(roundData.pathLength) + 1,
         moves: [],
-        startedAt: null,
+        startedAt: Date.now(),
         completedAt: null,
       }));
 
       setRounds(newRounds); // Replace rounds with the new data
       setMaxMoves(parseInt(gameData.rounds[0].pathLength) + 1);
     }
+    if (roundIndex === 0) setTotalTime(0); // Set total time to zero at the start of the game
   }, [gameLength]);
-
 
   const startGame = useCallback(() => {
     fetchRoundData(0);
@@ -77,7 +86,6 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     }
   }, [currentRoundIndex, startGame, fetchRoundData]);
 
-
   const addMove = useCallback((move: string) => {
     if (currentRoundIndex !== null) {
       setRounds((prevRounds) => {
@@ -85,7 +93,13 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         const newRound = updatedRounds[currentRoundIndex];
 
         newRound.moves.push(move);
-        newRound.completedAt = move === newRound.goalWord || maxMoves + 1 === newRound.moves.length;
+        newRound.completedAt = (move === newRound.goalWord || maxMoves + 1 === newRound.moves.length) ? Date.now() : null;
+
+        // Update total time when a round is completed
+        if (newRound.completedAt) {
+          const roundDurationSeconds = Math.floor((newRound.completedAt - newRound.startedAt) / 1000);
+          setTotalTime((prevTotalTime) => prevTotalTime + roundDurationSeconds);
+        }
 
         updatedRounds[currentRoundIndex] = newRound;
         return updatedRounds;
@@ -96,6 +110,10 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
   const isRoundOver = currentRound && !!currentRound.completedAt;
   const isRoundWon = isRoundOver && (currentRound.moves.includes(currentRound.goalWord) || gameLength === null);
+
+  const roundDuration = isRoundOver ? Math.floor((currentRound.completedAt - currentRound.startedAt) / 1000) : null;
+  const formattedRoundDuration = formatTime(roundDuration || 0);
+  const formattedTotalTime = formatTime(totalTime);
 
   return (
     <div>
@@ -114,7 +132,8 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
       )}
       {isRoundOver && (
         <>
-          {isRoundWon ? <Text>Nicely done! You finished in {currentRound.moves.length} moves.</Text> : <Text>Welp, no more moves left. Better luck next round!</Text>}
+          {isRoundWon ? <Text>Nicely done! You finished in {formattedRoundDuration}.</Text> : <Text>Welp, no more moves left. Better luck next round!</Text>}
+          {currentRoundIndex === GAME_ROUNDS - 1 && <Text>Total time for all rounds: {formattedTotalTime}.</Text>}
           <Button onClick={advanceRound}>Onwards!</Button>
         </>
       )}
