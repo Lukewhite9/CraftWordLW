@@ -22,29 +22,10 @@ export const isValidTransformation = (word1: string, word2: string) => {
       }
     }
   } else if (len_diff === 0) {
-    // Swap any two adjacent letters
-    for (let i = 0; i < word1.length - 1; i++) {
-      const new_word =
-        word1.slice(0, i) +
-        word1[i + 1] +
-        word1[i] +
-        word1.slice(i + 2);
-      if (new_word.toLowerCase() === word2.toLowerCase()) {
-        return true;
-      }
-    }
-
-    // Swap the last letter to the front
-    const new_word_last_to_front =
-      word1.slice(-1) + word1.slice(0, -1);
-    if (new_word_last_to_front.toLowerCase() === word2.toLowerCase()) {
-      return true;
-    }
-
-    // Swap the first letter to the end
-    const new_word_first_to_end =
-      word1.slice(1) + word1.slice(0, 1);
-    if (new_word_first_to_end.toLowerCase() === word2.toLowerCase()) {
+    // Check for anagrams
+    const sorted_word1 = word1.toLowerCase().split('').sort().join('');
+    const sorted_word2 = word2.toLowerCase().split('').sort().join('');
+    if (sorted_word1 === sorted_word2) {
       return true;
     }
 
@@ -62,7 +43,7 @@ export const isValidTransformation = (word1: string, word2: string) => {
   }
 
   return false;
-};
+}
 
 export const isValidWord = (word: string, wordList: string[]) => {
   return wordList.includes(word.toLowerCase());
