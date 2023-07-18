@@ -41,20 +41,20 @@ const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves })
         </MoveTag>
       ))}
       {newWord.length > 0 && (
-        <MoveTag>
-          <>
-            {newWord.split("").map((letter, index) => (
-              <ReactTextTransition
-                key={index}
-                springConfig={presets.stiff}
-                translateValue="45%"
-                inline
-              >
-                {letter}
-              </ReactTextTransition>
-            ))}
-          </>
-        </MoveTag>
+  <MoveTag>
+    <>
+      {newWord.split("").map((letter, index) => (
+        <ReactTextTransition
+          key={index}
+          springConfig={newWord === goal ? presets.slow : presets.stiff}
+          translateValue={newWord === goal ? "100%" : "45%"}
+          inline
+        >
+          {letter}
+        </ReactTextTransition>
+      ))}
+    </>
+  </MoveTag>
       )}
       {maxMoves !== Infinity && Array.from({ length: maxMoves - moves.length }, (_, k) => (
         <MoveTag key={k} />
