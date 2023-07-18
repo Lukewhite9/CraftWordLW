@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Text, Button } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
+import {formatTime} from '../utils/utils';
 
 const PRACTICE_MODE_DIFFICULTY = 1;
 
@@ -53,19 +54,6 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
       }));
       setRounds(newRounds); 
       setMaxMoves(parseInt(gameData.rounds[0].pathLength) + 1);
-    } else {
-      const gameData = await fetchGameRounds();
-      const nextRound = gameData.rounds[roundIndex];
-      if (nextRound) {
-        const newRound = {
-          ...nextRound,
-          maxMoves: parseInt(nextRound.pathLength) + 1,
-          moves: [],
-          startedAt: Date.now(),
-          completedAt: null,
-        };
-        setRounds((prevRounds) => [...prevRounds, newRound]);
-      }
     }
   }, [gameLength]);
 
@@ -113,12 +101,6 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
   const isRoundOver = currentRound && !!currentRound.completedAt;
   const isRoundWon = isRoundOver && currentRound.moves.includes(currentRound.goalWord);
-
-  const formatTime = (timeInSeconds) => {
-  const minutes = Math.floor(timeInSeconds / 60);
-  const seconds = Math.floor(timeInSeconds % 60);
-  return `${minutes}:${seconds < 10 ? '0' + seconds :     seconds}`;
-};
 
   return (
     <div>
