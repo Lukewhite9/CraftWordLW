@@ -28,6 +28,8 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
   const [maxMoves, setMaxMoves] = useState<number>(gameLength === null ? Infinity : 0);
+  const [showEndOfRoundMessage, setShowEndOfRoundMessage] = useState(false);
+  const [showWinningMessage, setShowWinningMessage] = useState(false);
 
   const fetchRoundData = useCallback(async (roundIndex: number) => {
     if (gameLength === null) {
@@ -67,6 +69,8 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const advanceRound = useCallback(() => {
     const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
     setCurrentRoundIndex(nextRoundIndex);
+    setShowEndOfRoundMessage(false); // Reset the flag to hide the end of round message
+    setShowWinningMessage(false); // Reset the flag to hide the winning message
   }, [currentRoundIndex]);
 
   useEffect(() => {
@@ -97,6 +101,30 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const isRoundOver = currentRound && !!currentRound.completedAt;
   const isRoundWon = isRoundOver && (currentRound.moves.includes(currentRound.goalWord) || gameLength === null);
 
+  useEffect(() => {
+    let timer: any;
+    if (isRoundOver && isRoundWon) {
+      timer = setTimeout(() => {
+        setShowWinningMessage(true); // Show the winning message after 1.5 seconds
+      }, 1500);
+    }
+    return () => {
+      timer && clearTimeout(timer);
+    };
+  }, [isRoundOver, isRoundWon]);
+
+  useEffect(() => {
+    let timer: any;
+    if (isRoundOver && !isRoundWon) {
+      timer = setTimeout(() => {
+        setShowEndOfRoundMessage(true); // Show the end of round message after 1.5 seconds
+      }, 1500);
+    }
+    return () => {
+      timer && clearTimeout(timer);
+    };
+  }, [isRoundOver, isRoundWon]);
+
   return (
     <div>
       {currentRound && !isRoundOver && (
@@ -114,7 +142,11 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
       )}
       {isRoundOver && (
         <>
-          {isRoundWon ? <Text>Nicely done! You finished in {currentRound.moves.length} moves.</Text> : <Text>Welp, no more moves left. Better luck next round!</Text>}
+          {isRoundWon && showWinningMessage ? (
+            <Text>Nicely done! You finished in {currentRound.moves.length} moves.</Text>
+          ) : !isRoundWon && showEndOfRoundMessage ? (
+            <Text>Welp, no more moves left. Better luck next round!</Text>
+          ) : null}
           <Button onClick={advanceRound}>Onwards!</Button>
         </>
       )}
