@@ -56,7 +56,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     moves: [],
     startedAt: Date.now(),
     completedAt: null,
-    roundScore: parseInt(roundData.pathLength) + 1,
+    roundScore: parseInt(roundData.pathLength) + 2,
   }));
   setRounds(newRounds);
   setMaxMoves(parseInt(gameData.rounds[0].pathLength) + 1);
@@ -108,8 +108,8 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     setRounds((prevRounds) => {
       const updatedRounds = [...prevRounds];
       const newRound = updatedRounds[currentRoundIndex];
-      newRound.moves.push(move);
-      newRound.roundScore = newRound.maxMoves - newRound.moves.length + 1; // add 1 to the score calculation
+      newRound.roundScore = newRound.roundScore - 1; 
+      newRound.moves.push(move); 
       if (move === newRound.goalWord || newRound.maxMoves + 1 === newRound.moves.length) {
         newRound.completedAt = Date.now();
         setTotalGameTime(prevTime => prevTime + (newRound.completedAt - newRound.startedAt) / 1000);
@@ -121,6 +121,8 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     setTotalMoves((prevTotalMoves) => prevTotalMoves + 1); 
   }
 }, [setRounds, currentRoundIndex, maxMoves]);
+
+
 
 
   const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
