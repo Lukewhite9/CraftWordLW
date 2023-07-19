@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Text, Button, Box, Flex } from '@chakra-ui/react';
+import { Input, Text, Button, Box, Flex } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
 
@@ -32,6 +32,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [totalGameTime, setTotalGameTime] = useState<number>(0);
   const [totalMoves, setTotalMoves] = useState<number>(0);
   const [totalScore, setTotalScore] = useState<number>(0);
+  const [playerName, setPlayerName] = useState<string | null>(null);
 
   const fetchRoundData = useCallback(async (roundIndex: number) => {
     if (gameLength === null) {
@@ -197,7 +198,15 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     <Text mt="5">Your total moves for all rounds was {totalMoves}.</Text>
     <Text my="2">Your total time for all rounds was {formatTime(totalGameTime)}.</Text>
     <Text>Your total score for all rounds is {totalScore}.</Text>
-        </>
+
+    {!playerName && (
+        <Box>
+        <Text>Please enter your name to record your score:</Text>
+        <Input placeholder="Your name" onChange={(e) => setPlayerName(e.target.value)} />
+        <Button colorScheme="teal" onClick={() => {/*...call function to save score...*/}}>Submit Score</Button>
+        </Box>
+    )}
+    </>
       )}
     </div>
   );

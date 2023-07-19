@@ -71,12 +71,29 @@ export const fetchScores = async () => {
   return [];
 }
 
-// TODO: Retrieve high score
-export const retrieveHighScore = async () => {
-  return "dummy retrieve high score"
-}
+export const saveScores = async (playerName, score, time, gameDate, version) => {
+  try {
+    const response = await fetch(`${BASE_URL}/savescore`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: playerName,
+        score: score,
+        time: time,
+        date: gameDate,
+        version: version
+      }),
+    });
 
-// TODO: Save high score
-export const saveHighScore = async () => {
-  return "dummy save high score"
-}
+    if (!response.ok) {
+      console.error('Failed to save score');
+      return;
+    }
+
+    console.log('Score saved successfully');
+  } catch (error) {
+    console.error('Error saving score:', error);
+  }
+};
