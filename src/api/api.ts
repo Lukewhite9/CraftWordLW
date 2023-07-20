@@ -1,5 +1,6 @@
 const BASE_URL = 'https://back-end-20.lukewhite9.repl.co';
-const CHALLENGE_VERSION = 1;
+export const CHALLENGE_VERSION = 1;
+
 
 // TODO: Fix typing
 export const fetchDefinition = async (word: string): Promise<any> => {
@@ -66,14 +67,27 @@ export const fetchRandomRound = async (roundNumber: number, difficulty: number):
 }
 
 
-// TODO: Retrieve high score
-export const fetchScores = async () => {
-  return [];
-}
+export const fetchScores = async (currentDate: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/leaderboard?date=${currentDate}`);
+
+    if (!response.ok) {
+      console.error('Failed to fetch scores');
+      return [];
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching scores:', error);
+    return [];
+  }
+};
+
 
 export const saveScores = async (playerName, score, time, gameDate, version) => {
   try {
-    const response = await fetch(`${BASE_URL}/savescore`, {
+    const response = await fetch(`${BASE_URL}/leaderboard`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

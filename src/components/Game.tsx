@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Input, Text, Button, Box, Flex } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
+import { saveScores, CHALLENGE_VERSION } from '../api/api';
 
 const PRACTICE_MODE_DIFFICULTY = 1;
 
@@ -32,8 +33,9 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [totalGameTime, setTotalGameTime] = useState<number>(0);
   const [totalMoves, setTotalMoves] = useState<number>(0);
   const [totalScore, setTotalScore] = useState<number>(0);
-  const [playerName, setPlayerName] = useState<string | null>(null);
-
+  const [playerName, setPlayerName] = useState<string>('');
+  const [showInput, setShowInput] = useState<boolean>(false);
+  
   const fetchRoundData = useCallback(async (roundIndex: number) => {
     if (gameLength === null) {
   const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
@@ -199,13 +201,21 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     <Text my="2">Your total time for all rounds was {formatTime(totalGameTime)}.</Text>
     <Text>Your total score for all rounds is {totalScore}.</Text>
 
-    {!playerName && (
-        <Box>
-        <Text>Please enter your name to record your score:</Text>
-        <Input placeholder="Your name" onChange={(e) => setPlayerName(e.target.value)} />
-        <Button colorScheme="teal" onClick={() => {/*...call function to save score...*/}}>Submit Score</Button>
-        </Box>
-    )}
+    {!showInput && (
+            <Box>
+                <Text>Please enter your name to record your score:</Text>
+                <Input placeholder="Your name" onChange={(e) => setPlayerName(e.target.value)} />
+                <Button colorScheme="teal" onClick={async () => {
+  if (playerName.trim() !== '') { 
+    const date = new Date();
+    const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    await saveScores(playerName, totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
+    setPlayerName('');
+  }
+}}>Submit Score</Button>
+
+            </Box>
+        )}
     </>
       )}
     </div>
