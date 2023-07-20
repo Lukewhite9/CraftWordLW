@@ -7,7 +7,7 @@ type RoundProps = {
   startWord: string;
   goalWord: string;
   moves: string[];
-  maxMoves: number;
+  maxMoves: number | null;
   addMove: (move: string) => void;
   wordList: string[];
 };

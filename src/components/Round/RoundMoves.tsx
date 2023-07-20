@@ -6,7 +6,7 @@ type RoundMovesProps = {
   moves: string[];
   start: string;
   goal: string;
-  maxMoves: number;
+  maxMoves: number | null;
 };
 
 const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves }) => {
@@ -56,7 +56,7 @@ const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves })
           </>
         </MoveTag>
       )}
-      {maxMoves !== Infinity && Array.from({ length: maxMoves - moves.length }, (_, k) => (
+      {maxMoves !== null && Array.from({ length: maxMoves - moves.length }, (_, k) => (
         <MoveTag key={k} />
       ))}
       <MoveTag colorScheme="cyan">

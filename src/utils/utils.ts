@@ -80,8 +80,8 @@ export const datesAreOnSameDay = (first: Date, second: Date) =>
   first.getMonth() === second.getMonth() &&
   first.getDate() === second.getDate();
 
-const formatTime = (timeInSeconds) => {
+export const formatTime = (timeInSeconds: number) => {
   const minutes = Math.floor(timeInSeconds / 60);
   const seconds = Math.floor(timeInSeconds % 60);
-  return `${minutes}:${seconds < 10 ? '0' + seconds :     seconds}`;
+  return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
 };
