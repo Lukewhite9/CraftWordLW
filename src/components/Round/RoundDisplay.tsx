@@ -54,7 +54,7 @@ const RoundDisplay: React.FC<RoundDisplayProps> = ({
     >
       <Flex direction="row" alignItems="baseline">
         <Box textAlign="left">
-          <Text fontWeight="bold" fontSize="xl">{wordPair[0]}</Text>
+          <Text mb="2" fontWeight="bold" fontSize="xl">{wordPair[0]}</Text>
         </Box>
         <Box marginLeft="auto" textAlign="right">
           <Text fontWeight="bold" fontSize="xl">{wordPair[1]}</Text>
