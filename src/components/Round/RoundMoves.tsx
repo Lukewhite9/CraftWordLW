@@ -10,8 +10,7 @@ type RoundMovesProps = {
 };
 
 
-const FONT_SIZES_TO_MAX_LETTERS = {
-  20: 4, 
+const FONT_SIZES_TO_MAX_LETTERS = { 
   19: 5, 
   17: 6,
   15: 7,
