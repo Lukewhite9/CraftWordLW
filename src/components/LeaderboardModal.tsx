@@ -16,6 +16,7 @@ import {
   Td,
 } from '@chakra-ui/react';
 import { fetchScores } from "../api/api"
+import { ScoresContext } from './ScoresContext';
 
 type Score = {
   name: string;
@@ -34,12 +35,14 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
 
   useEffect(() => {
     const fetchData = async () => {
+      const currentDate = getCurrentDate();
       const scores = await fetchScores(currentDate);
       setScores(scores);
     };
 
     fetchData();
-  }, [currentDate]);
+}, [isOpen]);
+
 
   // Get the current date in the format YYYY-MM-DD
   function getCurrentDate() {
@@ -56,7 +59,8 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
       setCurrentDate(getCurrentDate());
     }
   }, [isOpen]);
-
+  
+  
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
