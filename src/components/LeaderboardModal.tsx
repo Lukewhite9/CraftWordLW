@@ -31,17 +31,25 @@ type LeaderboardModalProps = {
 
 const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) => {
   const [scores, setScores] = useState<Score[]>([]);
-  const [currentDate, setCurrentDate] = useState(getCurrentDate()); // State for current date
+  const [currentDate, setCurrentDate] = useState(getCurrentDate());
 
   useEffect(() => {
     const fetchData = async () => {
       const currentDate = getCurrentDate();
       const scores = await fetchScores(currentDate);
+      
+      scores.sort((a, b) => {
+        if (a.score !== b.score) {
+          return b.score - a.score; 
+        } else {
+          return a.time - b.time; 
+        }
+      });
       setScores(scores);
     };
 
     fetchData();
-}, [isOpen]);
+  }, [isOpen]);
 
 
   // Get the current date in the format YYYY-MM-DD
