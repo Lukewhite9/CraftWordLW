@@ -135,7 +135,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
       const date = new Date();
       const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
       // Save the score with name 'null'
-      await saveScores('null', totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
+      await saveScores('thenamelessplayer', totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
     };
     savePlayerScore();
   }

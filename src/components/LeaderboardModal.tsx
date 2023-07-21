@@ -37,16 +37,20 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
   useEffect(() => {
     const fetchData = async () => {
       const currentDate = getCurrentDate();
-      const scores = await fetchScores(currentDate);
-      
+      let scores = await fetchScores(currentDate);
+
+      // Filter out the scores of the player named 'thenamelessplayer'
+      scores = scores.filter(score => score.name !== "thenamelessplayer");
+
       scores.sort((a, b) => {
         if (a.score !== b.score) {
-          return b.score - a.score; 
+          return b.score - a.score;
         } else {
-          return a.time - b.time; 
+          return a.time - b.time;
         }
       });
       setScores(scores);
+
     };
 
     fetchData();
@@ -66,8 +70,8 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
       setCurrentDate(getCurrentDate());
     }
   }, [isOpen]);
-  
-  
+
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
