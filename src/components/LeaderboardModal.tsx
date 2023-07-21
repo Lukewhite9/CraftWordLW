@@ -38,8 +38,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
     const fetchData = async () => {
       const currentDate = getCurrentDate();
       let scores = await fetchScores(currentDate);
-
-      // Filter out the scores of the player named 'thenamelessplayer'
+      
       scores = scores.filter(score => score.name !== "thenamelessplayer");
 
       scores.sort((a, b) => {
