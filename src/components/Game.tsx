@@ -125,7 +125,21 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   }
 }, [setRounds, currentRoundIndex, maxMoves]);
 
-
+  useEffect(() => {
+  const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
+  const isRoundOver = currentRound && !!currentRound.completedAt;
+  if (currentRoundIndex === 4 && isRoundOver && playerName.trim() === '' && totalScore > 0) {
+    // This function is run when the round is over
+    const savePlayerScore = async () => {
+      // Use the current date to create a dateKey
+      const date = new Date();
+      const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+      // Save the score with name 'null'
+      await saveScores('null', totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
+    };
+    savePlayerScore();
+  }
+}, [playerName, totalScore, totalGameTime, currentRoundIndex, rounds]);
 
 
   const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
