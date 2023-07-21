@@ -43,3 +43,9 @@ export const formatTime = (timeInSeconds: number) => {
   const seconds = Math.floor(timeInSeconds % 60);
   return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
 };
+
+export const formatLeaderboardTime = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = (seconds % 60).toFixed(2);
+  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.padStart(5, '0')}`;
+};

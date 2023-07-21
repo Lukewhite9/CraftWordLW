@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { fetchScores } from "../api/api"
 import { ScoresContext } from './ScoresContext';
+import { formatLeaderboardTime } from '../utils/utils';
 
 type Score = {
   name: string;
@@ -52,7 +53,6 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
   }, [isOpen]);
 
 
-  // Get the current date in the format YYYY-MM-DD
   function getCurrentDate() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -61,7 +61,6 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
     return `${year}-${month}-${day}`;
   }
 
-  // Update the current date every time the modal is opened
   useEffect(() => {
     if (isOpen) {
       setCurrentDate(getCurrentDate());
@@ -96,7 +95,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
                       <Td>{index + 1}</Td>
                       <Td>{score.name}</Td>
                       <Td>{score.score}</Td>
-                      <Td>{score.time}</Td>
+                      <Td>{formatLeaderboardTime(score.time)}</Td>
                     </Tr>
                   ))}
                 </Tbody>
