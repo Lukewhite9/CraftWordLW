@@ -187,9 +187,11 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
                 {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
               </Text>
               {currentRoundIndex < 4 && (
-                <Button mt="4" colorScheme="teal" onClick={advanceRound}>
+                <Flex justify="center">
+                  <Button  mt="4" colorScheme="teal" onClick={advanceRound}>
                   Start Next Round
                 </Button>
+                  </Flex>
               )}
             </Box>
           ) : (
@@ -201,9 +203,11 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
                 You didn't reach the goal word in time. Your score for this round is {currentRound.roundScore}.
               </Text>
               {currentRoundIndex < 4 && (
-                <Button mt="4" colorScheme="teal" onClick={advanceRound}>
+                <Flex justify="center">
+                  <Button  mt="4" colorScheme="teal" onClick={advanceRound}>
                   Start Next Round
                 </Button>
+                  </Flex>
               )}
             </Box>
           )}
@@ -211,24 +215,26 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
       )}
       {currentRoundIndex === 4 && isRoundOver && (
     <>
-    <Text mt="5">Your total moves for all rounds was {totalMoves}.</Text>
+      <Text mt="5">Your total moves for all rounds was {totalMoves}.</Text>
     <Text my="2">Your total time for all rounds was {formatTime(totalGameTime)}.</Text>
-    <Text>Your total score for all rounds is {totalScore}.</Text>
+    <Text mb="5">Your total score for all rounds is {totalScore}.</Text>
 
     {!showInput && (
-            <Box>
-                <Text>Please enter your name to record your score:</Text>
-                <Input placeholder="Your name" onChange={(e) => setPlayerName(e.target.value)} />
-                <Button colorScheme="teal" onClick={async () => {
-  if (playerName.trim() !== '') { 
-    const date = new Date();
-    const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-    await saveScores(playerName, totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
-    setPlayerName('');
-  }
-}}>Submit Score</Button>
-
-            </Box>
+            <Box mt="5">
+        <Text my="5">Please enter your name to record your score:</Text>
+        <Flex direction="column" alignItems="center"> 
+          <Input maxWidth="300px" placeholder="Your Name" textAlign="center" mb="2" onChange={(e) => setPlayerName(e.target.value)} />
+          <Button width="240px" mt="2" colorScheme="teal" onClick={async () => {
+            if (playerName.trim() !== '') {
+              const date = new Date();
+              const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+              await saveScores(playerName, totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
+              setPlayerName('');
+            }
+          }}>Submit Score</Button>
+        </Flex>
+      </Box>
+      
         )}
     </>
       )}
