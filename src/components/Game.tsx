@@ -189,7 +189,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
               {currentRoundIndex < 4 && (
                 <Flex justify="center">
                   <Button  mt="4" colorScheme="teal" onClick={advanceRound}>
-                  Start Next Round
+                  Onwards!
                 </Button>
                   </Flex>
               )}
@@ -205,7 +205,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
               {currentRoundIndex < 4 && (
                 <Flex justify="center">
                   <Button  mt="4" colorScheme="teal" onClick={advanceRound}>
-                  Start Next Round
+                  Onwards!
                 </Button>
                   </Flex>
               )}
