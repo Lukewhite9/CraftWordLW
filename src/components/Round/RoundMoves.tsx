@@ -34,7 +34,7 @@ const MoveTag: React.FC<{ word: string; colorScheme?: any }> = ({ word, colorSch
   const fontSize = calculateFontSize(word) + "px";
 
   return (
-    <Tag size="lg" mx="1" my="3" minW="77px" minH="40px" fontSize={fontSize} fontWeight="semibold" colorScheme={colorScheme} justifyContent="center" display="flex" p="0">
+    <Tag size="lg" mx="1" my="3" minW="80px" minH="40px" fontSize={fontSize} fontWeight="semibold" colorScheme={colorScheme} justifyContent="center" display="flex" p="0">
   <div style={{ textAlign: 'center' }}>
     {word.split("").map((letter, index) => (
       <ReactTextTransition
@@ -75,7 +75,7 @@ const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves })
   }, [moves.length, start]);
 
   return (
-    <Box display="flex" flexWrap="wrap"  justifyContent="space-evenly" w="100%" m={-2}>
+    <Box display="flex" flexWrap="wrap"   w="100%" m={-2}>
       <MoveTag word={start} colorScheme="green" />
       {remainingList.map((word, i) => (
         <MoveTag key={`${word}-${i}`} word={word} />
