@@ -21,10 +21,10 @@ const GameIntro: React.FC<GameIntroProps> = ({ onLearnModalOpen }) => {
       <Text as="span" color="blue.500" fontWeight="semibold">
         GOAL
       </Text>{' '}
-      in as few words as possible.
+      in as few words as possible.{' '}
       <Text as="span">
         First time?{' '}
-        <Link onClick={onLearnModalOpen}>Read the rules</Link>.
+        <Link fontWeight="semibold" textColor="green.500" onClick={onLearnModalOpen}>Read the rules</Link>.
       </Text>
     </Box>
   )
