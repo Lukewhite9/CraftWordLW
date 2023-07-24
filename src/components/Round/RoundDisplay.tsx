@@ -8,7 +8,7 @@ type RoundDisplayProps = {
   onSubmitWord: (userInput: string, clearInput: () => void) => void;
   currentWord: string;
   pastMoves: string[];
-  maxMoves: number;
+  maxMoves: number | null;
   errorMessage: string | null;
 };
 
