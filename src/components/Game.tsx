@@ -129,12 +129,12 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
   const isRoundOver = currentRound && !!currentRound.completedAt;
   if (currentRoundIndex === 4 && isRoundOver && playerName.trim() === '' && totalScore > 0) {
-    // This function is run when the round is over
+    
     const savePlayerScore = async () => {
-      // Use the current date to create a dateKey
+      
       const date = new Date();
       const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-      // Save the score with name 'null'
+      
       await saveScores('thenamelessplayer', totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
     };
     savePlayerScore();
@@ -158,9 +158,9 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         <>
           {currentRoundIndex !== null && (
             <Flex justify="space-between" mb="5">
-              <Text>Round: {currentRoundIndex + 1}</Text>
-              <Text>Score: {currentRound.roundScore}</Text>
-            </Flex>
+            <Text>Round: {currentRoundIndex + 1}</Text>
+            {gameLength !== null && <Text>Score: {currentRound.roundScore}</Text>}
+          </Flex>
           )}
           <Round
             startWord={currentRound.startWord}
@@ -176,24 +176,27 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         <>
           {isRoundWon ? (
             <Box>
-              <Text textAlign="center" my="5" fontWeight="bold">
-                Nicely done!
-              </Text>
-              <Text my="2">
-                You finished in {currentRound.moves.length} moves. Your score for this round is {currentRound.roundScore}.
-              </Text>
-              <Text my="2">
-                Your time to complete round {currentRoundIndex + 1} was{' '}
-                {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
-              </Text>
-              {currentRoundIndex < 4 && (
-                <Flex justify="center">
-                  <Button  mt="4" colorScheme="teal" onClick={advanceRound}>
-                  Onwards!
-                </Button>
+                <Text textAlign="center" my="5" fontWeight="bold">
+                  Nicely done!
+                </Text>
+                <Text my="2">
+                  You finished in {currentRound.moves.length} moves.
+                </Text>
+                {gameLength !== null && (
+                  <Text>Your score for round {currentRoundIndex + 1} is {currentRound.roundScore}.</Text>
+                )}
+                <Text my="2">
+                  Your time to complete round {currentRoundIndex + 1} was{' '}
+                  {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
+                </Text>
+                {currentRoundIndex < 4 && (
+                  <Flex justify="center">
+                    <Button mt="4" colorScheme="teal" onClick={advanceRound}>
+                      Onwards!
+                    </Button>
                   </Flex>
-              )}
-            </Box>
+                )}
+              </Box>
           ) : (
             <Box>
               <Text textAlign="center" my="5" fontWeight="bold">
