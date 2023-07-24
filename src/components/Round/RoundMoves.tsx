@@ -84,14 +84,13 @@ const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves })
         <MoveTag word={newWord} />
       )}
 
-      {maxMoves !== Infinity && Array.from({ length: maxMoves - moves.length }, (_, k) => (
-        <MoveTag key={k} word="" />
+      {maxMoves !== Infinity ? 
+    Array.from({ length: maxMoves - moves.length }, (_, k) => <MoveTag key={k} word="" />)
+: 
+    (maxMoves !== null && Array.from({ length: maxMoves - moves.length }, (_, k) => <MoveTag key={k} />))
+}
+<MoveTag word={goal} colorScheme="blue" />
 
-      {maxMoves !== null && Array.from({ length: maxMoves - moves.length }, (_, k) => (
-        <MoveTag key={k} />
-
-      ))}
-      <MoveTag word={goal} colorScheme="blue" />
     </Box>
   );
 };
