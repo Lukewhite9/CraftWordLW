@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Text, Button } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
-import { formatTime } from '../utils/utils';
+import { calculateTotalTime, formatTime } from '../utils/utils';
 
 const PRACTICE_MODE_DIFFICULTY = 1;
 
@@ -96,7 +96,11 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     }
   }, [setRounds, currentRoundIndex]);
 
-  const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
+  if (currentRoundIndex === null) {
+    return null;
+  }
+
+  const currentRound = rounds[currentRoundIndex];
   const isRoundOver = currentRound && !!currentRound.completedAt;
   const isRoundWon = isRoundOver && currentRound.moves.includes(currentRound.goalWord);
 
@@ -115,7 +119,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
           />
         </>
       )}
-      {currentRoundIndex !== null && isRoundOver && (
+      {isRoundOver && (
         <>
           {isRoundWon ? (
             <Text mt="5">
@@ -130,7 +134,10 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
           {gameLength === null || (currentRoundIndex !== null && currentRoundIndex + 1 < gameLength) ? (
             <Button mt="3" onClick={advanceRound}>Next Round</Button>
           ) : (
-            <Text mt="3">You have completed all rounds! Good job!</Text>
+            <>
+              <Text mt="3">You have completed all rounds! Good job!</Text>
+              <Text>Your total time was {formatTime(calculateTotalTime(rounds) / 1000)}</Text>
+            </>
           )}
         </>
       )}
