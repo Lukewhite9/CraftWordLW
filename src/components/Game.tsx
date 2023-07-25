@@ -64,7 +64,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
             };
             setRounds((prevRounds) => [...prevRounds.slice(0, roundIndex), newRound]);
         }
-    } else if (roundIndex === 0) { // Normal mode fetching for the first round
+    } else if (roundIndex === 0) { 
         const gameData = await fetchGameRounds();
         const newRounds = gameData.rounds.map((roundData: any) => ({
             ...roundData,
