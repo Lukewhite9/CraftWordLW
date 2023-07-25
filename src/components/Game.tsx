@@ -37,48 +37,47 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [showInput, setShowInput] = useState<boolean>(false);
   
   const fetchRoundData = useCallback(async (roundIndex: number) => {
-    if (gameLength === null) {
-  const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
-  if (roundData) {
-    const newRound = {
-      ...roundData,
-      moves: [],
-      startedAt: Date.now(),
-      completedAt: null,
-      maxMoves: Infinity,
-      roundScore: Infinity,
-    };
-    setRounds((prevRounds) => [...prevRounds, newRound]);
-    setMaxMoves(Infinity);
-  }
-} else if (roundIndex === 0) {
-  const gameData = await fetchGameRounds();
-  const newRounds = gameData.rounds.map((roundData: any) => ({
-    ...roundData,
-    maxMoves: parseInt(roundData.pathLength) + 1,
-    moves: [],
-    startedAt: Date.now(),
-    completedAt: null,
-    roundScore: parseInt(roundData.pathLength) + 2,
-  }));
-  setRounds(newRounds);
-  setMaxMoves(parseInt(gameData.rounds[0].pathLength) + 1);
-} else {
-  const gameData = await fetchGameRounds();
-  const nextRound = gameData.rounds[roundIndex];
-  if (nextRound) {
-    const newRound = {
-      ...nextRound,
-      maxMoves: parseInt(nextRound.pathLength) + 1,
-      moves: [],
-      startedAt: Date.now(),
-      completedAt: null,
-      roundScore: parseInt(nextRound.pathLength) + 1,
-    };
-    setRounds((prevRounds) => [...prevRounds, newRound]);
-  }
-}
-  }, [gameLength]);
+    if (gameLength === null) { // Practice mode
+        const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
+        if (roundData) {
+            const newRound = {
+                ...roundData,
+                moves: [],
+                startedAt: Date.now(),
+                completedAt: null,
+                maxMoves: Infinity,
+                roundScore: Infinity,
+            };
+            setRounds((prevRounds) => [...prevRounds, newRound]);
+            setMaxMoves(Infinity);
+        }
+    } else if (roundIndex < rounds.length) { // Normal mode with existing rounds data
+        const nextRound = rounds[roundIndex];
+        if (nextRound) {
+            const newRound = {
+                ...nextRound,
+                maxMoves: parseInt(nextRound.pathLength) + 1,
+                moves: [],
+                startedAt: Date.now(),
+                completedAt: null,
+                roundScore: parseInt(nextRound.pathLength) + 1,
+            };
+            setRounds((prevRounds) => [...prevRounds.slice(0, roundIndex), newRound]);
+        }
+    } else if (roundIndex === 0) { // Normal mode fetching for the first round
+        const gameData = await fetchGameRounds();
+        const newRounds = gameData.rounds.map((roundData: any) => ({
+            ...roundData,
+            maxMoves: parseInt(roundData.pathLength) + 1,
+            moves: [],
+            startedAt: Date.now(),
+            completedAt: null,
+            roundScore: parseInt(roundData.pathLength) + 2,
+        }));
+        setRounds(newRounds);
+        setMaxMoves(parseInt(gameData.rounds[0].pathLength) + 1);
+    }
+}, [gameLength, rounds]);
 
   const startGame = useCallback(() => {
     fetchRoundData(0);
@@ -94,17 +93,15 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const advanceRound = useCallback(() => {
     const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
     setCurrentRoundIndex(nextRoundIndex);
-    if (gameLength !== null && nextRoundIndex < gameLength) {
-      fetchRoundData(nextRoundIndex);
-    }
+    fetchRoundData(nextRoundIndex); // fetch data when advancing to next round
     setRounds(prevRounds => prevRounds.map((round, index) => {
-      if (index === nextRoundIndex) {
-        return { ...round, startedAt: Date.now() };
-      } else {
-        return round;
-      }
+        if (index === nextRoundIndex) {
+            return { ...round, startedAt: Date.now() };
+        } else {
+            return round;
+        }
     }));
-  }, [currentRoundIndex, fetchRoundData, gameLength]);
+}, [currentRoundIndex, fetchRoundData]);
 
   const addMove = useCallback((move: string) => {
   if (currentRoundIndex !== null) {
