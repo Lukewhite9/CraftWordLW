@@ -37,7 +37,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [showInput, setShowInput] = useState<boolean>(false);
   
   const fetchRoundData = useCallback(async (roundIndex: number) => {
-    if (gameLength === null) { // Practice mode
+    if (gameLength === null) { 
         const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
         if (roundData) {
             const newRound = {
@@ -51,7 +51,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
             setRounds((prevRounds) => [...prevRounds, newRound]);
             setMaxMoves(Infinity);
         }
-    } else if (roundIndex < rounds.length) { // Normal mode with existing rounds data
+    } else if (roundIndex < rounds.length) { 
         const nextRound = rounds[roundIndex];
         if (nextRound) {
             const newRound = {
@@ -93,7 +93,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const advanceRound = useCallback(() => {
     const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
     setCurrentRoundIndex(nextRoundIndex);
-    fetchRoundData(nextRoundIndex); // fetch data when advancing to next round
+    fetchRoundData(nextRoundIndex); 
     setRounds(prevRounds => prevRounds.map((round, index) => {
         if (index === nextRoundIndex) {
             return { ...round, startedAt: Date.now() };
