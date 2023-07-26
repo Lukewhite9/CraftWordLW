@@ -36,6 +36,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [playerName, setPlayerName] = useState<string>('');
   const [showInput, setShowInput] = useState<boolean>(false);
   const isPracticeMode = gameLength === null;
+  const [isScoreSubmitted, setIsScoreSubmitted] = useState<boolean>(false);
   
   const fetchGameData = useCallback(async () => {
     const gameData = await fetchGameRounds();
@@ -210,7 +211,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     <Text my="2">Your total time for all rounds was {formatTime(totalGameTime)}.</Text>
     <Text mb="5">Your total score for all rounds is {totalScore}.</Text>
 
-    {!showInput && (
+    {!isScoreSubmitted && (
             <Box mt="5">
         <Text my="5">Please enter your name to record your score:</Text>
         <Flex direction="column" alignItems="center"> 
@@ -220,6 +221,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
               const date = new Date();
               const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
               await saveScores(playerName, totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
+              setIsScoreSubmitted(true);
               setPlayerName('');
             }
           }}>Submit Score</Button>
