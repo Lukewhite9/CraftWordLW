@@ -5,6 +5,7 @@ import { fetchGameRounds, fetchRandomRound } from '../api/api';
 import { saveScores, CHALLENGE_VERSION } from '../api/api';
 import { useDisclosure } from '@chakra-ui/react';
 import LeaderboardModal from './LeaderboardModal';
+import GameCountdown from './GameCountdown';
 
 const PRACTICE_MODE_DIFFICULTY = 1;
 
@@ -210,9 +211,12 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
       )}
       {gameLength !== null && currentRoundIndex === 4 && isRoundOver && (
     <>
-      <Text mt="5">Your total moves for all rounds was {totalMoves}.</Text>
+      
+        <Text mt="5">Your total moves for all rounds was {totalMoves}.</Text>
     <Text my="2">Your total time for all rounds was {formatTime(totalGameTime)}.</Text>
     <Text mb="5">Your total score for all rounds is {totalScore}.</Text>
+        
+      
 
     {!isScoreSubmitted && (
             <Box mt="5">
@@ -229,12 +233,17 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
               onOpen();
             }
           }}>Submit Score</Button>
+          
         </Flex>
+              
       </Box>
       
+      
         )}
+      <GameCountdown />
     </>
       )}
+      
       <LeaderboardModal isOpen={isOpen} onClose={onClose} />
     </div>
   );
