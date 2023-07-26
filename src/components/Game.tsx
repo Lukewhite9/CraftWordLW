@@ -3,6 +3,8 @@ import { Input, Text, Button, Box, Flex } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
 import { saveScores, CHALLENGE_VERSION } from '../api/api';
+import { useDisclosure } from '@chakra-ui/react';
+import LeaderboardModal from './LeaderboardModal';
 
 const PRACTICE_MODE_DIFFICULTY = 1;
 
@@ -37,7 +39,8 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [showInput, setShowInput] = useState<boolean>(false);
   const isPracticeMode = gameLength === null;
   const [isScoreSubmitted, setIsScoreSubmitted] = useState<boolean>(false);
-  
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const fetchGameData = useCallback(async () => {
     const gameData = await fetchGameRounds();
     const newRounds = gameData.rounds.map((roundData: any) => ({
@@ -223,6 +226,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
               await saveScores(playerName, totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
               setIsScoreSubmitted(true);
               setPlayerName('');
+              onOpen();
             }
           }}>Submit Score</Button>
         </Flex>
@@ -231,6 +235,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         )}
     </>
       )}
+      <LeaderboardModal isOpen={isOpen} onClose={onClose} />
     </div>
   );
 };
