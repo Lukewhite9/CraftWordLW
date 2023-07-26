@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Input, Text, Button, Box, Flex } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
+import { calculateTotalTime, formatTime } from '../utils/utils';
 
 import { saveScores, CHALLENGE_VERSION } from '../api/api';
 import { useDisclosure } from '@chakra-ui/react';
@@ -36,7 +37,6 @@ export type Score = {
 const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
-
   const [totalGameTime, setTotalGameTime] = useState<number>(0);
   const [totalMoves, setTotalMoves] = useState<number>(0);
   const [totalScore, setTotalScore] = useState<number>(0);
@@ -52,9 +52,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     const newRounds = gameData.rounds.map((roundData: any) => ({
       ...roundData,
       maxMoves: parseInt(roundData.pathLength) + 1,
-
       roundScore: parseInt(roundData.pathLength) + 1,
-
       moves: [],
       startedAt: Date.now(),
       completedAt: null,
@@ -62,11 +60,11 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     setRounds(newRounds);
   }, [gameLength]);
 
+
   const startGame = useCallback(() => {
     fetchGameData();
     setCurrentRoundIndex(0);
   }, [fetchGameData]);
-
 
   const addNewRandomRound = useCallback(async (roundIndex: number) => {
     const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
@@ -149,6 +147,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const isRoundWon = isRoundOver && currentRound.moves.includes(currentRound.goalWord);
 
 
+
   return (
     <div>
       {currentRound && !isRoundOver && (
@@ -211,7 +210,6 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
                   </Flex>
               )}
             </Box>
-
           )}
         </>
       )}

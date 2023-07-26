@@ -1,3 +1,5 @@
+import { Round } from "../components/Game";
+
 export const isValidTransformation = (word1: string, word2: string) => {
   const len_diff = word1.length - word2.length;
 
@@ -86,11 +88,13 @@ export const formatTime = (timeInSeconds: number) => {
   return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
 };
 
+
 export const formatLeaderboardTime = (seconds: number): string => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = (seconds % 60).toFixed(2);
   return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.padStart(5, '0')}`;
 };
+
 
 export const calculateTotalTime = (rounds: Round[]): number => {
   return rounds.reduce((totalTime, round) => {
@@ -99,4 +103,6 @@ export const calculateTotalTime = (rounds: Round[]): number => {
     }
     return totalTime;
   }, 0);
+
 };
+
