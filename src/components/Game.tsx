@@ -2,10 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Input, Text, Button, Box, Flex } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
+
 import { saveScores, CHALLENGE_VERSION } from '../api/api';
 import { useDisclosure } from '@chakra-ui/react';
 import LeaderboardModal from './LeaderboardModal';
 import GameCountdown from './GameCountdown';
+import { calculateTotalTime, formatTime } from '../utils/utils';
+
 
 const PRACTICE_MODE_DIFFICULTY = 1;
 
@@ -33,6 +36,7 @@ export type Score = {
 const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
+
   const [totalGameTime, setTotalGameTime] = useState<number>(0);
   const [totalMoves, setTotalMoves] = useState<number>(0);
   const [totalScore, setTotalScore] = useState<number>(0);
@@ -42,12 +46,15 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [isScoreSubmitted, setIsScoreSubmitted] = useState<boolean>(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+
   const fetchGameData = useCallback(async () => {
     const gameData = await fetchGameRounds();
     const newRounds = gameData.rounds.map((roundData: any) => ({
       ...roundData,
       maxMoves: parseInt(roundData.pathLength) + 1,
+
       roundScore: parseInt(roundData.pathLength) + 1,
+
       moves: [],
       startedAt: Date.now(),
       completedAt: null,
@@ -59,6 +66,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     fetchGameData();
     setCurrentRoundIndex(0);
   }, [fetchGameData]);
+
 
   const addNewRandomRound = useCallback(async (roundIndex: number) => {
     const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
@@ -135,15 +143,11 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
 }, [playerName, totalScore, totalGameTime, currentRoundIndex, rounds]);
 
 
-  const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
+
+  const currentRound = rounds[currentRoundIndex];
   const isRoundOver = currentRound && !!currentRound.completedAt;
   const isRoundWon = isRoundOver && currentRound.moves.includes(currentRound.goalWord);
 
-  const formatTime = (timeInSeconds) => {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
-    return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-  };
 
   return (
     <div>
@@ -168,6 +172,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
       {isRoundOver && (
         <>
           {isRoundWon ? (
+
             <Box>
                 <Text textAlign="center" my="5" fontWeight="bold">
                   Nicely done!
@@ -206,6 +211,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
                   </Flex>
               )}
             </Box>
+
           )}
         </>
       )}
