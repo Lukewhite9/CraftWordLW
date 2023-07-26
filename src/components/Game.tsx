@@ -15,6 +15,7 @@ export type Round = {
   startWord: string;
   goalWord: string;
   moves: string[];
+  maxMoves: number | null;
   startedAt: any;
   completedAt: any;
   roundScore: number;
@@ -29,79 +30,69 @@ export type Score = {
 const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
-  const [maxMoves, setMaxMoves] = useState<number>(gameLength === null ? Infinity : 0);
   const [totalGameTime, setTotalGameTime] = useState<number>(0);
   const [totalMoves, setTotalMoves] = useState<number>(0);
   const [totalScore, setTotalScore] = useState<number>(0);
   const [playerName, setPlayerName] = useState<string>('');
   const [showInput, setShowInput] = useState<boolean>(false);
+  const isPracticeMode = gameLength === null;
   
-  const fetchRoundData = useCallback(async (roundIndex: number) => {
-    if (gameLength === null) { 
-        const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
-        if (roundData) {
-            const newRound = {
-                ...roundData,
-                moves: [],
-                startedAt: Date.now(),
-                completedAt: null,
-                maxMoves: Infinity,
-                roundScore: Infinity,
-            };
-            setRounds((prevRounds) => [...prevRounds, newRound]);
-            setMaxMoves(Infinity);
-        }
-    } else if (roundIndex < rounds.length) { 
-        const nextRound = rounds[roundIndex];
-        if (nextRound) {
-            const newRound = {
-                ...nextRound,
-                maxMoves: parseInt(nextRound.pathLength) + 1,
-                moves: [],
-                startedAt: Date.now(),
-                completedAt: null,
-                roundScore: parseInt(nextRound.pathLength) + 1,
-            };
-            setRounds((prevRounds) => [...prevRounds.slice(0, roundIndex), newRound]);
-        }
-    } else if (roundIndex === 0) { 
-        const gameData = await fetchGameRounds();
-        const newRounds = gameData.rounds.map((roundData: any) => ({
-            ...roundData,
-            maxMoves: parseInt(roundData.pathLength) + 1,
-            moves: [],
-            startedAt: Date.now(),
-            completedAt: null,
-            roundScore: parseInt(roundData.pathLength) + 2,
-        }));
-        setRounds(newRounds);
-        setMaxMoves(parseInt(gameData.rounds[0].pathLength) + 1);
-    }
-}, [gameLength, rounds]);
+  const fetchGameData = useCallback(async () => {
+    const gameData = await fetchGameRounds();
+    const newRounds = gameData.rounds.map((roundData: any) => ({
+      ...roundData,
+      maxMoves: parseInt(roundData.pathLength) + 1,
+      roundScore: parseInt(roundData.pathLength) + 1,
+      moves: [],
+      startedAt: Date.now(),
+      completedAt: null,
+    }));
+    setRounds(newRounds);
+  }, [gameLength]);
 
   const startGame = useCallback(() => {
-    fetchRoundData(0);
+    fetchGameData();
     setCurrentRoundIndex(0);
-  }, [fetchRoundData]);
+  }, [fetchGameData]);
+
+  const addNewRandomRound = useCallback(async (roundIndex: number) => {
+    const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
+    if (roundData) {
+      const newRound = {
+        ...roundData,
+        moves: [],
+        maxMoves: null,
+        startedAt: Date.now(),
+        completedAt: null,
+      };
+      setRounds((prevRounds) => [...prevRounds, newRound]);
+      setCurrentRoundIndex(roundIndex);
+    }
+  }, [fetchRandomRound, setRounds]);
 
   useEffect(() => {
     if (currentRoundIndex === null) {
-      startGame();
+      isPracticeMode ? addNewRandomRound(0) : startGame();
     }
-  }, [currentRoundIndex, startGame]);
+  }, [currentRoundIndex, startGame, isPracticeMode]);
 
   const advanceRound = useCallback(() => {
     const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
-    setCurrentRoundIndex(nextRoundIndex);
-    fetchRoundData(nextRoundIndex); 
-    setRounds(prevRounds => prevRounds.map((round, index) => {
-        if (index === nextRoundIndex) {
-            return { ...round, startedAt: Date.now() };
-        } else {
-            return round;
-        }
-    }));
-}, [currentRoundIndex, fetchRoundData]);
+
+    if (gameLength === null) {
+        addNewRandomRound(nextRoundIndex);
+    } else {
+        setCurrentRoundIndex(nextRoundIndex);
+        fetchGameData(nextRoundIndex); 
+        setRounds(prevRounds => prevRounds.map((round, index) => {
+            if (index === nextRoundIndex) {
+                return { ...round, startedAt: Date.now() };
+            } else {
+                return round;
+            }
+        }));
+    }
+}, [currentRoundIndex, fetchGameData, gameLength, addNewRandomRound]);
 
   const addMove = useCallback((move: string) => {
   if (currentRoundIndex !== null) {
@@ -120,7 +111,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     });
     setTotalMoves((prevTotalMoves) => prevTotalMoves + 1); 
   }
-}, [setRounds, currentRoundIndex, maxMoves]);
+}, [setRounds, currentRoundIndex]);
 
   useEffect(() => {
   const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
@@ -163,7 +154,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
             startWord={currentRound.startWord}
             goalWord={currentRound.goalWord}
             moves={currentRound.moves}
-            maxMoves={maxMoves}
+            maxMoves={currentRound.maxMoves}
             wordList={wordList}
             addMove={addMove}
           />
@@ -186,7 +177,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
                   Your time to complete round {currentRoundIndex + 1} was{' '}
                   {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
                 </Text>
-                {currentRoundIndex < 4 && (
+                {(gameLength === null || currentRoundIndex < 4) && (
                   <Flex justify="center">
                     <Button mt="4" colorScheme="teal" onClick={advanceRound}>
                       Onwards!
@@ -202,7 +193,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
               <Text my="2">
                 You didn't reach the goal word in time. Your score for this round is {currentRound.roundScore}.
               </Text>
-              {currentRoundIndex < 4 && (
+              {(gameLength === null || currentRoundIndex < 4) && (
                 <Flex justify="center">
                   <Button  mt="4" colorScheme="teal" onClick={advanceRound}>
                   Onwards!
@@ -213,7 +204,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
           )}
         </>
       )}
-      {currentRoundIndex === 4 && isRoundOver && (
+      {gameLength !== null && currentRoundIndex === 4 && isRoundOver && (
     <>
       <Text mt="5">Your total moves for all rounds was {totalMoves}.</Text>
     <Text my="2">Your total time for all rounds was {formatTime(totalGameTime)}.</Text>
