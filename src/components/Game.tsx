@@ -3,12 +3,11 @@ import { Input, Text, Button, Box, Flex } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
 import { calculateTotalTime, formatTime } from '../utils/utils';
-
 import { saveScores, CHALLENGE_VERSION } from '../api/api';
 import { useDisclosure } from '@chakra-ui/react';
 import LeaderboardModal from './LeaderboardModal';
 import GameCountdown from './GameCountdown';
-import { calculateTotalTime, formatTime } from '../utils/utils';
+
 
 
 const PRACTICE_MODE_DIFFICULTY = 1;
