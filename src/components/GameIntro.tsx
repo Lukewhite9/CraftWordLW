@@ -10,7 +10,7 @@ type GameIntroProps = {
 
 const GameIntro: React.FC<GameIntroProps> = ({ onLearnModalOpen }) => {
   return (
-    <Box fontSize="lg" mt="8">
+    <Box fontSize="x-large" mt="8">
       <Text as="span">
         Get from{' '}
       </Text>
@@ -21,8 +21,8 @@ const GameIntro: React.FC<GameIntroProps> = ({ onLearnModalOpen }) => {
       <Text as="span" color="blue.500" fontWeight="semibold">
         GOAL
       </Text>{' '}
-      in as few words as possible.{' '}
-      <Text as="span">
+      in as few words as possible.{' '}<br></br>
+      <Text fontSize="lg" as="span">
         First time?{' '}
         <Link fontWeight="semibold" textColor="green.500" onClick={onLearnModalOpen}>Read the rules</Link>.
       </Text>

@@ -136,7 +136,7 @@ export default function App() {
                     colorScheme="blackAlpha"
                     onClick={() => handleStartClick(false)}
                     w="300px"
-                    mt="14"
+                    mt="8"
                     boxShadow="md"
                   >
                     Start Game

@@ -53,13 +53,16 @@ const RoundDisplay: React.FC<RoundDisplayProps> = ({
       width='100%'
     >
       <Flex direction="row" alignItems="baseline">
-        <Box textAlign="left">
+        <Box flex="1" textAlign="left">
           <Text mb="2" fontWeight="bold" fontSize="xl">{wordPair[0]}</Text>
         </Box>
-        <Box marginLeft="auto" textAlign="right">
+        <Box><Text fontSize="xl" fontWeight="bold">→</Text></Box>
+        <Box flex="1" textAlign="right">
           <Text fontWeight="bold" fontSize="xl">{wordPair[1]}</Text>
         </Box>
       </Flex>
+
+
       <RoundMoves
         moves={pastMoves}
         start={wordPair[0]}
