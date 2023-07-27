@@ -54,11 +54,11 @@ const RoundDisplay: React.FC<RoundDisplayProps> = ({
     >
       <Flex direction="row" alignItems="baseline">
         <Box flex="1" textAlign="left">
-          <Text mb="2" fontWeight="bold" fontSize="xl">{wordPair[0]}</Text>
+          <Text mb="2" textColor="green.500" fontWeight="bold" fontSize="x-large">{wordPair[0]}</Text>
         </Box>
-        <Box><Text fontSize="xl" fontWeight="bold">→</Text></Box>
+        <Box><Text  fontSize="x-large" fontWeight="bold">→</Text></Box>
         <Box flex="1" textAlign="right">
-          <Text fontWeight="bold" fontSize="xl">{wordPair[1]}</Text>
+          <Text textColor="blue.500" fontWeight="bold" fontSize="x-large">{wordPair[1]}</Text>
         </Box>
       </Flex>
 
