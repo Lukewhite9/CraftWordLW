@@ -56,6 +56,7 @@ const Round: React.FC<RoundProps> = ({
       h="100%"
       w="100%"
       maxW="480px"
+      minW="362px"
       display="flex"
       justifyContent="center"
       direction="column"
