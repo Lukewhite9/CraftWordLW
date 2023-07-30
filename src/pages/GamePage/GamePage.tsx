@@ -65,13 +65,22 @@ export default function App() {
   }
 
   useEffect(() => {
-    const localValue = localStorage.getItem('lastPlayed');
-    const lastPlayedUnixTimestamp = localValue ? JSON.parse(localValue) : 0;
-    const lastPlayedDate = new Date(lastPlayedUnixTimestamp * 1000);
-    if (datesAreOnSameDay(lastPlayedDate, new Date())) {
-      setAlreadyPlayed(true);
-    }
-  }, [setAlreadyPlayed]);
+  const localValue = localStorage.getItem('lastPlayed');
+  const roundsValue = localStorage.getItem('rounds');
+  const lastPlayedUnixTimestamp = localValue ? JSON.parse(localValue) : 0;
+  const lastPlayedDate = new Date(lastPlayedUnixTimestamp * 1000);
+  if (datesAreOnSameDay(lastPlayedDate, new Date())) {
+    setAlreadyPlayed(true);
+  }
+  if (roundsValue) {
+    const filePath = '../dictionary/ospd.txt';
+    setIsPlaying(true);
+    readFileToArray(filePath).then((wordList) => {
+      setWordList(wordList);
+    });
+  }
+}, [setAlreadyPlayed]);
+
 
   return (
     <Container maxW="460px" centerContent>
