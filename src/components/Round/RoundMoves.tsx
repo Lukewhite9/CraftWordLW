@@ -9,6 +9,50 @@ type RoundMovesProps = {
   maxMoves: number | null;
 };
 
+
+const FONT_SIZES_TO_MAX_LETTERS = { 
+  19: 5, 
+  17: 6,
+  15: 7,
+  13: 8, 
+  10: Infinity, 
+};
+
+function calculateFontSize(word: string) {
+  const letters = word.length;
+  for (const [fontSize, maxLetters] of Object.entries(FONT_SIZES_TO_MAX_LETTERS).map(([key, val]) => [parseInt(key, 10), val]).sort(([keyA], [keyB]) => keyB - keyA)) {
+    if (letters <= maxLetters) {
+      return fontSize;
+    }
+  }
+  return 10; 
+}
+
+
+
+const MoveTag: React.FC<{ word: string; colorScheme?: any }> = ({ word, colorScheme }) => {
+  const fontSize = calculateFontSize(word) + "px";
+
+  return (
+    <Tag size="lg" mx="1" my="3" minW="80px" minH="40px" fontSize={fontSize} fontWeight="semibold" colorScheme={colorScheme} justifyContent="center" display="flex" p="0">
+  <div style={{ textAlign: 'center' }}>
+    {word.split("").map((letter, index) => (
+      <ReactTextTransition
+        key={index}
+        springConfig={presets.stiff}
+        translateValue="45%"
+        inline
+      >
+        {letter}
+      </ReactTextTransition>
+    ))}
+  </div>
+</Tag>
+
+  );
+};
+
+
 const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves }) => {
   const [newWord, setNewWord] = useState("");
 
@@ -31,48 +75,24 @@ const RoundMoves: React.FC<RoundMovesProps> = ({ moves, start, goal, maxMoves })
   }, [moves.length, start]);
 
   return (
-    <Box w="100%" m={-2}>
-      <MoveTag colorScheme="cyan">
-        {start}
-      </MoveTag>
+    <Box display="flex" flexWrap="wrap"   w="100%" m={-2}>
+      <MoveTag word={start} colorScheme="green" />
       {remainingList.map((word, i) => (
-        <MoveTag key={`${word}-${i}`}>
-          {word}
-        </MoveTag>
+        <MoveTag key={`${word}-${i}`} word={word} />
       ))}
       {newWord.length > 0 && (
-        <MoveTag>
-          <>
-            {newWord.split("").map((letter, index) => (
-              <ReactTextTransition
-                key={index}
-                springConfig={presets.stiff}
-                translateValue="45%"
-                inline
-              >
-                {letter}
-              </ReactTextTransition>
-            ))}
-          </>
-        </MoveTag>
+        <MoveTag word={newWord} />
       )}
-      {maxMoves !== null && Array.from({ length: maxMoves - moves.length }, (_, k) => (
-        <MoveTag key={k} />
-      ))}
-      <MoveTag colorScheme="cyan">
-        {goal}
-      </MoveTag>
-    </Box>
-  )
-};
 
-const MoveTag: React.FC<{ children?: any; colorScheme?: any }> = ({
-  children,
-  colorScheme,
-}) => {
-  return (
-    <Tag size="lg" m="2" minW="60px" colorScheme={colorScheme}>{children}</Tag>
-  );
+      {maxMoves !== Infinity ? 
+    Array.from({ length: maxMoves - moves.length }, (_, k) => <MoveTag key={k} word="" />)
+: 
+    (maxMoves !== null && Array.from({ length: maxMoves - moves.length }, (_, k) => <MoveTag key={k} />))
 }
+<MoveTag word={goal} colorScheme="blue" />
+
+    </Box>
+  );
+};
 
 export default RoundMoves;
