@@ -106,3 +106,13 @@ export const calculateTotalTime = (rounds: Round[]): number => {
 
 };
 
+
+export function saveStateToLocalStorage(key, state) {
+  localStorage.setItem(key, JSON.stringify(state));
+}
+
+export function loadStateFromLocalStorage(key) {
+  const savedState = localStorage.getItem(key);
+  return savedState ? JSON.parse(savedState) : null;
+}
+

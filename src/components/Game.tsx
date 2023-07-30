@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Input, Text, Button, Box, Flex } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
-import { calculateTotalTime, formatTime } from '../utils/utils';
+import { calculateTotalTime, formatTime, saveStateToLocalStorage, loadStateFromLocalStorage } from '../utils/utils';
 import { saveScores, CHALLENGE_VERSION } from '../api/api';
 import { useDisclosure } from '@chakra-ui/react';
 import LeaderboardModal from './LeaderboardModal';
 import GameCountdown from './GameCountdown';
-
+import { useDebounce, useIdle } from 'react-use';
+import _ from 'lodash';
 
 
 const PRACTICE_MODE_DIFFICULTY = 1;
@@ -34,11 +35,15 @@ export type Score = {
 };
 
 const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
-  const [rounds, setRounds] = useState<Round[]>([]);
-  const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
-  const [totalGameTime, setTotalGameTime] = useState<number>(0);
-  const [totalMoves, setTotalMoves] = useState<number>(0);
-  const [totalScore, setTotalScore] = useState<number>(0);
+
+  const loadFromLocalStorage = gameLength !== null;
+
+  const [rounds, setRounds] = useState<Round[]>(loadFromLocalStorage ? loadStateFromLocalStorage('rounds') || [] : []);
+  const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(loadFromLocalStorage ? loadStateFromLocalStorage('currentRoundIndex') || null : null);
+  const [totalGameTime, setTotalGameTime] = useState<number>(loadFromLocalStorage ? loadStateFromLocalStorage('totalGameTime') || 0 : 0);
+  const [totalMoves, setTotalMoves] = useState<number>(loadFromLocalStorage ? loadStateFromLocalStorage('totalMoves') || 0 : 0);
+  const [totalScore, setTotalScore] = useState<number>(loadFromLocalStorage ? loadStateFromLocalStorage('totalScore') || 0 : 0);
+
   const [playerName, setPlayerName] = useState<string>('');
   const [showInput, setShowInput] = useState<boolean>(false);
   const isPracticeMode = gameLength === null;
@@ -90,56 +95,87 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
 
     if (gameLength === null) {
-        addNewRandomRound(nextRoundIndex);
+      addNewRandomRound(nextRoundIndex);
     } else {
-        setCurrentRoundIndex(nextRoundIndex);
-        fetchGameData(nextRoundIndex); 
-        setRounds(prevRounds => prevRounds.map((round, index) => {
-            if (index === nextRoundIndex) {
-                return { ...round, startedAt: Date.now() };
-            } else {
-                return round;
-            }
-        }));
+      setCurrentRoundIndex(nextRoundIndex);
+      fetchGameData(nextRoundIndex);
+      setRounds(prevRounds => prevRounds.map((round, index) => {
+        if (index === nextRoundIndex) {
+          return { ...round, startedAt: Date.now() };
+        } else {
+          return round;
+        }
+      }));
     }
-}, [currentRoundIndex, fetchGameData, gameLength, addNewRandomRound]);
+  }, [currentRoundIndex, fetchGameData, gameLength, addNewRandomRound]);
 
   const addMove = useCallback((move: string) => {
-  if (currentRoundIndex !== null) {
-    setRounds((prevRounds) => {
-      const updatedRounds = [...prevRounds];
-      const newRound = updatedRounds[currentRoundIndex];
-      newRound.roundScore = newRound.roundScore - 1; 
-      newRound.moves.push(move); 
-      if (move === newRound.goalWord || newRound.maxMoves + 1 === newRound.moves.length) {
-        newRound.completedAt = Date.now();
-        setTotalGameTime(prevTime => prevTime + (newRound.completedAt - newRound.startedAt) / 1000);
-        setTotalScore(prevTotalScore => prevTotalScore + newRound.roundScore); 
-      }
-      updatedRounds[currentRoundIndex] = newRound;
-      return updatedRounds;
-    });
-    setTotalMoves((prevTotalMoves) => prevTotalMoves + 1); 
-  }
-}, [setRounds, currentRoundIndex]);
+    if (currentRoundIndex !== null) {
+      setRounds((prevRounds) => {
+        const updatedRounds = [...prevRounds];
+        const newRound = updatedRounds[currentRoundIndex];
+        newRound.roundScore = newRound.roundScore - 1;
+        newRound.moves.push(move);
+        if (move === newRound.goalWord || newRound.maxMoves + 1 === newRound.moves.length) {
+          newRound.completedAt = Date.now();
+          setTotalGameTime(prevTime => prevTime + (newRound.completedAt - newRound.startedAt) / 1000);
+          setTotalScore(prevTotalScore => prevTotalScore + newRound.roundScore);
+        }
+        updatedRounds[currentRoundIndex] = newRound;
+        return updatedRounds;
+      });
+      setTotalMoves((prevTotalMoves) => prevTotalMoves + 1);
+    }
+  }, [setRounds, currentRoundIndex]);
 
   useEffect(() => {
-  const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
-  const isRoundOver = currentRound && !!currentRound.completedAt;
-  if (currentRoundIndex === 4 && isRoundOver && playerName.trim() === '' && totalScore > 0) {
-    
-    const savePlayerScore = async () => {
-      
-      const date = new Date();
-      const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-      
-      await saveScores('thenamelessplayer', totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
-    };
-    savePlayerScore();
+    const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
+    const isRoundOver = currentRound && !!currentRound.completedAt;
+    if (currentRoundIndex === 4 && isRoundOver && playerName.trim() === '' && totalScore > 0) {
+
+      const savePlayerScore = async () => {
+
+        const date = new Date();
+        const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+
+        await saveScores('thenamelessplayer', totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
+      };
+      savePlayerScore();
+    }
+  }, [playerName, totalScore, totalGameTime, currentRoundIndex, rounds]);
+
+  const idleTime = 2000;  
+
+const saveGameData = useCallback(() => {
+  saveStateToLocalStorage('rounds', rounds);
+  saveStateToLocalStorage('currentRoundIndex', currentRoundIndex);
+  saveStateToLocalStorage('totalGameTime', totalGameTime);
+  saveStateToLocalStorage('totalMoves', totalMoves);
+  saveStateToLocalStorage('totalScore', totalScore);
+}, [rounds, currentRoundIndex, totalGameTime, totalMoves, totalScore]);
+
+const debouncedSaveGameData = useDebounce(saveGameData, idleTime);
+const isIdle = useIdle(idleTime);
+const [saveFlag, setSaveFlag] = useState(0);
+const debouncedSaveFlag = useDebounce(saveFlag, idleTime);
+
+useEffect(() => {
+  if (isIdle) {
+    setSaveFlag(saveFlag + 1);  
   }
-}, [playerName, totalScore, totalGameTime, currentRoundIndex, rounds]);
+}, [isIdle, saveFlag]);
+
+useEffect(() => {
+  saveGameData();  
+}, [debouncedSaveFlag]);
 
 
+
+useEffect(() => {
+  return () => {
+    saveGameData();
+  }
+}, [saveGameData]);
 
   const currentRound = rounds[currentRoundIndex];
   const isRoundOver = currentRound && !!currentRound.completedAt;
@@ -153,9 +189,9 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
         <>
           {currentRoundIndex !== null && (
             <Flex justify="space-between" mb="5">
-            <Text>Round: {currentRoundIndex + 1}</Text>
-            {gameLength !== null && <Text>Score: {currentRound.roundScore}</Text>}
-          </Flex>
+              <Text>Round: {currentRoundIndex + 1}</Text>
+              {gameLength !== null && <Text>Score: {currentRound.roundScore}</Text>}
+            </Flex>
           )}
           <Round
             startWord={currentRound.startWord}
@@ -172,27 +208,27 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
           {isRoundWon ? (
 
             <Box>
-                <Text textAlign="center" my="5" fontWeight="bold">
-                  Nicely done!
-                </Text>
-                <Text my="2">
-                  You finished in {currentRound.moves.length} moves.
-                </Text>
-                {gameLength !== null && (
-                  <Text>Your score for round {currentRoundIndex + 1} is {currentRound.roundScore}.</Text>
-                )}
-                <Text my="2">
-                  Your time to complete round {currentRoundIndex + 1} was{' '}
-                  {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
-                </Text>
-                {(gameLength === null || currentRoundIndex < 4) && (
-                  <Flex justify="center">
-                    <Button mt="4" colorScheme="teal" onClick={advanceRound}>
-                      Onwards!
-                    </Button>
-                  </Flex>
-                )}
-              </Box>
+              <Text textAlign="center" my="5" fontWeight="bold">
+                Nicely done!
+              </Text>
+              <Text my="2">
+                You finished in {currentRound.moves.length} moves.
+              </Text>
+              {gameLength !== null && (
+                <Text>Your score for round {currentRoundIndex + 1} is {currentRound.roundScore}.</Text>
+              )}
+              <Text my="2">
+                Your time to complete round {currentRoundIndex + 1} was{' '}
+                {formatTime((currentRound.completedAt - currentRound.startedAt) / 1000)}.
+              </Text>
+              {(gameLength === null || currentRoundIndex < 4) && (
+                <Flex justify="center">
+                  <Button mt="4" colorScheme="teal" onClick={advanceRound}>
+                    Onwards!
+                  </Button>
+                </Flex>
+              )}
+            </Box>
           ) : (
             <Box>
               <Text textAlign="center" my="5" fontWeight="bold">
@@ -203,50 +239,50 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
               </Text>
               {(gameLength === null || currentRoundIndex < 4) && (
                 <Flex justify="center">
-                  <Button  mt="4" colorScheme="teal" onClick={advanceRound}>
-                  Onwards!
-                </Button>
-                  </Flex>
+                  <Button mt="4" colorScheme="teal" onClick={advanceRound}>
+                    Onwards!
+                  </Button>
+                </Flex>
               )}
             </Box>
           )}
         </>
       )}
       {gameLength !== null && currentRoundIndex === 4 && isRoundOver && (
-    <>
-      
-        <Text mt="5">Your total moves for all rounds was {totalMoves}.</Text>
-    <Text my="2">Your total time for all rounds was {formatTime(totalGameTime)}.</Text>
-    <Text mb="5">Your total score for all rounds is {totalScore}.</Text>
-        
-      
+        <>
 
-    {!isScoreSubmitted && (
+          <Text mt="5">Your total moves for all rounds was {totalMoves}.</Text>
+          <Text my="2">Your total time for all rounds was {formatTime(totalGameTime)}.</Text>
+          <Text mb="5">Your total score for all rounds is {totalScore}.</Text>
+
+
+
+          {!isScoreSubmitted && (
             <Box mt="5">
-        <Text my="5">Please enter your name to record your score:</Text>
-        <Flex direction="column" alignItems="center"> 
-          <Input maxWidth="300px" placeholder="Your Name" textAlign="center" mb="2" onChange={(e) => setPlayerName(e.target.value)} />
-          <Button width="240px" mt="2" colorScheme="teal" onClick={async () => {
-            if (playerName.trim() !== '') {
-              const date = new Date();
-              const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-              await saveScores(playerName, totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
-              setIsScoreSubmitted(true);
-              setPlayerName('');
-              onOpen();
-            }
-          }}>Submit Score</Button>
-          
-        </Flex>
-              
-      </Box>
-      
-      
-        )}
-      <GameCountdown />
-    </>
+              <Text my="5">Please enter your name to record your score:</Text>
+              <Flex direction="column" alignItems="center">
+                <Input maxWidth="300px" placeholder="Your Name" textAlign="center" mb="2" onChange={(e) => setPlayerName(e.target.value)} />
+                <Button width="240px" mt="2" colorScheme="teal" onClick={async () => {
+                  if (playerName.trim() !== '') {
+                    const date = new Date();
+                    const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                    await saveScores(playerName, totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
+                    setIsScoreSubmitted(true);
+                    setPlayerName('');
+                    onOpen();
+                  }
+                }}>Submit Score</Button>
+
+              </Flex>
+
+            </Box>
+
+
+          )}
+          <GameCountdown />
+        </>
       )}
-      
+
       <LeaderboardModal isOpen={isOpen} onClose={onClose} />
     </div>
   );
