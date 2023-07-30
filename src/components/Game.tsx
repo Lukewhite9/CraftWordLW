@@ -46,6 +46,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const currentRound = rounds[currentRoundIndex];
   const isRoundOver = currentRound && !!currentRound.completedAt;
   const [isGameOver, setIsGameOver] = useState(false);
+  const [dataFetched, setDataFetched] = useState(false);
   const [playerName, setPlayerName] = useState<string>('');
   const [showInput, setShowInput] = useState<boolean>(false);
   const isPracticeMode = gameLength === null;
@@ -54,26 +55,27 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
 
 
   const fetchGameData = useCallback(async () => {
-    const gameData = await fetchGameRounds();
-    const newRounds = gameData.rounds.map((roundData: any) => ({
-      ...roundData,
-      maxMoves: parseInt(roundData.pathLength) + 1,
-      roundScore: parseInt(roundData.pathLength) + 1,
-      moves: [],
-      startedAt: Date.now(),
-      completedAt: null,
-    }));
-    setRounds(newRounds);
-  }, [gameLength]);
-
+    if (!dataFetched) {
+      const gameData = await fetchGameRounds();
+      const newRounds = gameData.rounds.map((roundData: any) => ({
+        ...roundData,
+        maxMoves: parseInt(roundData.pathLength) + 1,
+        roundScore: parseInt(roundData.pathLength) + 1,
+        moves: [],
+        startedAt: Date.now(),
+        completedAt: null,
+      }));
+      setRounds(newRounds);
+      setDataFetched(true);
+    }
+  }, []);
 
   const startGame = useCallback(() => {
-    if (rounds.length === 0) {
+    if (!dataFetched) {
       fetchGameData();
     }
     setCurrentRoundIndex(0);
-  }, [fetchGameData, rounds]);
-
+  }, [fetchGameData, dataFetched]);
 
   const addNewRandomRound = useCallback(async (roundIndex: number) => {
     const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
@@ -152,23 +154,36 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   useEffect(() => {
     const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
     const isRoundOver = currentRound && !!currentRound.completedAt;
+
     if (currentRoundIndex === 4 && isRoundOver && playerName.trim() === '' && totalScore > 0) {
 
       const savePlayerScore = async () => {
-
         const date = new Date();
         const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
         await saveScores('thenamelessplayer', totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
       };
       savePlayerScore();
+
+      const clearDataBeforeUnload = () => {
+        clearLocalStorage();
+      };
+
+      window.addEventListener('beforeunload', clearDataBeforeUnload);
+
+      return () => {
+        clearLocalStorage();
+        window.removeEventListener('beforeunload', clearDataBeforeUnload);
+      };
     }
+
   }, [playerName, totalScore, totalGameTime, currentRoundIndex, rounds]);
 
 
 
+
   const saveGameData = useCallback(() => {
-    if (!isGameOver) {
+    if (!isGameOver && gameLength !== null) {
       saveStateToLocalStorage('rounds', rounds);
       saveStateToLocalStorage('currentRoundIndex', currentRoundIndex);
       saveStateToLocalStorage('totalGameTime', totalGameTime);
@@ -182,23 +197,18 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const isIdle = useIdle(idleTime);
 
   useEffect(() => {
-    if (isIdle && !isGameOver && !isRoundOver) {
+    if (isIdle && !isGameOver && gameLength !== null) {
       saveGameData();
     }
-  }, [isIdle, isGameOver, isRoundOver]);
-
+  }, [isIdle, isGameOver, saveGameData, gameLength]);
 
   useEffect(() => {
     return () => {
-      if (!isGameOver && !isRoundOver) {
+      if (!isGameOver && gameLength !== null) {
         saveGameData();
       }
     }
-  }, [saveGameData, isGameOver, isRoundOver]);
-
-
-
-
+  }, [saveGameData, isGameOver, gameLength]);
 
   const isRoundWon = isRoundOver && currentRound.moves.includes(currentRound.goalWord);
 
