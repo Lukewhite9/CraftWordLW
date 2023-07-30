@@ -7,8 +7,8 @@ import { saveScores, CHALLENGE_VERSION } from '../api/api';
 import { useDisclosure } from '@chakra-ui/react';
 import LeaderboardModal from './LeaderboardModal';
 import GameCountdown from './GameCountdown';
-import { useDebounce, useIdle } from 'react-use';
-import _ from 'lodash';
+import { useIdle } from 'react-use';
+
 
 
 const PRACTICE_MODE_DIFFICULTY = 1;
@@ -46,7 +46,6 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const currentRound = rounds[currentRoundIndex];
   const isRoundOver = currentRound && !!currentRound.completedAt;
   const [isGameOver, setIsGameOver] = useState(false);
-  const [dataFetched, setDataFetched] = useState(false);
   const [playerName, setPlayerName] = useState<string>('');
   const [showInput, setShowInput] = useState<boolean>(false);
   const isPracticeMode = gameLength === null;
@@ -55,27 +54,22 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
 
 
   const fetchGameData = useCallback(async () => {
-    if (!dataFetched) {
-      const gameData = await fetchGameRounds();
-      const newRounds = gameData.rounds.map((roundData: any) => ({
-        ...roundData,
-        maxMoves: parseInt(roundData.pathLength) + 1,
-        roundScore: parseInt(roundData.pathLength) + 1,
-        moves: [],
-        startedAt: Date.now(),
-        completedAt: null,
-      }));
-      setRounds(newRounds);
-      setDataFetched(true);
-    }
-  }, []);
+    const gameData = await fetchGameRounds();
+    const newRounds = gameData.rounds.map((roundData: any) => ({
+      ...roundData,
+      maxMoves: parseInt(roundData.pathLength) + 1,
+      roundScore: parseInt(roundData.pathLength) + 1,
+      moves: [],
+      startedAt: Date.now(),
+      completedAt: null,
+    }));
+    setRounds(newRounds);
+  }, [gameLength]);
 
   const startGame = useCallback(() => {
-    if (!dataFetched) {
-      fetchGameData();
-    }
+    fetchGameData();
     setCurrentRoundIndex(0);
-  }, [fetchGameData, dataFetched]);
+  }, [fetchGameData]);
 
   const addNewRandomRound = useCallback(async (roundIndex: number) => {
     const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
