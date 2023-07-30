@@ -10,6 +10,7 @@ import {
   Container,
   Divider,
   useDisclosure,
+  Skeleton,
 } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 
@@ -27,6 +28,8 @@ export default function App() {
   const [alreadyPlayed, setAlreadyPlayed] = useState(false);
   const [isPracticeMode, setIsPracticeMode] = useState(false);
   const [wordList, setWordList] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     isOpen: isLearnModalOpen,
     onOpen: onLearnModalOpen,
@@ -58,13 +61,14 @@ export default function App() {
   async function handleStartClick(practiceMode: boolean = false) {
     setIsPlaying(true);
     setIsPracticeMode(practiceMode);
+    setIsLoading(true);
     const filePath = '../dictionary/ospd.txt';
     readFileToArray(filePath).then((wordList) => {
       setWordList(wordList);
     });
-  }
+}
 
-  useEffect(() => {
+useEffect(() => {
   const localValue = localStorage.getItem('lastPlayed');
   const roundsValue = localStorage.getItem('rounds');
   const lastPlayedUnixTimestamp = localValue ? JSON.parse(localValue) : 0;
@@ -73,10 +77,12 @@ export default function App() {
     setAlreadyPlayed(true);
   }
   if (roundsValue) {
+    setIsLoading(true);
     const filePath = '../dictionary/ospd.txt';
     setIsPlaying(true);
     readFileToArray(filePath).then((wordList) => {
       setWordList(wordList);
+      setIsLoading(false);
     });
   }
 }, [setAlreadyPlayed]);
@@ -125,7 +131,9 @@ export default function App() {
           )}
         </Flex>
         <Flex my={4} mx={4} direction="column" alignItems="center">
-          {alreadyPlayed ? (
+  {isLoading ? (
+    <Skeleton height="20rem" width="20rem" isLoaded={!isLoading} />
+  ) : alreadyPlayed ? (
             <Flex align="center" justify="center" direction="column">
               <Text textAlign="center">
                 Looks like you already played today's round. Check back tomorrow!

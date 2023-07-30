@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Input, Text, Button, Box, Flex } from '@chakra-ui/react';
+import { Input, Text, Button, Box, Flex, Skeleton } from '@chakra-ui/react';
 import Round from './Round';
 import { fetchGameRounds, fetchRandomRound } from '../api/api';
 import { calculateTotalTime, formatTime, saveStateToLocalStorage, loadStateFromLocalStorage } from '../utils/utils';
@@ -44,6 +44,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [totalMoves, setTotalMoves] = useState<number>(loadFromLocalStorage ? loadStateFromLocalStorage('totalMoves') || 0 : 0);
   const [totalScore, setTotalScore] = useState<number>(loadFromLocalStorage ? loadStateFromLocalStorage('totalScore') || 0 : 0);
   const currentRound = rounds[currentRoundIndex];
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const isRoundOver = currentRound && !!currentRound.completedAt;
   const [isGameOver, setIsGameOver] = useState(false);
   const [playerName, setPlayerName] = useState<string>('');
@@ -64,7 +65,9 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
       completedAt: null,
     }));
     setRounds(newRounds);
+    setIsLoading(false);
   }, [gameLength]);
+
 
   const startGame = useCallback(() => {
     fetchGameData();
@@ -215,29 +218,32 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   };
 
   return (
-    <div>
-      {currentRound && !isRoundOver && (
-        <>
-          {currentRoundIndex !== null && (
-            <Flex justify="space-between" mb="5">
-              <Text>Round: {currentRoundIndex + 1}</Text>
-              {gameLength !== null && <Text>Score: {currentRound.roundScore}</Text>}
-            </Flex>
-          )}
-          <Round
-            startWord={currentRound.startWord}
-            goalWord={currentRound.goalWord}
-            moves={currentRound.moves}
-            maxMoves={currentRound.maxMoves}
-            wordList={wordList}
-            addMove={addMove}
+  <>
+    {isLoading ? (
+      <Skeleton startColor='green.500' endColor='blue.500' height='20px' isLoaded={!isLoading} />
+    ) : (
+      <>
+        {currentRound && !isRoundOver && (
+          <>
+            {currentRoundIndex !== null && (
+              <Flex justify="space-between" mb="5" width="100%">
+                <Text>Round: {currentRoundIndex + 1}</Text>
+                {gameLength !== null && <Text>Score: {currentRound.roundScore}</Text>}
+              </Flex>
+            )}
+            <Round
+              startWord={currentRound.startWord}
+              goalWord={currentRound.goalWord}
+              moves={currentRound.moves}
+              maxMoves={currentRound.maxMoves}
+              wordList={wordList}
+              addMove={addMove}
           />
         </>
       )}
       {isRoundOver && (
         <>
           {isRoundWon ? (
-
             <Box>
               <Text textAlign="center" my="5" fontWeight="bold">
                 Nicely done!
@@ -281,13 +287,9 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
       )}
       {gameLength !== null && currentRoundIndex === 4 && isRoundOver && (
         <>
-
           <Text mt="5">Your total moves for all rounds was {totalMoves}.</Text>
           <Text my="2">Your total time for all rounds was {formatTime(totalGameTime)}.</Text>
           <Text mb="5">Your total score for all rounds is {totalScore}.</Text>
-
-
-
           {!isScoreSubmitted && (
             <Box mt="5">
               <Text my="5">Please enter your name to record your score:</Text>
@@ -304,20 +306,18 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
                     onOpen();
                   }
                 }}>Submit Score</Button>
-
               </Flex>
-
             </Box>
-
-
           )}
           <GameCountdown />
         </>
       )}
-
       <LeaderboardModal isOpen={isOpen} onClose={onClose} />
-    </div>
-  );
+      </>
+    )}
+  </>
+);
+
 };
 
 export default Game;
