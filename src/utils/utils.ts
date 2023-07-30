@@ -44,7 +44,7 @@ export const isValidTransformation = (word1: string, word2: string) => {
     }
   }
 
-  return false;
+  return true;
 }
 
 export const isValidWord = (word: string, wordList: string[]) => {

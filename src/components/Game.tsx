@@ -43,7 +43,9 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [totalGameTime, setTotalGameTime] = useState<number>(loadFromLocalStorage ? loadStateFromLocalStorage('totalGameTime') || 0 : 0);
   const [totalMoves, setTotalMoves] = useState<number>(loadFromLocalStorage ? loadStateFromLocalStorage('totalMoves') || 0 : 0);
   const [totalScore, setTotalScore] = useState<number>(loadFromLocalStorage ? loadStateFromLocalStorage('totalScore') || 0 : 0);
-
+  const currentRound = rounds[currentRoundIndex];
+  const isRoundOver = currentRound && !!currentRound.completedAt;
+  const [isGameOver, setIsGameOver] = useState(false);
   const [playerName, setPlayerName] = useState<string>('');
   const [showInput, setShowInput] = useState<boolean>(false);
   const isPracticeMode = gameLength === null;
@@ -66,9 +68,12 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
 
 
   const startGame = useCallback(() => {
-    fetchGameData();
+    if (rounds.length === 0) {
+      fetchGameData();
+    }
     setCurrentRoundIndex(0);
-  }, [fetchGameData]);
+  }, [fetchGameData, rounds]);
+
 
   const addNewRandomRound = useCallback(async (roundIndex: number) => {
     const roundData = await fetchRandomRound(roundIndex + 1, PRACTICE_MODE_DIFFICULTY);
@@ -87,9 +92,18 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
 
   useEffect(() => {
     if (currentRoundIndex === null) {
-      isPracticeMode ? addNewRandomRound(0) : startGame();
+      const storedRounds = loadStateFromLocalStorage('rounds');
+      const storedCurrentRoundIndex = loadStateFromLocalStorage('currentRoundIndex');
+
+      if (storedRounds && storedCurrentRoundIndex !== null) {
+        setRounds(storedRounds);
+        setCurrentRoundIndex(storedCurrentRoundIndex);
+      } else {
+        isPracticeMode ? addNewRandomRound(0) : startGame();
+      }
     }
-  }, [currentRoundIndex, startGame, isPracticeMode]);
+  }, [currentRoundIndex, startGame, isPracticeMode, addNewRandomRound]);
+
 
   const advanceRound = useCallback(() => {
     const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
@@ -97,17 +111,24 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     if (gameLength === null) {
       addNewRandomRound(nextRoundIndex);
     } else {
+      const localRounds = loadStateFromLocalStorage('rounds');
+      if (localRounds) {
+        setRounds(localRounds);
+        setRounds(prevRounds => prevRounds.map((round, index) => {
+          if (index === nextRoundIndex) {
+            return { ...round, startedAt: Date.now() };
+          } else {
+            return round;
+          }
+        }));
+      }
+      if (currentRoundIndex === 4 && isRoundOver && gameLength !== null) {
+        clearLocalStorage();
+        setIsGameOver(true);
+      }
       setCurrentRoundIndex(nextRoundIndex);
-      fetchGameData(nextRoundIndex);
-      setRounds(prevRounds => prevRounds.map((round, index) => {
-        if (index === nextRoundIndex) {
-          return { ...round, startedAt: Date.now() };
-        } else {
-          return round;
-        }
-      }));
     }
-  }, [currentRoundIndex, fetchGameData, gameLength, addNewRandomRound]);
+  }, [currentRoundIndex, gameLength, isRoundOver, addNewRandomRound]);
 
   const addMove = useCallback((move: string) => {
     if (currentRoundIndex !== null) {
@@ -144,44 +165,48 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     }
   }, [playerName, totalScore, totalGameTime, currentRoundIndex, rounds]);
 
-  const idleTime = 2000;  
-
-const saveGameData = useCallback(() => {
-  saveStateToLocalStorage('rounds', rounds);
-  saveStateToLocalStorage('currentRoundIndex', currentRoundIndex);
-  saveStateToLocalStorage('totalGameTime', totalGameTime);
-  saveStateToLocalStorage('totalMoves', totalMoves);
-  saveStateToLocalStorage('totalScore', totalScore);
-}, [rounds, currentRoundIndex, totalGameTime, totalMoves, totalScore]);
-
-const debouncedSaveGameData = useDebounce(saveGameData, idleTime);
-const isIdle = useIdle(idleTime);
-const [saveFlag, setSaveFlag] = useState(0);
-const debouncedSaveFlag = useDebounce(saveFlag, idleTime);
-
-useEffect(() => {
-  if (isIdle) {
-    setSaveFlag(saveFlag + 1);  
-  }
-}, [isIdle, saveFlag]);
-
-useEffect(() => {
-  saveGameData();  
-}, [debouncedSaveFlag]);
 
 
+  const saveGameData = useCallback(() => {
+    if (!isGameOver) {
+      saveStateToLocalStorage('rounds', rounds);
+      saveStateToLocalStorage('currentRoundIndex', currentRoundIndex);
+      saveStateToLocalStorage('totalGameTime', totalGameTime);
+      saveStateToLocalStorage('totalMoves', totalMoves);
+      saveStateToLocalStorage('totalScore', totalScore);
+    }
+  }, [rounds, currentRoundIndex, totalGameTime, totalMoves, totalScore, isGameOver]);
 
-useEffect(() => {
+
+  const idleTime = 2000;
+  const isIdle = useIdle(idleTime);
+
+  useEffect(() => {
+    if (isIdle) {
+      saveGameData();
+    }
+  }, [isIdle]);
+
+
+  useEffect(() => {
   return () => {
-    saveGameData();
+    if (!isGameOver) {
+      saveGameData();
+    }
   }
-}, [saveGameData]);
+}, [saveGameData, isGameOver]);
 
-  const currentRound = rounds[currentRoundIndex];
-  const isRoundOver = currentRound && !!currentRound.completedAt;
+
+
   const isRoundWon = isRoundOver && currentRound.moves.includes(currentRound.goalWord);
 
-
+  const clearLocalStorage = () => {
+    localStorage.removeItem('rounds');
+    localStorage.removeItem('currentRoundIndex');
+    localStorage.removeItem('totalGameTime');
+    localStorage.removeItem('totalMoves');
+    localStorage.removeItem('totalScore');
+  };
 
   return (
     <div>
@@ -267,6 +292,7 @@ useEffect(() => {
                     const date = new Date();
                     const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
                     await saveScores(playerName, totalScore, totalGameTime, dateKey, CHALLENGE_VERSION);
+                    clearLocalStorage();
                     setIsScoreSubmitted(true);
                     setPlayerName('');
                     onOpen();
