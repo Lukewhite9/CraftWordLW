@@ -182,19 +182,21 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const isIdle = useIdle(idleTime);
 
   useEffect(() => {
-    if (isIdle) {
+    if (isIdle && !isGameOver && !isRoundOver) {
       saveGameData();
     }
-  }, [isIdle]);
+  }, [isIdle, isGameOver, isRoundOver]);
 
 
   useEffect(() => {
-  return () => {
-    if (!isGameOver) {
-      saveGameData();
+    return () => {
+      if (!isGameOver && !isRoundOver) {
+        saveGameData();
+      }
     }
-  }
-}, [saveGameData, isGameOver]);
+  }, [saveGameData, isGameOver, isRoundOver]);
+
+
 
 
 
