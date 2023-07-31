@@ -36,6 +36,8 @@ export type Score = {
 const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState<number | null>(null);
+  const [maxMoves, setMaxMoves] = useState<number>(gameLength === null ? Infinity : 0);
+  const [showResult, setShowResult] = useState<boolean>(false);
   const [totalGameTime, setTotalGameTime] = useState<number>(0);
   const [totalMoves, setTotalMoves] = useState<number>(0);
   const [totalScore, setTotalScore] = useState<number>(0);
@@ -58,6 +60,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     }));
     setRounds(newRounds);
   }, [gameLength]);
+
 
 
   const startGame = useCallback(() => {
@@ -88,6 +91,10 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
 
   const advanceRound = useCallback(() => {
     const nextRoundIndex = currentRoundIndex !== null ? currentRoundIndex + 1 : 0;
+    setCurrentRoundIndex(nextRoundIndex);
+    setShowResult(false);
+  }, [currentRoundIndex]);
+
 
     if (gameLength === null) {
         addNewRandomRound(nextRoundIndex);
@@ -109,12 +116,17 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     setRounds((prevRounds) => {
       const updatedRounds = [...prevRounds];
       const newRound = updatedRounds[currentRoundIndex];
+
       newRound.roundScore = newRound.roundScore - 1; 
       newRound.moves.push(move); 
-      if (move === newRound.goalWord || newRound.maxMoves + 1 === newRound.moves.length) {
+       const roundCompleted = move === newRound.goalWord || maxMoves + 1 === newRound.moves.length;
+        if (move === newRound.goalWord || newRound.maxMoves + 1 === newRound.moves.length) {
         newRound.completedAt = Date.now();
         setTotalGameTime(prevTime => prevTime + (newRound.completedAt - newRound.startedAt) / 1000);
         setTotalScore(prevTotalScore => prevTotalScore + newRound.roundScore); 
+          setTimeout(() => {
+          setShowResult(true);
+        }, 2000);
       }
       updatedRounds[currentRoundIndex] = newRound;
       return updatedRounds;
@@ -122,6 +134,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
     setTotalMoves((prevTotalMoves) => prevTotalMoves + 1); 
   }
 }, [setRounds, currentRoundIndex]);
+
 
   useEffect(() => {
   const currentRound = currentRoundIndex !== null ? rounds[currentRoundIndex] : null;
@@ -250,6 +263,7 @@ const Game: React.FC<GameProps> = ({ wordList, gameLength }) => {
       <LeaderboardModal isOpen={isOpen} onClose={onClose} />
     </div>
   );
+
 };
 
 export default Game;
