@@ -88,6 +88,14 @@ export const formatTime = (timeInSeconds: number) => {
   return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
 };
 
+
+export const formatLeaderboardTime = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = (seconds % 60).toFixed(2);
+  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.padStart(5, '0')}`;
+};
+
+
 export const calculateTotalTime = (rounds: Round[]): number => {
   return rounds.reduce((totalTime, round) => {
     if (round.completedAt && round.startedAt) {
@@ -95,4 +103,6 @@ export const calculateTotalTime = (rounds: Round[]): number => {
     }
     return totalTime;
   }, 0);
+
 };
+
