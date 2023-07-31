@@ -16,6 +16,8 @@ import {
   Td,
 } from '@chakra-ui/react';
 import { fetchScores } from "../api/api"
+import { ScoresContext } from './ScoresContext';
+import { formatLeaderboardTime } from '../utils/utils';
 
 type Score = {
   name: string;
@@ -30,18 +32,30 @@ type LeaderboardModalProps = {
 
 const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) => {
   const [scores, setScores] = useState<Score[]>([]);
-  const [currentDate, setCurrentDate] = useState(getCurrentDate()); // State for current date
+  const [currentDate, setCurrentDate] = useState(getCurrentDate());
 
   useEffect(() => {
     const fetchData = async () => {
-      const scores = await fetchScores(currentDate);
+      const currentDate = getCurrentDate();
+      let scores = await fetchScores(currentDate);
+      
+      scores = scores.filter(score => score.name !== "thenamelessplayer");
+
+      scores.sort((a, b) => {
+        if (a.score !== b.score) {
+          return b.score - a.score;
+        } else {
+          return a.time - b.time;
+        }
+      });
       setScores(scores);
+
     };
 
     fetchData();
-  }, [currentDate]);
+  }, [isOpen]);
 
-  // Get the current date in the format YYYY-MM-DD
+
   function getCurrentDate() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -50,12 +64,12 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
     return `${year}-${month}-${day}`;
   }
 
-  // Update the current date every time the modal is opened
   useEffect(() => {
     if (isOpen) {
       setCurrentDate(getCurrentDate());
     }
   }, [isOpen]);
+
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -84,7 +98,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({ isOpen, onClose }) 
                       <Td>{index + 1}</Td>
                       <Td>{score.name}</Td>
                       <Td>{score.score}</Td>
-                      <Td>{score.time}</Td>
+                      <Td>{formatLeaderboardTime(score.time)}</Td>
                     </Tr>
                   ))}
                 </Tbody>

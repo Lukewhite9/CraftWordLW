@@ -62,26 +62,26 @@ const LearnModal: React.FC<LearnModalProps> = ({ isOpen, onClose, onStartPractic
             {generateText('s', 'green', 'bold')} → rat
             {generateText('e', 'green', 'bold')}s
           </Text>
-
+          <Text mb="2">
+            {generateText('remove', 'red', 'bold')}: <br />
+            sta{generateText('r', 'red', 'bold')}red → stare{generateText('d', 'red', 'bold')} → star{generateText('e', 'red', 'bold')} → sta{generateText('r', 'red', 'bold')} → tar
+          </Text>
           <Text mb="2">
             {generateText('change', 'orange.500', 'bold')}: <br />
             date → {generateText('l', 'orange.500', 'bold')}ate → la
             {generateText('k', 'orange.500', 'bold')}e → l{generateText('i', 'orange.500', 'bold')}ke
           </Text>
 
-          <Text mb="2">
-            {generateText('remove', 'red', 'bold')}: <br />
-            sta{generateText('r', 'red', 'bold')}red → stare{generateText('d', 'red', 'bold')} → star{generateText('e', 'red', 'bold')} → sta{generateText('r', 'red', 'bold')} → tar
-          </Text>
+
 
           <Text mb="2">
-             {generateText('swap', 'purple', 'bold')}: <br />
+            {generateText('swap', 'purple', 'bold')}: <br />
             stale → s{generateText('l', 'purple', 'bold')}a{generateText('t', 'purple', 'bold')}e → s{generateText('t', 'purple', 'bold')}{generateText('e', 'purple', 'bold')}{generateText('a', 'purple', 'bold')}{generateText('l', 'purple', 'bold')} → {generateText('least', 'purple', 'bold')}
           </Text>
         </ModalBody>
 
         <ModalFooter justifyContent="center">
-          
+
         </ModalFooter>
       </ModalContent>
     </Modal>
