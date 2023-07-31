@@ -56,7 +56,6 @@ const RoundDisplay: React.FC<RoundDisplayProps> = ({
         <Box flex="1" textAlign="left">
           <Text mb="2" textColor="green.500" fontWeight="bold" fontSize="x-large">{wordPair[0]}</Text>
         </Box>
-        <Box><Text  fontSize="x-large" fontWeight="bold">→</Text></Box>
         <Box flex="1" textAlign="right">
           <Text textColor="blue.500" fontWeight="bold" fontSize="x-large">{wordPair[1]}</Text>
         </Box>
